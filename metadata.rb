@@ -4,7 +4,7 @@ name 'secure_apache'
 maintainer 'Caleb Severn'
 maintainer_email 'calnoreply@gmail.com'
 license 'MIT'
-description 'Installs/Configures secure_apache'
+description 'Installs/Configures an HTTPS server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url 'https://github.com/calsev/secure_apache/issues' if respond_to?(:issues_url)
 source_url 'https://github.com/calsev/secure_apache' if respond_to?(:source_url)
