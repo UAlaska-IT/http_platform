@@ -18,10 +18,17 @@ Supported Platform Families:
 
 * Debian
   * Ubuntu, Mint
+* Red Hat Enterprise Linux
+  * Amazon, CentOS, Oracle
 
 Platforms validated via Test Kitchen:
 
 * Ubuntu
+* CentOS
+
+### Dependencies
+
+This cookbook does not constrain its dependencies because it is intended as a utility library.  It should ultimately be used within a wrapper cookbook.
 
 ## Resources
 
