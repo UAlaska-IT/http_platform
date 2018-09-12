@@ -1,5 +1,8 @@
 # Secure Apache Cookbook
 
+[![License](https://img.shields.io/github/license/calsev/secure_apache.svg)](https://github.com/calsev/secure_apache)
+[![GitHub Tag](https://img.shields.io/github/tag/calsev/secure_apache.svg)](https://github.com/calsev/secure_apache)
+
 __Maintainer: Caleb J. Severn__ (<calnoreply@gmail.com>)
 
 ## Purpose
