@@ -68,7 +68,6 @@ platforms:
 suites:
   - name: debian-based
     run_list:
-      - recipe[nix_baseline::default]
       - recipe[secure_apache::default]
     verifier:
       inspec_tests:

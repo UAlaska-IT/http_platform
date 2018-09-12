@@ -17,3 +17,4 @@ supports 'centos', '>= 7.0'
 chef_version '>= 14.0' if respond_to?(:chef_version)
 
 depends 'apache'
+depends 'nix_baseline'
