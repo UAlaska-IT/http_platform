@@ -8,12 +8,6 @@ provisioner:
   product_name: chef
   product_version: 14.4.56
   install_strategy: always
-  attributes:
-    nix_baseline:
-      hostname: 'web.calsev.net'
-      firewall:
-        enable_http: true
-        enable_https: true
 
 verifier:
   name: inspec
