@@ -9,6 +9,11 @@ __Maintainer: Caleb J. Severn__ (<calnoreply@gmail.com>)
 
 Configures HTTPS hosts in Apache with certificate and reasonably tight cypher and protocol suites.
 
+To test configuration
+```bash
+sudo apachectl configtest
+```
+
 ## Requirements
 
 ### Chef
