@@ -10,6 +10,7 @@ provisioner:
   install_strategy: always
   attributes:
     nix_baseline:
+      admin_email: 'wikimaster.mttwiki@gmail.com'
       hostname: 'web.calsev.net'
 
 verifier:
