@@ -18,3 +18,9 @@ file '/var/www/html/index.html' do
   action :delete
   only_if { node[tcb]['www']['remove_default_index'] }
 end
+
+# Enable and harden TLS
+apache_conf 'ssl_params' do
+  source 'ssl_params.conf.erb'
+  enable true
+end
