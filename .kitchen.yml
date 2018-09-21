@@ -8,6 +8,9 @@ provisioner:
   product_name: chef
   product_version: 14.4.56
   install_strategy: always
+  attributes:
+    nix_baseline:
+      hostname: 'web.calsev.net'
 
 verifier:
   name: inspec
