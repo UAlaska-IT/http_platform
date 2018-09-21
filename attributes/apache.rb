@@ -2,6 +2,10 @@
 
 tcb = 'secure_apache'
 
+# The mods to install, in addition to headers, rewrite, ssl
+# Include the mod name only, e.g. php, without prefix 'mod_'
+default[tcb]['apache']['extra_mods_to_install'] = {}
+
 default[tcb]['www']['document_root'] = '/var/www/html'
 # Do not enable this without a CA cert
 default[tcb]['www']['use_stapling'] = 'Off'
