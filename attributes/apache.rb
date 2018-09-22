@@ -12,6 +12,13 @@ default[tcb]['www']['use_stapling'] = 'Off'
 
 default[tcb]['www']['remove_default_index'] = true
 
+# An array of rules; these will be matched first to last
+# comment - optional, will be placed above the rule
+# url_regex - required, the regex for the URL
+# path_regex - required, the regex for the generated path
+# flags - optional, the flags for the rule, e.g. '[L,NC]', https://httpd.apache.org/docs/2.4/rewrite/flags.html
+default[tcb]['www']['rewrite_rules'] = []
+
 default['apache']['contact'] = node['nix_baseline']['admin_email']
 
 default['apache']['mod_ssl']['cipher_suite'] = node['nix_baseline']['cert']['cipher_string']

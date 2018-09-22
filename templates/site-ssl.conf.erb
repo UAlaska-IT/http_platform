@@ -27,4 +27,13 @@
   # Set various options for the SSL engine.
   #SSLOptions +StrictRequire +SSLRequireSSL
 
+  <% unless node['secure_apache']['www']['rewrite_rules'].empty? -%>
+  RewriteEngine On
+  <% end -%>
+
+  <% node['secure_apache']['www']['rewrite_rules'].each do |rule| -%>
+  <% unless rule['comment'].nil? -%><%= rule['comment'] %><% end -%>
+  RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% unless rule['flags'].nil? -%> <%= rule['flags'] %><% end -%>
+  <% end -%>
+
 </VirtualHost>
