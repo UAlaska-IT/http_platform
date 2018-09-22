@@ -1,0 +1,12 @@
+# This file is managed with Chef. For changes to persist, edit secure_apache/templates/site-000.erb
+
+<VirtualHost *:80>
+  ServerName <%= node['nix_baseline']['hostname'] %>
+  ServerAdmin <%= node['nix_baseline']['admin_email'] %>
+  DocumentRoot <%= node['secure_apache']['www']['document_root'] %>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+  Redirect permanent "/" "https://<%= node['nix_baseline']['hostname'] %>/"
+</VirtualHost>

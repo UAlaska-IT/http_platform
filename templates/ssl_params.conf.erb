@@ -1,4 +1,4 @@
-# This file is managed with Chef. For changes to persist, edit app_mediawiki::/templates/ssl_params.erb
+# This file is managed with Chef. For changes to persist, edit secure_apache/templates/ssl_params.erb
 
 SSLCipherSuite <%= node['secure_apache']['cert']['cipher_string'] %>
 SSLProtocol <%= node['secure_apache']['cert']['protocol_string'] %>

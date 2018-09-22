@@ -24,3 +24,9 @@ apache_conf 'ssl_params' do
   source 'ssl_params.conf.erb'
   enable true
 end
+
+# HTTP host, permanent redirect
+web_app 'site-000' do
+  template 'site-000.conf.erb'
+  enable true
+end
