@@ -1,4 +1,8 @@
 # This file is managed with Chef. For changes to persist, edit secure_apache/templates/site-ssl.erb
+  ServerName <%= node['nix_baseline']['hostname'] %>
+  ServerAdmin <%= node['nix_baseline']['admin_email'] %>
+  DocumentRoot <%= node['secure_apache']['www']['document_root'] %>
+
   #SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
 
   #SSLCACertificatePath /etc/ssl/certs/
