@@ -1,1 +1,16 @@
 # This file is managed with Chef. For changes to persist, edit secure_apache/templates/site-ssl.erb
+  #SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
+
+  #SSLCACertificatePath /etc/ssl/certs/
+  #SSLCACertificateFile /etc/apache2/ssl.crt/ca-bundle.crt
+
+  #SSLCARevocationPath /etc/apache2/ssl.crl/
+  #SSLCARevocationFile /etc/apache2/ssl.crl/ca-bundle.crl
+
+  # Types are none, optional, require and optional_no_ca.
+  #SSLVerifyClient require
+  #SSLVerifyDepth 10
+
+  # Set various options for the SSL engine.
+  #SSLOptions +StrictRequire +SSLRequireSSL
+
