@@ -30,3 +30,15 @@ web_app 'site-000' do
   template 'site-000.conf.erb'
   enable true
 end
+
+# Apache conf check ca_signed_cert? to switch cert path
+cert_path = path_to_ssl_cert
+key_path = path_to_ssl_key
+
+# HTTPS host
+web_app 'site-ssl' do
+  template 'site-ssl.conf.erb'
+  path_to_cert cert_path
+  path_to_key key_path
+  enable true
+end
