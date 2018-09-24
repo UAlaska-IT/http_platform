@@ -36,4 +36,17 @@
   RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% unless rule['flags'].nil? -%> <%= rule['flags'] %><% end -%>
   <% end -%>
 
+  <FilesMatch "\.(cgi|shtml|phtml|php)$">
+    SSLOptions +StdEnvVars
+  </FilesMatch>
+
+  <Directory /usr/lib/cgi-bin>
+    SSLOptions +StdEnvVars
+  </Directory>
+
+  <IfModule mod_php.c>
+    <FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+    </FilesMatch>
+  </IfModule>
 </VirtualHost>
