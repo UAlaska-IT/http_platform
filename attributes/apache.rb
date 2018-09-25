@@ -21,4 +21,4 @@ default[tcb]['www']['rewrite_rules'] = []
 
 default['apache']['contact'] = node['nix_baseline']['admin_email']
 
-default['apache']['mod_ssl']['cipher_suite'] = node['nix_baseline']['cert']['cipher_string']
+default['apache']['mod_ssl']['cipher_suite'] = node[tcb]['cert']['cipher_string']
