@@ -21,4 +21,5 @@ default[tcb]['www']['rewrite_rules'] = []
 
 default['apache']['contact'] = node['nix_baseline']['admin_email']
 
-default['apache']['mod_ssl']['cipher_suite'] = node[tcb]['cert']['cipher_string']
+# Used for certs also
+default['apache']['mod_ssl']['cipher_suite'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'

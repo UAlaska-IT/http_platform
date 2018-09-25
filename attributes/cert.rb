@@ -2,8 +2,6 @@
 
 tcb = 'secure_apache'
 
-default[tcb]['cert']['cipher_string'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'
-
 # Explicit TLSv1.3 breaks negotiation on Ubuntu 16.04, Chef Server 12.17.33
 default[tcb]['cert']['protocol_string'] = 'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'
 
