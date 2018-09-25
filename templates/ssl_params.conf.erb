@@ -1,7 +1,7 @@
 # This file is managed with Chef. For changes to persist, edit secure_apache/templates/ssl_params.erb
 
-SSLCipherSuite <%= node['apache']['mod_ssl']['cipher_suite'] %>
-SSLProtocol <%= node['secure_apache']['cert']['protocol_string'] %>
+SSLCipherSuite <%= node['secure_apache']['cipher_suite'] %>
+SSLProtocol <%= node['secure_apache']['ssl_protocol'] %>
 SSLHonorCipherOrder On
 
 # This requires a valid certificate

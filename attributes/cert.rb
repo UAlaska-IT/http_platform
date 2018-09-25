@@ -2,9 +2,6 @@
 
 tcb = 'secure_apache'
 
-# Explicit TLSv1.3 breaks negotiation on Ubuntu 16.04, Chef Server 12.17.33
-default[tcb]['cert']['protocol_string'] = 'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'
-
 if node['platform_family'] == 'debian'
   default[tcb]['cert']['cert_public_directory'] = '/etc/ssl/certs/'
   default[tcb]['cert']['cert_private_directory'] = '/etc/ssl/private/'

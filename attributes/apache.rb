@@ -22,4 +22,9 @@ default[tcb]['www']['rewrite_rules'] = []
 default['apache']['contact'] = node['nix_baseline']['admin_email']
 
 # Used for certs also
-default['apache']['mod_ssl']['cipher_suite'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'
+default[tcb]['cipher_suite'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'
+# Explicit TLSv1.3 breaks negotiation on Ubuntu 16.04, Chef Server 12.17.33
+default[tcb]['ssl_protocol'] = 'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'
+
+default['apache']['mod_ssl']['cipher_suite'] = node[tcb]['cipher_suite']
+default['apache']['mod_ssl']['ssl_protocol'] = node[tcb]['ssl_protocol']
