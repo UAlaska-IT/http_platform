@@ -22,3 +22,7 @@ describe service(apache_service) do
   it { should be_enabled }
   it { should be_running }
 end
+
+describe apache_conf do
+  its('Listen') { should match ['*:80', '*:443'] }
+end
