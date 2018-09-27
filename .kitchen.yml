@@ -10,7 +10,7 @@ provisioner:
   install_strategy: always
   attributes:
     nix_baseline:
-      hostname: 'web.calsev.net'
+      hostname: 'funny.business'
 
 verifier:
   name: inspec
