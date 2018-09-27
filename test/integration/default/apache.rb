@@ -26,3 +26,11 @@ end
 describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
+
+describe bash('apache2ctl -M') do
+  its(:exit_status) { should eq 0 }
+  its(:stderr) { should eq '' }
+  its(:stdout) { should match 'headers_module' }
+  its(:stdout) { should match 'rewrite_module' }
+  its(:stdout) { should match 'ssl_module' }
+end
