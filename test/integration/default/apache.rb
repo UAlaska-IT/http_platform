@@ -27,6 +27,12 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
+describe bash('apachectl configtest') do
+  its(:exit_status) { should eq 0 }
+  its(:stderr) { should match 'Syntax OK' } # Yep, output is on stderr
+  its(:stdout) { should eq '' }
+end
+
 describe bash('apache2ctl -M') do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should eq '' }
