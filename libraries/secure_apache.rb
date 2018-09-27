@@ -5,18 +5,6 @@ module SecureApache
   module Helper
     TCB = 'secure_apache'
 
-    def effective_host_name
-      host_attrib = node[TCB]['hostname']
-      return host_attrib unless host_attrib.nil?
-      return node['hostname']
-    end
-
-    def effective_fqdn
-      domain_attrib = node[TCB]['domain']
-      return "#{effective_host_name}.#{domain_attrib}" unless domain_attrib.nil?
-      return node['fqdn']
-    end
-
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
       return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']
