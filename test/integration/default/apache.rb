@@ -27,6 +27,14 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
+describe file(conf_dir + '/ssl_params.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
 describe bash('apachectl configtest') do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should match 'Syntax OK' } # Yep, output is on stderr
