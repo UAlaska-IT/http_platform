@@ -5,8 +5,13 @@
   ServerAdmin <%= node['nix_baseline']['admin_email'] %>
   DocumentRoot <%= node['secure_apache']['www']['document_root'] %>
 
+  <% if node['platform_family'] == 'debian' -%>
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log combined
+  <% else -%>
+  ErrorLog logs/error.log
+  CustomLog logs/access.log combined
+  <% end -%>
 
   Redirect permanent "/" "https://<%= node['nix_baseline']['hostname'] %>/"
 </VirtualHost>
