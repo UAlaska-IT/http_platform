@@ -6,10 +6,12 @@ node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
 if node['platform_family'] == 'debian'
   apache_service = 'apache2'
-  conf_dir = '/etc/apache2/conf-available'
+  available_dir = '/etc/apache2/conf-available'
+  enabled_dir = '/etc/apache2/conf-enabled'
 elsif node['platform_family'] == 'rhel'
   apache_service = 'httpd'
-  conf_dir = '/etc/httpd/conf.d'
+  available_dir = '/etc/httpd/conf.d'
+  enabled_dir = '/etc/httpd/conf.d'
 else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
@@ -29,7 +31,7 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
-describe file(conf_dir + '/ssl_params.conf') do
+describe file(available_dir + '/ssl_params.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
