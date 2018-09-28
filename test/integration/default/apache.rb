@@ -51,6 +51,9 @@ describe file(conf_available_dir + '/ssl_params.conf') do
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  if node['platform_family'] == 'debian'
+    its(:content) { should match "SSLOpenSSLConfCmd DHParameters #{path_to_dh_params(node)}" }
+  end
 end
 
 describe file(conf_enabled_dir + '/ssl_params.conf') do
@@ -65,6 +68,7 @@ end
 describe apache_conf(conf_available_dir + '/ssl_params.conf') do
   its('SSLProtocol') { should eq ['All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'] }
   its('SSLCipherSuite') { should eq ['HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'] }
+  # its('SSLInsecureRenegotiation') { should eq 'Off' }
 end
 
 describe file(conf_enabled_dir + '/ssl_params.conf') do
