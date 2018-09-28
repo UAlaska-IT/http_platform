@@ -33,3 +33,14 @@ end
 def path_to_dh_params(node)
   return cert_public_dir(node) + 'dh_param.pem'
 end
+
+def apache_service(node)
+  if node['platform_family'] == 'debian'
+    service = 'apache2'
+  elsif node['platform_family'] == 'rhel'
+    service = 'httpd'
+  else
+    raise "Platform family not recognized: #{node['platform_family']}"
+  end
+  return service
+end

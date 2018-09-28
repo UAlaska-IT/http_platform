@@ -5,14 +5,12 @@ require_relative '../helpers'
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
 if node['platform_family'] == 'debian'
-  apache_service = 'apache2'
   conf_available_dir = '/etc/apache2/conf-available'
   conf_enabled_dir = '/etc/apache2/conf-enabled'
   sites_available_dir = '/etc/apache2/sites-available'
   sites_enabled_dir = '/etc/apache2/sites-enabled'
   module_command = 'apache2ctl'
 elsif node['platform_family'] == 'rhel'
-  apache_service = 'httpd'
   conf_available_dir = '/etc/httpd/conf-available'
   conf_enabled_dir = '/etc/httpd/conf-enabled'
   sites_available_dir = '/etc/httpd/sites-available'
@@ -22,12 +20,12 @@ else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
 
-describe package(apache_service) do
+describe package(apache_service(node)) do
   it { should be_installed }
   its(:version) { should match(/^2\.4/) }
 end
 
-describe service(apache_service) do
+describe service(apache_service(node)) do
   it { should be_installed }
   it { should be_enabled }
   it { should be_running }
