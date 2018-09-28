@@ -10,8 +10,8 @@ if node['platform_family'] == 'debian'
   enabled_dir = '/etc/apache2/conf-enabled'
 elsif node['platform_family'] == 'rhel'
   apache_service = 'httpd'
-  available_dir = '/etc/httpd/conf.d'
-  enabled_dir = '/etc/httpd/conf.d'
+  available_dir = '/etc/httpd/conf-available'
+  enabled_dir = '/etc/httpd/conf-enabled'
 else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
