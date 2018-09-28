@@ -33,7 +33,7 @@
   #SSLOptions +StrictRequire +SSLRequireSSL
 
   <% unless node['secure_apache']['www']['rewrite_rules'].empty? -%>
-  RewriteEngine On
+  RewriteEngine on
   <% end -%>
 
   <% node['secure_apache']['www']['rewrite_rules'].each do |rule| -%>

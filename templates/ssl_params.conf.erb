@@ -2,7 +2,9 @@
 
 SSLCipherSuite <%= node['secure_apache']['cipher_suite'] %>
 SSLProtocol <%= node['secure_apache']['ssl_protocol'] %>
-SSLHonorCipherOrder On
+SSLHonorCipherOrder on
+
+SSLInsecureRenegotiation off
 
 # This requires a valid certificate
 # HSTS (mod_headers is required) (15768000 seconds = 6 months)
@@ -23,7 +25,7 @@ Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-Mt
 
 # Requires Apache >= 2.4
 SSLCompression off
-SSLSessionTickets Off
+SSLSessionTickets off
 
 # OCSP Stapling, only in httpd 2.3.3 and later
 # Do not enable this without a CA cert

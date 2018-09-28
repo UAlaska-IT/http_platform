@@ -8,7 +8,7 @@ default[tcb]['apache']['extra_mods_to_install'] = {}
 
 default[tcb]['www']['document_root'] = '/var/www/html'
 # Do not enable this without a CA cert
-default[tcb]['www']['use_stapling'] = 'Off'
+default[tcb]['www']['use_stapling'] = 'off'
 
 default[tcb]['www']['remove_default_index'] = true
 
