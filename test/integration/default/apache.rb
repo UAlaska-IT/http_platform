@@ -36,6 +36,10 @@ end
     its(:status) { should cmp 301 }
     its(:body) { should match('https://funny.business') }
   end
+
+  describe http('https://localhost:443' + page, ssl_verify: false) do
+    its(:status) { should cmp 404 } # Would be 403 without RedirectMatch
+  end
 end
 
 describe apache_conf do
@@ -51,6 +55,7 @@ describe file(conf_available_dir + '/ssl_params.conf') do
   it { should be_grouped_into 'root' }
   if node['platform_family'] == 'debian'
     its(:content) { should match "SSLOpenSSLConfCmd DHParameters #{path_to_dh_params(node)}" }
+    its(:content) { should match 'RedirectMatch 404 ".*"' }
   end
 end
 
