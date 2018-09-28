@@ -33,6 +33,13 @@ describe service(apache_service) do
   it { should be_running }
 end
 
+['', '/'].each do |page|
+  describe http('http://localhost:80' + page) do
+    its(:status) { should cmp 301 }
+    its(:body) { should match('https://funny.business') }
+  end
+end
+
 describe apache_conf do
   its('AllowOverride') { should eq ['None'] }
   its('Listen') { should match ['*:80', '*:443'] }
