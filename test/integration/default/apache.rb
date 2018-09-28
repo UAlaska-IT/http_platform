@@ -96,6 +96,10 @@ describe file(sites_available_dir + '/site-ssl.conf') do
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+
+  its(:content) { should match 'SSLEngine on' }
+  its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
+  its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
 end
 
 describe file(sites_enabled_dir + '/site-000.conf') do
