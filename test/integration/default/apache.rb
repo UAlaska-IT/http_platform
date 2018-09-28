@@ -8,10 +8,12 @@ if node['platform_family'] == 'debian'
   apache_service = 'apache2'
   available_dir = '/etc/apache2/conf-available'
   enabled_dir = '/etc/apache2/conf-enabled'
+  module_command = 'apache2ctl'
 elsif node['platform_family'] == 'rhel'
   apache_service = 'httpd'
   available_dir = '/etc/httpd/conf-available'
   enabled_dir = '/etc/httpd/conf-enabled'
+  module_command = 'httpd'
 else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
@@ -55,7 +57,7 @@ describe bash('apachectl configtest') do
   its(:stdout) { should eq '' }
 end
 
-describe bash('apache2ctl -M') do
+describe bash("#{module_command} -M") do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should eq '' }
   its(:stdout) { should match 'headers_module' }
