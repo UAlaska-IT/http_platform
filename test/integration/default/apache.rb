@@ -60,6 +60,15 @@ describe apache_conf(conf_available_dir + '/ssl_params.conf') do
   its('SSLCipherSuite') { should eq ['HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'] }
 end
 
+describe file(conf_enabled_dir + '/ssl_params.conf') do
+  it { should exist }
+  it { should be_symlink }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
+end
+
 describe bash('apachectl configtest') do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should match 'Syntax OK' } # Yep, output is on stderr
