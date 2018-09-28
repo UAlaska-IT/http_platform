@@ -6,13 +6,17 @@ node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
 if node['platform_family'] == 'debian'
   apache_service = 'apache2'
-  available_dir = '/etc/apache2/conf-available'
-  enabled_dir = '/etc/apache2/conf-enabled'
+  conf_available_dir = '/etc/apache2/conf-available'
+  conf_enabled_dir = '/etc/apache2/conf-enabled'
+  sites_available_dir = '/etc/apache2/sites-available'
+  sites_enabled_dir = '/etc/apache2/sites-enabled'
   module_command = 'apache2ctl'
 elsif node['platform_family'] == 'rhel'
   apache_service = 'httpd'
-  available_dir = '/etc/httpd/conf-available'
-  enabled_dir = '/etc/httpd/conf-enabled'
+  conf_available_dir = '/etc/httpd/conf-available'
+  conf_enabled_dir = '/etc/httpd/conf-enabled'
+  sites_available_dir = '/etc/httpd/sites-available'
+  sites_enabled_dir = '/etc/httpd/sites-enabled'
   module_command = 'httpd'
 else
   raise "Platform family not recognized: #{node['platform_family']}"
@@ -34,7 +38,7 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
-describe file(available_dir + '/ssl_params.conf') do
+describe file(conf_available_dir + '/ssl_params.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -42,13 +46,13 @@ describe file(available_dir + '/ssl_params.conf') do
   it { should be_grouped_into 'root' }
 end
 
-describe file(enabled_dir + '/ssl_params.conf') do
+describe file(conf_enabled_dir + '/ssl_params.conf') do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq available_dir + '/ssl_params.conf' }
+  its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
 end
 
 describe bash('apachectl configtest') do
