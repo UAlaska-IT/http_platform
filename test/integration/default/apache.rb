@@ -69,6 +69,22 @@ describe file(conf_enabled_dir + '/ssl_params.conf') do
   its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
 end
 
+describe file(sites_available_dir + '/site-000.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
+describe file(sites_available_dir + '/site-ssl.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
 describe bash('apachectl configtest') do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should match 'Syntax OK' } # Yep, output is on stderr
