@@ -28,6 +28,7 @@ describe service(apache_service) do
 end
 
 describe apache_conf do
+  its('AllowOverride') { should eq ['None'] }
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
