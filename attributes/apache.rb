@@ -11,6 +11,7 @@ default[tcb]['www']['document_root'] = '/var/www/html'
 default[tcb]['www']['use_stapling'] = 'off'
 
 default[tcb]['www']['remove_default_index'] = true
+default[tcb]['www']['create_default_index'] = false
 
 # An array of rules; these will be matched first to last
 # comment - optional, will be placed above the rule

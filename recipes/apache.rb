@@ -19,6 +19,11 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['remove_default_index'] }
 end
 
+file '/var/www/html/index.html' do
+  content '<h1>Welcome to Apache!</h1><p>Now make yourself a website:)</p>'
+  only_if { node[tcb]['www']['create_default_index'] }
+end
+
 # Enable and harden TLS
 apache_conf 'ssl_params' do
   source 'ssl_params.conf.erb'

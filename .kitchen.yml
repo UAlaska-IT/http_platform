@@ -14,6 +14,7 @@ provisioner:
     secure_apache:
       www:
         remove_default_index: false
+        create_default_index: true
 
 verifier:
   name: inspec
