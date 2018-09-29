@@ -59,7 +59,7 @@ describe file(conf_available_dir + '/ssl_params.conf') do
   it { should be_grouped_into 'root' }
   if node['platform_family'] == 'debian'
     its(:content) { should match "SSLOpenSSLConfCmd DHParameters #{path_to_dh_params(node)}" }
-    its(:content) { should match 'RedirectMatch 404 ".*"' }
+    # its(:content) { should match 'RedirectMatch 404 ".*"' }
   end
 end
 
