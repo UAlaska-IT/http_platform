@@ -11,7 +11,7 @@ provisioner:
   attributes:
     nix_baseline:
       hostname: 'funny.business'
-    secure_apache:
+    http_platform:
       www:
         remove_default_index: false
         create_default_index: true
@@ -77,7 +77,7 @@ platforms:
 suites:
   - name: debian-based
     run_list:
-      - recipe[secure_apache::default]
+      - recipe[http_platform::default]
     verifier:
       inspec_tests:
         - test/integration/default
@@ -86,7 +86,7 @@ suites:
       - ubuntu-18.04
   - name: rhel-based
     run_list:
-      - recipe[secure_apache::default]
+      - recipe[http_platform::default]
     verifier:
       inspec_tests:
         - test/integration/default

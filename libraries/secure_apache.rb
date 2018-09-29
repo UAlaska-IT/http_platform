@@ -3,7 +3,7 @@
 module SecureApache
   # This module implements shared utility code for consistency with dependent cookbooks
   module Helper
-    TCB = 'secure_apache'
+    TCB = 'http_platform'
 
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']

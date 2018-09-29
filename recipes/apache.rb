@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 # We always include the basics
 include_recipe 'apache2::default'

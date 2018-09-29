@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 default[tcb]['configure_cert'] = true
 default[tcb]['configure_apache'] = true

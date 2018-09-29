@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 include_recipe 'nix_baseline::default'
 

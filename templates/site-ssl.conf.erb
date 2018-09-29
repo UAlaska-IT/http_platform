@@ -1,9 +1,9 @@
-# This file is managed with Chef. For changes to persist, edit secure_apache/templates/site-ssl.erb
+# This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.erb
 
 <VirtualHost *:443>
   ServerName <%= node['nix_baseline']['hostname'] %>
   ServerAdmin <%= node['nix_baseline']['admin_email'] %>
-  DocumentRoot <%= node['secure_apache']['www']['document_root'] %>
+  DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 
   <% if node['platform_family'] == 'debian' -%>
   ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -32,11 +32,11 @@
   # Set various options for the SSL engine.
   #SSLOptions +StrictRequire +SSLRequireSSL
 
-  <% unless node['secure_apache']['www']['rewrite_rules'].empty? -%>
+  <% unless node['http_platform']['www']['rewrite_rules'].empty? -%>
   RewriteEngine on
   <% end -%>
 
-  <% node['secure_apache']['www']['rewrite_rules'].each do |rule| -%>
+  <% node['http_platform']['www']['rewrite_rules'].each do |rule| -%>
   <% unless rule['comment'].nil? -%><%= rule['comment'] %><% end -%>
   RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% unless rule['flags'].nil? -%> <%= rule['flags'] %><% end -%>
   <% end -%>

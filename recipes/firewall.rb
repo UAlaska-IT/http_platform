@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 firewall_rule 'http' do
   port 80

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 if node['platform_family'] == 'debian'
   default[tcb]['cert']['cert_public_directory'] = '/etc/ssl/certs/'

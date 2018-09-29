@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 # The mods to install, in addition to headers, rewrite, ssl
 # Include the mod name only, e.g. php, without prefix 'mod_'

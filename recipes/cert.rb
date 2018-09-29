@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tcb = 'secure_apache'
+tcb = 'http_platform'
 
 cert_email =
   if node[tcb]['cert']['self_signed']['email'].nil?
