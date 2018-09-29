@@ -87,7 +87,7 @@ describe file(conf_enabled_dir + '/ssl_params.conf') do
   its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
 end
 
-describe file(sites_available_dir + '/site-000.conf') do
+describe file(sites_available_dir + '/000-default.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -97,7 +97,7 @@ describe file(sites_available_dir + '/site-000.conf') do
   its(:content) { should match 'Redirect permanent "/" "https://funny.business/"' }
 end
 
-describe file(sites_available_dir + '/site-ssl.conf') do
+describe file(sites_available_dir + '/default-ssl.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -109,22 +109,22 @@ describe file(sites_available_dir + '/site-ssl.conf') do
   its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
 end
 
-describe file(sites_enabled_dir + '/site-000.conf') do
+describe file(sites_enabled_dir + '/000-default.conf') do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq sites_available_dir + '/site-000.conf' }
+  its(:link_path) { should eq sites_available_dir + '/000-default.conf' }
 end
 
-describe file(sites_enabled_dir + '/site-ssl.conf') do
+describe file(sites_enabled_dir + '/default-ssl.conf') do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq sites_available_dir + '/site-ssl.conf' }
+  its(:link_path) { should eq sites_available_dir + '/default-ssl.conf' }
 end
 
 describe bash('apachectl configtest') do
