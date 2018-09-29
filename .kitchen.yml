@@ -11,6 +11,9 @@ provisioner:
   attributes:
     nix_baseline:
       hostname: 'funny.business'
+    secure_apache:
+      www:
+        remove_default_index: false
 
 verifier:
   name: inspec

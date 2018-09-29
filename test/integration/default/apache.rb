@@ -38,8 +38,12 @@ end
   end
 
   describe http('https://localhost:443' + page, ssl_verify: false) do
-    its(:status) { should cmp 404 } # Would be 403 without RedirectMatch
+    its(:status) { should cmp 200 }
   end
+end
+
+describe http('https://localhost:443/index.html', ssl_verify: false) do
+  its(:status) { should cmp 200 }
 end
 
 describe apache_conf do
