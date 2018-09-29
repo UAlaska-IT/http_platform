@@ -26,7 +26,7 @@ apache_conf 'ssl_params' do
 end
 
 # HTTP host, permanent redirect
-web_app 'site-000' do
+web_app '000-default' do
   template 'site-000.conf.erb'
   enable true
 end
@@ -36,7 +36,7 @@ cert_path = path_to_ssl_cert
 key_path = path_to_ssl_key
 
 # HTTPS host
-web_app 'site-ssl' do
+web_app 'default-ssl' do
   template 'site-ssl.conf.erb'
   path_to_cert cert_path
   path_to_key key_path
