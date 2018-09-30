@@ -30,19 +30,26 @@ apache_conf 'ssl_params' do
   enable true
 end
 
-# HTTP host, permanent redirect
-web_app '000-site' do
-  template 'site-000.conf.erb'
-  enable true
-end
 
 # Apache conf check ca_signed_cert? to switch cert path
 cert_path = path_to_ssl_cert
 key_path = path_to_ssl_key
+www_server = www_server_name
+plain_server = plain_server_name
+
+# HTTP host, permanent redirect
+web_app '000-site' do
+  template 'site-000.conf.erb'
+  www_server_name www_server
+  plain_server_name plain_server
+  enable true
+end
 
 # HTTPS host
 web_app 'ssl-site' do
   template 'site-ssl.conf.erb'
+  www_server_name www_server
+  plain_server_name plain_server
   path_to_cert cert_path
   path_to_key key_path
   enable true

@@ -70,6 +70,22 @@ module HttpPlatform
       return name_attrib unless name_attrib.nil?
       return node['fqdn']
     end
+
+    def fqdn_is_www
+      return node['fqdn'] =~ /^www\./
+    end
+
+    def www_server_name
+      return node['fqdn'] if fqdn_is_www
+      return 'www.' + node['fqdn']
+    end
+
+    def plain_server_name
+      return node['fqdn'] unless fqdn_is_www
+      remainder = node['fqdn'][4..-1]
+      raise 'FQDN must include root domain' unless remainder =~ /(!\.)+\.(!\.)+/
+      return remainder
+    end
   end
 end
 

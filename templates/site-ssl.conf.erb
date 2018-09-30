@@ -1,7 +1,8 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.erb
 
 <VirtualHost *:443>
-  ServerName <%= node['fqdn'] %>
+  ServerName <%= @params[:www_server_name] %>
+  ServerAlias <%= @params[:plain_server_name] %>
   ServerAdmin <%= node['http_platform']['admin_email'] %>
   DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 

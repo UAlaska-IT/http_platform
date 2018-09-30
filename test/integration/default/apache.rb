@@ -94,6 +94,8 @@ describe file(sites_available_dir + '/000-site.conf') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
+  its(:content) { should match 'ServerName www.funny.business' }
+  its(:content) { should match 'ServerAlias funny.business' }
   its(:content) { should match 'Redirect permanent "/" "https://funny.business/"' }
 end
 
@@ -104,6 +106,8 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
+  its(:content) { should match 'ServerName www.funny.business' }
+  its(:content) { should match 'ServerAlias funny.business' }
   its(:content) { should match 'SSLEngine on' }
   its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
   its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
