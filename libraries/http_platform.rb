@@ -5,6 +5,11 @@ module HttpPlatform
   module Helper
     TCB = 'http_platform'
 
+    def apache_service
+      return 'apache2' if node['platform_family'] == 'debian'
+      return 'httpd'
+    end
+
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
       return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']
@@ -69,6 +74,19 @@ module HttpPlatform
       name_attrib = node[TCB]['cert']['self_signed']['common_name']
       return name_attrib unless name_attrib.nil?
       return node['fqdn']
+    end
+
+    def config_relative_directory
+      return 'conf.d'
+    end
+
+    def config_absolute_directory
+      return '/etc/apache2/' + config_relative_directory if node['platform_family'] == 'debian'
+      return '/etc/httpd/' + config_relative_directory
+    end
+
+    def ssl_host_conf_name
+      return 'ssl-host.conf'
     end
 
     def host_is_www(host)

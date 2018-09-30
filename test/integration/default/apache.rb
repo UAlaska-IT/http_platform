@@ -5,20 +5,20 @@ require_relative '../helpers'
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
 if node['platform_family'] == 'debian'
-  conf_available_dir = '/etc/apache2/conf-available'
-  conf_enabled_dir = '/etc/apache2/conf-enabled'
-  sites_available_dir = '/etc/apache2/sites-available'
-  sites_enabled_dir = '/etc/apache2/sites-enabled'
+  conf_root_dir = '/etc/apache2'
   module_command = 'apache2ctl'
 elsif node['platform_family'] == 'rhel'
-  conf_available_dir = '/etc/httpd/conf-available'
-  conf_enabled_dir = '/etc/httpd/conf-enabled'
-  sites_available_dir = '/etc/httpd/sites-available'
-  sites_enabled_dir = '/etc/httpd/sites-enabled'
+  conf_root_dir = '/etc/httpd'
   module_command = 'httpd'
 else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
+
+conf_d_dir = conf_root_dir + '/conf.d'
+conf_available_dir = conf_root_dir + '/conf-available'
+conf_enabled_dir = conf_root_dir + '/conf-enabled'
+sites_available_dir = conf_root_dir + '/sites-available'
+sites_enabled_dir = conf_root_dir + '/sites-enabled'
 
 describe package(apache_service(node)) do
   it { should be_installed }
@@ -63,12 +63,23 @@ describe file(conf_available_dir + '/ssl_params.conf') do
   end
 end
 
-describe file(conf_available_dir + '/ssl-host.conf') do
+describe file(conf_d_dir) do
+  it { should exist }
+  it { should be_directory }
+  it { should be_mode 0o755 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
+describe file(conf_d_dir + '/ssl-host.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  its(:content) { should match 'SSLEngine on' }
+  its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
+  its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
   its(:content) { should match 'RewriteEngine on' }
   its(:content) { should match 'RewriteRule /url_of_page\(\.\*\) /path_to_file\$1 \[L,NC\]' }
   its(:content) { should match '<Directory />\s+Require all granted' }
@@ -84,10 +95,6 @@ describe file(conf_enabled_dir + '/ssl_params.conf') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
-end
-
-describe file(conf_enabled_dir + '/ssl-host.conf') do
-  it { should_not exist }
 end
 
 describe apache_conf(conf_available_dir + '/ssl_params.conf') do
@@ -129,9 +136,7 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   its(:content) { should match 'ServerAlias funny.business' }
   its(:content) { should match 'ServerAlias www.me.also' }
   its(:content) { should match 'ServerAlias me.also' }
-  its(:content) { should match 'SSLEngine on' }
-  its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
-  its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
+  its(:content) { should match 'Include conf.d/ssl-host.conf' }
 end
 
 describe file(sites_enabled_dir + '/000-site.conf') do

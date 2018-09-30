@@ -18,9 +18,5 @@
   CustomLog logs/access.log combined
   <% end -%>
 
-  SSLEngine on
-  SSLCertificateFile <%= @params[:path_to_cert] %>
-  SSLCertificateKeyFile <%= @params[:path_to_key] %>
-
-  Include conf-available/ssl-host.conf
+  Include <%= @params[:ssl_host_conf] %>
 </VirtualHost>

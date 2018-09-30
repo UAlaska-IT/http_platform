@@ -28,8 +28,12 @@ end
 www_server = www_server_name
 plain_server = plain_server_name
 aliases = generate_alias_pairs
-cert_path = path_to_ssl_cert
-key_path = path_to_ssl_key
+ssl_host_conf = config_relative_directory + '/' + ssl_host_conf_name
+
+var_map = {
+  path_to_cert: path_to_ssl_cert,
+  path_to_key: path_to_ssl_key
+}
 
 # Enable and harden TLS
 apache_conf 'ssl_params' do
@@ -37,10 +41,27 @@ apache_conf 'ssl_params' do
   enable true
 end
 
+directory config_absolute_directory do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
 # Common config for all HTTPS hosts
-apache_conf 'ssl-host' do
+# We use template because apache_conf does not support variables
+template 'Common Logic for HTTPS Hosts' do
+  path config_absolute_directory + '/' + ssl_host_conf_name
   source 'ssl-host.conf.erb'
-  enable false
+  variables var_map
+  owner 'root'
+  group 'root'
+  mode '0644'
+  # notifies :restart, "service[#{apache_service}]", :delayed
+end
+
+service apache_service do
+  action :nothing
+  subscribes :restart, 'template[Common Logic for HTTPS Hosts]', :delayed
 end
 
 # Default on Ubuntu
@@ -63,7 +84,6 @@ web_app 'ssl-site' do
   www_server_name www_server
   plain_server_name plain_server
   additional_aliases aliases
-  path_to_cert cert_path
-  path_to_key key_path
+  ssl_host_conf ssl_host_conf
   enable true
 end
