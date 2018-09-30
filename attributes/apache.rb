@@ -6,7 +6,7 @@ tcb = 'http_platform'
 # Include the mod name only, e.g. php, without prefix 'mod_'
 default[tcb]['apache']['extra_mods_to_install'] = {}
 
-default[tcb]['admin_email'] = nil # This must be set or an exception is raised
+default[tcb]['admin_email'] = nil # This must be set or an exception is raised; also default for cert
 default['apache']['contact'] = node[tcb]['admin_email']
 
 # Used for certs also
@@ -16,3 +16,6 @@ default[tcb]['ssl_protocol'] = 'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'
 
 default['apache']['mod_ssl']['cipher_suite'] = node[tcb]['cipher_suite']
 default['apache']['mod_ssl']['ssl_protocol'] = node[tcb]['ssl_protocol']
+
+# Do not enable this without a CA cert
+default[tcb]['apache']['use_stapling'] = 'off'

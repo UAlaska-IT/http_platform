@@ -3,8 +3,6 @@
 tcb = 'http_platform'
 
 default[tcb]['www']['document_root'] = '/var/www/html'
-# Do not enable this without a CA cert
-default[tcb]['www']['use_stapling'] = 'off'
 
 default[tcb]['www']['remove_default_index'] = true
 default[tcb]['www']['create_default_index'] = false

@@ -29,7 +29,7 @@ SSLSessionTickets off
 
 # OCSP Stapling, only in httpd 2.3.3 and later
 # Do not enable this without a CA cert
-SSLUseStapling <%= node['http_platform']['www']['use_stapling'] %>
+SSLUseStapling <%= node['http_platform']['apache']['use_stapling'] %>
 SSLStaplingResponderTimeout 5
 SSLStaplingReturnResponderErrors off
 
