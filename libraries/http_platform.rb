@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SecureApache
+module HttpPlatform
   # This module implements shared utility code for consistency with dependent cookbooks
   module Helper
     TCB = 'http_platform'
@@ -73,6 +73,6 @@ module SecureApache
   end
 end
 
-Chef::Provider.include(SecureApache::Helper)
-Chef::Recipe.include(SecureApache::Helper)
-Chef::Resource.include(SecureApache::Helper)
+Chef::Provider.include(HttpPlatform::Helper)
+Chef::Recipe.include(HttpPlatform::Helper)
+Chef::Resource.include(HttpPlatform::Helper)
