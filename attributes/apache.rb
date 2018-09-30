@@ -6,31 +6,6 @@ tcb = 'http_platform'
 # Include the mod name only, e.g. php, without prefix 'mod_'
 default[tcb]['apache']['extra_mods_to_install'] = {}
 
-default[tcb]['www']['document_root'] = '/var/www/html'
-# Do not enable this without a CA cert
-default[tcb]['www']['use_stapling'] = 'off'
-
-default[tcb]['www']['remove_default_index'] = true
-default[tcb]['www']['create_default_index'] = false
-
-# Only requests to these directories will be accepted
-default[tcb]['www']['access_directories'] = { '/' => '' }
-
-# A mapping of status => path to document, e.g. { 404 => '/404_kitten.php' }
-default[tcb]['www']['error_documents'] = {}
-
-# We always create plain and www aliases for the FQDN
-# This is a map of additional aliases , e.g. { 'other.url' => '' }
-# These will we created as plain/www pairs
-default[tcb]['www']['additional_aliases'] = {}
-
-# An array of rules; these will be matched first to last
-# comment - optional, will be placed above the rule
-# url_regex - required, the regex for the URL
-# path_regex - required, the regex for the generated path
-# flags - optional, the flags for the rule, e.g. '[L,NC]', https://httpd.apache.org/docs/2.4/rewrite/flags.html
-default[tcb]['www']['rewrite_rules'] = []
-
 default[tcb]['admin_email'] = nil # This must be set or an exception is raised
 default['apache']['contact'] = node[tcb]['admin_email']
 
