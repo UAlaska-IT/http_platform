@@ -69,7 +69,9 @@ describe file(conf_available_dir + '/ssl-host.conf') do
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match 'SSLOptions +StdEnvVars' }
+  its(:content) { should match '<Directory />\s+Require all granted' }
+  its(:content) { should match 'ErrorDocument 404 404_kitten.php' }
+  its(:content) { should match 'SSLOptions \+StdEnvVars' }
   its(:content) { should match 'SetHandler application/x-httpd-php' }
 end
 
@@ -129,8 +131,6 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
   its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
   its(:content) { should match 'RewriteRule /url_of_page\(\.\*\) /path_to_file\$1 \[L,NC\]' }
-  its(:content) { should match '<Directory />\s+Require all granted' }
-  its(:content) { should match 'ErrorDocument 404 404_kitten.php' }
 end
 
 describe file(sites_enabled_dir + '/000-site.conf') do

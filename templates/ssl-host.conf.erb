@@ -1,5 +1,15 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/ssl-host.conf.erb
 
+<% node['http_platform']['www']['access_directories'].each do |dir, _| -%>
+<Directory <%= dir %>>
+  Require all granted
+</Directory>
+<% end -%>
+
+<% node['http_platform']['www']['error_documents'].each do |status, path| -%>
+ErrorDocument <%= status %> <%= path %>
+<% end -%>
+
 <FilesMatch "\.(cgi|shtml|phtml|php)$">
   SSLOptions +StdEnvVars
 </FilesMatch>

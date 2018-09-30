@@ -45,15 +45,5 @@
   RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% if rule.key?('flags') && rule['flags'] -%> <%= rule['flags'] %><% end -%>
   <% end -%>
 
-  <% node['http_platform']['www']['access_directories'].each do |dir, _| -%>
-  <Directory <%= dir %>>
-    Require all granted
-  </Directory>
-  <% end -%>
-
-  <% node['http_platform']['www']['error_documents'].each do |status, path| -%>
-  ErrorDocument <%= status %> <%= path %>
-  <% end -%>
-
   Include conf-available/ssl-host.conf
 </VirtualHost>
