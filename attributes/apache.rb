@@ -19,3 +19,7 @@ default['apache']['mod_ssl']['ssl_protocol'] = node[tcb]['ssl_protocol']
 
 # Do not enable this without a CA cert
 default[tcb]['apache']['use_stapling'] = 'off'
+
+# Paths to configs to be included by all HTTPS hosts
+# Most applications will want to merge this and keep the default conf
+default[tcb]['apache']['paths_to_additional_configs'] = { 'conf.d/ssl-host.conf' => '' }

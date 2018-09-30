@@ -77,7 +77,7 @@ module HttpPlatform
     end
 
     def config_relative_directory
-      return 'conf.d'
+      return 'conf.d' # Must match default conf from attributes
     end
 
     def config_absolute_directory
@@ -86,7 +86,7 @@ module HttpPlatform
     end
 
     def ssl_host_conf_name
-      return 'ssl-host.conf'
+      return 'ssl-host.conf' # Must match default conf from attributes
     end
 
     def host_is_www(host)

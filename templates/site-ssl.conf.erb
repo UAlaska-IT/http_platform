@@ -16,5 +16,7 @@
   CustomLog logs/access.log combined
   <% end -%>
 
-  Include <%= @params[:ssl_host_conf] %>
+  <% node['http_platform']['apache']['paths_to_additional_configs'].each do |conf, _| -%>
+  Include <%= conf %>
+  <% end -%>
 </VirtualHost>

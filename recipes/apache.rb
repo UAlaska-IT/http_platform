@@ -28,7 +28,6 @@ end
 www_server = www_server_name
 plain_server = plain_server_name
 aliases = generate_alias_pairs
-ssl_host_conf = config_relative_directory + '/' + ssl_host_conf_name
 
 var_map = {
   path_to_cert: path_to_ssl_cert,
@@ -84,6 +83,5 @@ web_app 'ssl-site' do
   www_server_name www_server
   plain_server_name plain_server
   additional_aliases aliases
-  ssl_host_conf ssl_host_conf
   enable true
 end
