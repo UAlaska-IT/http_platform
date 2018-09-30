@@ -41,6 +41,12 @@
   RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% unless rule['flags'].nil? -%> <%= rule['flags'] %><% end -%>
   <% end -%>
 
+  <% node['http_platform']['www']['access_directories'].each do |dir, _| -%>
+  <Directory <%= dir %>>
+    Require all granted
+  </Directory>
+  <% end -%>
+
   <FilesMatch "\.(cgi|shtml|phtml|php)$">
     SSLOptions +StdEnvVars
   </FilesMatch>

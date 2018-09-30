@@ -13,6 +13,9 @@ default[tcb]['www']['use_stapling'] = 'off'
 default[tcb]['www']['remove_default_index'] = true
 default[tcb]['www']['create_default_index'] = false
 
+# Only requests to these directories will be accepted
+default[tcb]['www']['access_directories'] = { '/' => '' }
+
 # An array of rules; these will be matched first to last
 # comment - optional, will be placed above the rule
 # url_regex - required, the regex for the URL

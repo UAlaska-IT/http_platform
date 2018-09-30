@@ -107,6 +107,7 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   its(:content) { should match 'SSLEngine on' }
   its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
   its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
+  its(:content) { should match '<Directory />\s+Require all granted' }
 end
 
 describe file(sites_enabled_dir + '/000-site.conf') do
