@@ -24,6 +24,13 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['create_default_index'] }
 end
 
+# Apache conf check ca_signed_cert? to switch cert path
+www_server = www_server_name
+plain_server = plain_server_name
+aliases = generate_alias_pairs
+cert_path = path_to_ssl_cert
+key_path = path_to_ssl_key
+
 # Enable and harden TLS
 apache_conf 'ssl_params' do
   source 'ssl_params.conf.erb'
@@ -40,13 +47,6 @@ end
 file '/etc/apache2/sites-available/default-ssl.conf' do
   action :delete
 end
-
-# Apache conf check ca_signed_cert? to switch cert path
-www_server = www_server_name
-plain_server = plain_server_name
-aliases = generate_alias_pairs
-cert_path = path_to_ssl_cert
-key_path = path_to_ssl_key
 
 # HTTP host, permanent redirect
 web_app '000-site' do
