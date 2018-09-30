@@ -7,7 +7,28 @@ __Maintainer: Caleb J. Severn__ (<calnoreply@gmail.com>)
 
 ## Purpose
 
-Configures HTTPS hosts in Apache with certificate and reasonably tight cypher and protocol suites.
+Configures an HTTPS server with a certificate and secure cypher and protocol suites.
+
+This cookbook is intended as a base for rapidly prototyping websites and as such favors opinion over flexibility.
+
+* HTTP redirects to HTTPS
+* Multiple host names are supported, but hosts are little more than name aliases
+* Host share these attributes
+  * Certificate
+  * Redirects
+  * Rewrite rules
+  * Error documents
+  * Configs
+  * Content (root and access directories)
+* Host are distinguished by
+  * Log files
+  * Log level
+
+Currently only Apache is supported.
+
+ToDo:
+
+* Manage CSR, switching hosts to CA-signed cert once in place
 
 ## Requirements
 
