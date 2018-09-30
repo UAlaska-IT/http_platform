@@ -2,7 +2,6 @@
 
 tcb = 'http_platform'
 
-include_recipe 'nix_baseline::default'
 raise 'Must set node[\'http_platform\'][\'admin_email\']' unless node[tcb]['admin_email']
 
 include_recipe "#{tcb}::firewall" if node[tcb]['configure_firewall']
