@@ -18,6 +18,11 @@ provisioner:
           me.also: ''
         error_documents:
           '404': '404_kitten.php'
+        rewrite_rules:
+          -
+            url_regex: '/url_of_page(.*)'
+            path_regex: '/path_to_file$1'
+            flags: '[L,NC]'
         remove_default_index: false
         create_default_index: true
 

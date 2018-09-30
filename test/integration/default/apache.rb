@@ -114,6 +114,7 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   its(:content) { should match 'SSLEngine on' }
   its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
   its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
+  its(:content) { should match 'RewriteRule /url_of_page\(\.\*\) /path_to_file\$1 \[L,NC\]' }
   its(:content) { should match '<Directory />\s+Require all granted' }
   its(:content) { should match 'ErrorDocument 404 404_kitten.php' }
 end

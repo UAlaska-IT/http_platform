@@ -36,14 +36,13 @@
 
   # Set various options for the SSL engine.
   #SSLOptions +StrictRequire +SSLRequireSSL
-
   <% unless node['http_platform']['www']['rewrite_rules'].empty? -%>
+
   RewriteEngine on
   <% end -%>
-
   <% node['http_platform']['www']['rewrite_rules'].each do |rule| -%>
-  <% unless rule['comment'].nil? -%><%= rule['comment'] %><% end -%>
-  RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% unless rule['flags'].nil? -%> <%= rule['flags'] %><% end -%>
+  <% if rule.key?('comment') && rule['comment'] -%><%= rule['comment'] %><% end -%>
+  RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% if rule.key?('flags') && rule['flags'] -%> <%= rule['flags'] %><% end -%>
   <% end -%>
 
   <% node['http_platform']['www']['access_directories'].each do |dir, _| -%>
