@@ -14,8 +14,11 @@ default[tcb]['www']['access_directories'] = { '/' => '' }
 default[tcb]['www']['error_documents'] = {}
 
 # We always create plain and www aliases for the FQDN
-# This is a map of additional aliases , e.g. { 'other.url' => '' }
-# These will we created as plain/www pairs
+# This is a map of additional aliases to options, e.g. { 'other.url' => {} }
+# Currently the only option recognized is log_level, see https://httpd.apache.org/docs/2.4/mod/core.html#loglevel
+# If both the plain and www host are included, these are treated as independent
+# Otherwise they will be created as a matched pair with identical options
+# The www host will always be placed before the plain host
 default[tcb]['www']['additional_aliases'] = {}
 
 # An array of rules; these will be matched first to last

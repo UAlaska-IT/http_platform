@@ -15,7 +15,8 @@ provisioner:
       admin_email: 'fake-it@make-it'
       www:
         additional_aliases:
-          me.also: ''
+          me.also:
+            log_level: 'info'
         error_documents:
           '404': '404_kitten.php'
         rewrite_rules:

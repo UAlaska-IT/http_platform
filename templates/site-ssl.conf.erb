@@ -1,5 +1,5 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.conf.erb
-<% @params[:host_names].each do |host, _| -%>
+<% @params[:host_names].each do |host, options| -%>
 
 <VirtualHost *:443>
   ServerName <%= host %>
@@ -10,6 +10,11 @@
   <% else -%>
   ErrorLog logs/<%= host %>_error.log
   CustomLog logs/<%= host %>_access.log combined
+  <% end -%>
+  <% if options.key?('log_level') -%>
+  LogLevel <%= options['log_level'] %>
+  <% else -%>
+  LogLevel warn
   <% end -%>
 
   <% node['http_platform']['apache']['paths_to_additional_configs'].each do |conf, _| -%>
