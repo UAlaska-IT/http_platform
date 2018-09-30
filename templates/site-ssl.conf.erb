@@ -48,6 +48,10 @@
   </Directory>
   <% end -%>
 
+  <% node['http_platform']['www']['error_documents'].each do |status, path| -%>
+  ErrorDocument <%= status %> <%= path %>
+  <% end -%>
+
   <FilesMatch "\.(cgi|shtml|phtml|php)$">
     SSLOptions +StdEnvVars
   </FilesMatch>

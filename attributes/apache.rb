@@ -16,6 +16,9 @@ default[tcb]['www']['create_default_index'] = false
 # Only requests to these directories will be accepted
 default[tcb]['www']['access_directories'] = { '/' => '' }
 
+# A mapping of status => path to document, e.g. { 404 => '/404_kitten.php' }
+default[tcb]['www']['error_documents'] = {}
+
 # An array of rules; these will be matched first to last
 # comment - optional, will be placed above the rule
 # url_regex - required, the regex for the URL
