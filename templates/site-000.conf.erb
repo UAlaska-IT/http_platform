@@ -1,18 +1,9 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/site-000.erb
 
 <VirtualHost *:80>
-  ServerAdmin <%= node['http_platform']['admin_email'] %>
   ServerName <%= @params[:www_server_name] %>
   ServerAlias <%= @params[:plain_server_name] %>
   DocumentRoot <%= node['http_platform']['www']['document_root'] %>
-
-  <% if node['platform_family'] == 'debian' -%>
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
-  <% else -%>
-  ErrorLog logs/error.log
-  CustomLog logs/access.log combined
-  <% end -%>
 
   Redirect permanent "/" "https://<%= node['fqdn'] %>/"
 </VirtualHost>
