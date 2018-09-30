@@ -1,14 +1,24 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/site-000.erb
 
+# Loop over aliases for redirect because redirect does not support HTTP_HOST
 <VirtualHost *:80>
   ServerName <%= @params[:www_server_name] %>
-  ServerAlias <%= @params[:plain_server_name] %>
-  <% @params[:additional_aliases].each do |www_host, plain_host| -%>
-  ServerAlias <%= www_host %>
-  ServerAlias <%= plain_host %>
-  <% end -%>
-
-  DocumentRoot <%= node['http_platform']['www']['document_root'] %>
-
-  Redirect permanent "/" "https://<%= node['fqdn'] %>/"
+  Redirect permanent "/" "https://<%= @params[:www_server_name] %>/"
 </VirtualHost>
+
+<VirtualHost *:80>
+  ServerName <%= @params[:plain_server_name] %>
+  Redirect permanent "/" "https://<%= @params[:plain_server_name] %>/"
+</VirtualHost>
+<% @params[:additional_aliases].each do |www_host, plain_host| -%>
+
+<VirtualHost *:80>
+  ServerName <%= www_host %>
+  Redirect permanent "/" "https://<%= www_host %>/"
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName <%= plain_host %>
+  Redirect permanent "/" "https://<%= plain_host %>/"
+</VirtualHost>
+<% end -%>

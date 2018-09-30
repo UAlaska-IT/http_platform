@@ -34,7 +34,7 @@ end
 ['', '/'].each do |page|
   describe http('http://localhost:80' + page) do
     its(:status) { should cmp 301 }
-    its(:body) { should match('https://funny.business') }
+    its(:body) { should match('https://www.funny.business') }
   end
 
   describe http('https://localhost:443' + page, ssl_verify: false) do
@@ -94,11 +94,10 @@ describe file(sites_available_dir + '/000-site.conf') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
-  its(:content) { should match 'ServerName www.funny.business' }
-  its(:content) { should match 'ServerAlias funny.business' }
-  its(:content) { should match 'ServerAlias www.me.also' }
-  its(:content) { should match 'ServerAlias me.also' }
-  its(:content) { should match 'Redirect permanent "/" "https://funny.business/"' }
+  its(:content) { should match 'ServerName www.funny.business\s+Redirect permanent "/" "https://www.funny.business/"' }
+  its(:content) { should match 'ServerName funny.business\s+Redirect permanent "/" "https://funny.business/"' }
+  its(:content) { should match 'ServerName www.me.also\s+Redirect permanent "/" "https://www.me.also/"' }
+  its(:content) { should match 'ServerName me.also\s+Redirect permanent "/" "https://me.also/"' }
 end
 
 describe file(sites_available_dir + '/ssl-site.conf') do
