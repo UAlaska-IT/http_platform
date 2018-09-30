@@ -139,10 +139,12 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
-  its(:content) { should match 'ServerName www.funny.business' }
-  its(:content) { should match 'ServerAlias funny.business' }
-  its(:content) { should match 'ServerAlias www.me.also' }
-  its(:content) { should match 'ServerAlias me.also' }
+  ['www.funny.business', 'funny.business', 'www.me.also', 'me.also'].each do |host|
+    its(:content) { should match "ServerName #{host}" }
+    its(:content) { should match "#{host}_error.log" }
+    its(:content) { should match "#{host}_access.log" }
+  end
+
   its(:content) { should match 'Include conf.d/ssl-host.conf' }
 end
 
