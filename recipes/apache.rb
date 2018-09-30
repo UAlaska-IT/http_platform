@@ -36,8 +36,8 @@ var_map = {
 }
 
 # Enable and harden TLS
-apache_conf 'ssl_params' do
-  source 'ssl_params.conf.erb'
+apache_conf 'ssl-params' do
+  source 'ssl-params.conf.erb'
   enable true
 end
 

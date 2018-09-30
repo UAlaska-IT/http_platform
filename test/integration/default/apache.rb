@@ -56,7 +56,7 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
-describe file(conf_available_dir + '/ssl_params.conf') do
+describe file(conf_available_dir + '/ssl-params.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -95,28 +95,28 @@ describe file(conf_d_dir + '/ssl-host.conf') do
   its(:content) { should match 'SetHandler application/x-httpd-php' }
 end
 
-describe file(conf_enabled_dir + '/ssl_params.conf') do
+describe file(conf_enabled_dir + '/ssl-params.conf') do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
+  its(:link_path) { should eq conf_available_dir + '/ssl-params.conf' }
 end
 
-describe apache_conf(conf_available_dir + '/ssl_params.conf') do
+describe apache_conf(conf_available_dir + '/ssl-params.conf') do
   its('SSLProtocol') { should eq ['All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'] }
   its('SSLCipherSuite') { should eq ['HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'] }
   its('SSLInsecureRenegotiation') { should eq ['off'] }
 end
 
-describe file(conf_enabled_dir + '/ssl_params.conf') do
+describe file(conf_enabled_dir + '/ssl-params.conf') do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
+  its(:link_path) { should eq conf_available_dir + '/ssl-params.conf' }
 end
 
 describe file(sites_available_dir + '/000-site.conf') do
