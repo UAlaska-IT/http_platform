@@ -14,6 +14,8 @@ provisioner:
     http_platform:
       admin_email: 'fake-it@make-it'
       www:
+        error_documents:
+          '404': '404_kitten.php'
         remove_default_index: false
         create_default_index: true
 
