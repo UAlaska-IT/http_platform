@@ -3,6 +3,11 @@
 <VirtualHost *:80>
   ServerName <%= @params[:www_server_name] %>
   ServerAlias <%= @params[:plain_server_name] %>
+  <% @params[:additional_aliases].each do |www_host, plain_host| -%>
+  ServerAlias <%= www_host %>
+  ServerAlias <%= plain_host %>
+  <% end -%>
+
   DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 
   Redirect permanent "/" "https://<%= node['fqdn'] %>/"

@@ -71,20 +71,36 @@ module HttpPlatform
       return node['fqdn']
     end
 
-    def fqdn_is_www
-      return node['fqdn'] =~ /^www\./
+    def host_is_www(host)
+      return host =~ /^www\./
     end
 
     def www_server_name
-      return node['fqdn'] if fqdn_is_www
+      return node['fqdn'] if host_is_www(node['fqdn'])
       return 'www.' + node['fqdn']
     end
 
     def plain_server_name
-      return node['fqdn'] unless fqdn_is_www
+      return node['fqdn'] unless host_is_www(node['fqdn'])
       remainder = node['fqdn'][4..-1]
       raise 'FQDN must include root domain' unless remainder =~ /(!\.)+\.(!\.)+/
       return remainder
+    end
+
+    def insert_alias_pair(aliases, host)
+      if host_is_www(host)
+        aliases[host] = host[4..-1]
+      else
+        aliases['www.' + host] = host
+      end
+    end
+
+    def generate_alias_pairs
+      aliases = {}
+      node[TCB]['www']['additional_aliases'].each do |host, _|
+        insert_alias_pair(aliases, host)
+      end
+      return aliases
     end
   end
 end

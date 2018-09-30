@@ -3,6 +3,10 @@
 <VirtualHost *:443>
   ServerName <%= @params[:www_server_name] %>
   ServerAlias <%= @params[:plain_server_name] %>
+  <% @params[:additional_aliases].each do |www_host, plain_host| -%>
+  ServerAlias <%= www_host %>
+  ServerAlias <%= plain_host %>
+  <% end -%>
   ServerAdmin <%= node['http_platform']['admin_email'] %>
   DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 

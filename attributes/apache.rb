@@ -19,6 +19,11 @@ default[tcb]['www']['access_directories'] = { '/' => '' }
 # A mapping of status => path to document, e.g. { 404 => '/404_kitten.php' }
 default[tcb]['www']['error_documents'] = {}
 
+# We always create plain and www aliases for the FQDN
+# This is a map of additional aliases , e.g. { 'other.url' => '' }
+# These will we created as plain/www pairs
+default[tcb]['www']['additional_aliases'] = {}
+
 # An array of rules; these will be matched first to last
 # comment - optional, will be placed above the rule
 # url_regex - required, the regex for the URL

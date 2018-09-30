@@ -36,16 +36,18 @@ file '/etc/apache2/sites-available/default-ssl.conf' do
 end
 
 # Apache conf check ca_signed_cert? to switch cert path
-cert_path = path_to_ssl_cert
-key_path = path_to_ssl_key
 www_server = www_server_name
 plain_server = plain_server_name
+aliases = generate_alias_pairs
+cert_path = path_to_ssl_cert
+key_path = path_to_ssl_key
 
 # HTTP host, permanent redirect
 web_app '000-site' do
   template 'site-000.conf.erb'
   www_server_name www_server
   plain_server_name plain_server
+  additional_aliases aliases
   enable true
 end
 
@@ -54,6 +56,7 @@ web_app 'ssl-site' do
   template 'site-ssl.conf.erb'
   www_server_name www_server
   plain_server_name plain_server
+  additional_aliases aliases
   path_to_cert cert_path
   path_to_key key_path
   enable true
