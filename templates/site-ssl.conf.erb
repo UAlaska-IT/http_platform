@@ -7,8 +7,6 @@
   ServerAlias <%= www_host %>
   ServerAlias <%= plain_host %>
   <% end -%>
-  ServerAdmin <%= node['http_platform']['admin_email'] %>
-  DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 
   <% if node['platform_family'] == 'debian' -%>
   ErrorLog ${APACHE_LOG_DIR}/error.log
