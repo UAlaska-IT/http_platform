@@ -1,4 +1,4 @@
-# This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.erb
+# This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.conf.erb
 
 <VirtualHost *:443>
   ServerName <%= @params[:www_server_name] %>
@@ -55,17 +55,5 @@
   ErrorDocument <%= status %> <%= path %>
   <% end -%>
 
-  <FilesMatch "\.(cgi|shtml|phtml|php)$">
-    SSLOptions +StdEnvVars
-  </FilesMatch>
-
-  <Directory /usr/lib/cgi-bin>
-    SSLOptions +StdEnvVars
-  </Directory>
-
-  <IfModule mod_php.c>
-    <FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
-    </FilesMatch>
-  </IfModule>
+  Include conf-available/ssl-host.conf
 </VirtualHost>

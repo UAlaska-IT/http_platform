@@ -63,6 +63,16 @@ describe file(conf_available_dir + '/ssl_params.conf') do
   end
 end
 
+describe file(conf_available_dir + '/ssl-host.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match 'SSLOptions +StdEnvVars' }
+  its(:content) { should match 'SetHandler application/x-httpd-php' }
+end
+
 describe file(conf_enabled_dir + '/ssl_params.conf') do
   it { should exist }
   it { should be_symlink }
@@ -70,6 +80,10 @@ describe file(conf_enabled_dir + '/ssl_params.conf') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq conf_available_dir + '/ssl_params.conf' }
+end
+
+describe file(conf_enabled_dir + '/ssl-host.conf') do
+  it { should_not exist }
 end
 
 describe apache_conf(conf_available_dir + '/ssl_params.conf') do

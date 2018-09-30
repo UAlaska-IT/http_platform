@@ -30,6 +30,12 @@ apache_conf 'ssl_params' do
   enable true
 end
 
+# Common config for all HTTPS hosts
+apache_conf 'ssl-host' do
+  source 'ssl-host.conf.erb'
+  enable false
+end
+
 # Default on Ubuntu
 file '/etc/apache2/sites-available/default-ssl.conf' do
   action :delete
