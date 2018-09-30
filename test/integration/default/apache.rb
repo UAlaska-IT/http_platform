@@ -46,6 +46,11 @@ describe http('https://localhost:443/index.html', ssl_verify: false) do
   its(:status) { should cmp 200 }
 end
 
+describe http('https://localhost:443/not_a_page', ssl_verify: false) do
+  its(:status) { should cmp 404 }
+  its(:body) { should match('404_kitten.php') }
+end
+
 describe apache_conf do
   its('AllowOverride') { should eq ['None'] }
   its('Listen') { should match ['*:80', '*:443'] }
