@@ -24,7 +24,7 @@ module SecureApache
     def self_signed_cert_prefix
       prefix_attrib = node[TCB]['cert']['self_signed']['cert_prefix']
       return prefix_attrib unless prefix_attrib.nil?
-      return effective_host_name
+      return node['fqdn']
     end
 
     def path_to_self_signed_cert
@@ -68,7 +68,7 @@ module SecureApache
     def cert_common_name
       name_attrib = node[TCB]['cert']['self_signed']['common_name']
       return name_attrib unless name_attrib.nil?
-      return effective_host_name
+      return node['fqdn']
     end
   end
 end

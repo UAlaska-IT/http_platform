@@ -15,7 +15,7 @@ end
 default[tcb]['cert']['ca_signed']['cert_public_file_name'] = 'localhost_cert_ca_signed.pem'
 default[tcb]['cert']['ca_signed']['cert_private_file_name'] = 'localhost_key_ca_signed.pem'
 
-# Defaults to hostname
+# Defaults to FQDN
 default[tcb]['cert']['self_signed']['cert_prefix'] = nil
 default[tcb]['cert']['self_signed']['cert_public_suffix'] = '_cert_self_signed.pem'
 default[tcb]['cert']['self_signed']['cert_private_suffix'] = '_key_self_signed.pem'
@@ -28,7 +28,7 @@ default[tcb]['cert']['self_signed']['state'] = 'Alaska'
 default[tcb]['cert']['self_signed']['locale'] = 'Fairbanks'
 default[tcb]['cert']['self_signed']['organization'] = 'fake_org'
 default[tcb]['cert']['self_signed']['org_unit'] = 'fake_unit'
-# Defaults to *.hostname
+# Defaults to FQDN
 default[tcb]['cert']['self_signed']['common_name'] = nil
 # Defaults to admin_email
 default[tcb]['cert']['self_signed']['email'] = nil

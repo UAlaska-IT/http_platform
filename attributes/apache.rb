@@ -20,7 +20,8 @@ default[tcb]['www']['create_default_index'] = false
 # flags - optional, the flags for the rule, e.g. '[L,NC]', https://httpd.apache.org/docs/2.4/rewrite/flags.html
 default[tcb]['www']['rewrite_rules'] = []
 
-default['apache']['contact'] = node['nix_baseline']['admin_email']
+default[tcb]['admin_email'] = nil # This must be set or an exception is raised
+default['apache']['contact'] = node[tcb]['admin_email']
 
 # Used for certs also
 default[tcb]['cipher_suite'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'

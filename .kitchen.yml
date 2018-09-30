@@ -12,6 +12,7 @@ provisioner:
     nix_baseline:
       hostname: 'funny.business'
     http_platform:
+      admin_email: 'fake-it@make-it'
       www:
         remove_default_index: false
         create_default_index: true

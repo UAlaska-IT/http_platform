@@ -4,7 +4,7 @@ tcb = 'http_platform'
 
 cert_email =
   if node[tcb]['cert']['self_signed']['email'].nil?
-    node['nix_baseline']['admin_email']
+    node[tcb]['admin_email']
   else
     node[tcb]['cert']['self_signed']['email']
   end
