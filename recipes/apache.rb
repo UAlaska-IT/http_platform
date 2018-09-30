@@ -25,9 +25,7 @@ file '/var/www/html/index.html' do
 end
 
 # Apache conf check ca_signed_cert? to switch cert path
-www_server = www_server_name
-plain_server = plain_server_name
-aliases = generate_alias_pairs
+host_names = generate_alias_pairs
 
 var_map = {
   path_to_cert: path_to_ssl_cert,
@@ -71,17 +69,13 @@ end
 # HTTP host, permanent redirect
 web_app '000-site' do
   template 'site-000.conf.erb'
-  www_server_name www_server
-  plain_server_name plain_server
-  additional_aliases aliases
+  host_names host_names
   enable true
 end
 
 # HTTPS host
 web_app 'ssl-site' do
   template 'site-ssl.conf.erb'
-  www_server_name www_server
-  plain_server_name plain_server
-  additional_aliases aliases
+  host_names host_names
   enable true
 end

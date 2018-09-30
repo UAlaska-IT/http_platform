@@ -93,28 +93,48 @@ module HttpPlatform
       return host =~ /^www\./
     end
 
-    def www_server_name
-      return node['fqdn'] if host_is_www(node['fqdn'])
-      return 'www.' + node['fqdn']
+    def www_server_name(host)
+      return host if host_is_www(host)
+      return 'www.' + host
     end
 
-    def plain_server_name
-      return node['fqdn'] unless host_is_www(node['fqdn'])
-      remainder = node['fqdn'][4..-1]
+    def plain_server_name(host)
+      return host unless host_is_www(host)
+      remainder = host[4..-1]
       raise 'FQDN must include root domain' unless remainder =~ /(!\.)+\.(!\.)+/
       return remainder
     end
 
+    def default_server_aliases
+      return {
+        www_server_name(node['fqdn']) => {},
+        plain_server_name(node['fqdn']) => {}
+      }
+    end
+
+    def insert_conditional_options(aliases, host, options)
+      aliases[host] =
+        if node[TCB]['www']['additional_aliases'].key?(host)
+          node[TCB]['www']['additional_aliases'][host]
+        else
+          options
+        end
+    end
+
+    def insert_ordered_aliases(aliases, host, options)
+      # www_host always comes first, so we may co-opt list order
+      insert_conditional_options(aliases, www_server_name(host), options)
+      insert_conditional_options(aliases, plain_server_name(host), options)
+    end
+
     def insert_alias_pair(aliases, host)
-      if host_is_www(host)
-        aliases[host] = host[4..-1]
-      else
-        aliases['www.' + host] = host
-      end
+      return if aliases.key?(host) # We already processed the sibling
+      options = node[TCB]['www']['additional_aliases'][host]
+      insert_ordered_aliases(aliases, host, options)
     end
 
     def generate_alias_pairs
-      aliases = {}
+      aliases = default_server_aliases
       node[TCB]['www']['additional_aliases'].each do |host, _|
         insert_alias_pair(aliases, host)
       end

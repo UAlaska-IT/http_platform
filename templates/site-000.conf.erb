@@ -1,24 +1,11 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/site-000.conf.erb
 
-# Loop over aliases for redirect because redirect does not support HTTP_HOST
-<VirtualHost *:80>
-  ServerName <%= @params[:www_server_name] %>
-  Redirect permanent "/" "https://<%= @params[:www_server_name] %>/"
-</VirtualHost>
+# Loop over names for redirect because redirect does not support HTTP_HOST
+# For relatively few named hosts, this should be faster than rewrite
+<% @params[:host_names].each do |host, _| -%>
 
 <VirtualHost *:80>
-  ServerName <%= @params[:plain_server_name] %>
-  Redirect permanent "/" "https://<%= @params[:plain_server_name] %>/"
-</VirtualHost>
-<% @params[:additional_aliases].each do |www_host, plain_host| -%>
-
-<VirtualHost *:80>
-  ServerName <%= www_host %>
-  Redirect permanent "/" "https://<%= www_host %>/"
-</VirtualHost>
-
-<VirtualHost *:80>
-  ServerName <%= plain_host %>
-  Redirect permanent "/" "https://<%= plain_host %>/"
+  ServerName <%= host %>
+  Redirect permanent "/" "https://<%= host %>/"
 </VirtualHost>
 <% end -%>
