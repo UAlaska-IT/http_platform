@@ -21,7 +21,13 @@ default[tcb]['www']['error_documents'] = {}
 # The www host will always be placed before the plain host
 default[tcb]['www']['additional_aliases'] = {}
 
-# An array of rules; these will be matched first to last
+# An array of redirect hashes; these will be matched first to last
+# comment - optional, will be placed above the rule
+# from_regex - required, the regex for the incoming URL
+# to_regex - required, the regex for the target URL
+default[tcb]['www']['redirect_rules'] = []
+
+# An array of rule hashes; these will be matched first to last
 # comment - optional, will be placed above the rule
 # url_regex - required, the regex for the URL
 # path_regex - required, the regex for the generated path

@@ -19,6 +19,11 @@ provisioner:
             log_level: 'info'
         error_documents:
           '404': '404_kitten.php'
+        redirect_rules:
+          -
+            comment: 'Site owners are a pain'
+            from_regex: '/old_site'
+            to_regex: '/new_site'
         rewrite_rules:
           -
             url_regex: '/url_of_page(.*)'

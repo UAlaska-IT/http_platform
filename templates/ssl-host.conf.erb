@@ -21,12 +21,17 @@ SSLCertificateKeyFile <%= @path_to_key %>
 
 # Set various options for the SSL engine.
 #SSLOptions +StrictRequire +SSLRequireSSL
+<% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
+
+<% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
+Redirect <%= rule['from_regex'] %> <%= rule['to_regex'] %>
+<% end -%>
 <% unless node['http_platform']['www']['rewrite_rules'].empty? -%>
 
 RewriteEngine on
 <% end -%>
 <% node['http_platform']['www']['rewrite_rules'].each do |rule| -%>
-<% if rule.key?('comment') && rule['comment'] -%><%= rule['comment'] %><% end -%>
+<% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
 RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% if rule.key?('flags') && rule['flags'] -%> <%= rule['flags'] %><% end -%>
 <% end -%>
 

@@ -51,6 +51,11 @@ describe http('https://localhost:443/not_a_page', ssl_verify: false) do
   its(:body) { should match('404_kitten.php') }
 end
 
+describe http('https://localhost:443/old_site', ssl_verify: false) do
+  its(:status) { should cmp 302 }
+  its(:body) { should match('/new_site') }
+end
+
 describe apache_conf do
   its('AllowOverride') { should eq ['None'] }
   its('Listen') { should match ['*:80', '*:443'] }
@@ -87,6 +92,8 @@ describe file(conf_d_dir + '/ssl-host.conf') do
   its(:content) { should match 'SSLEngine on' }
   its(:content) { should match "SSLCertificateFile #{path_to_self_signed_cert(node)}" }
   its(:content) { should match "SSLCertificateKeyFile #{path_to_self_signed_key(node)}" }
+  its(:content) { should match '# Site owners are a pain' }
+  its(:content) { should match 'Redirect /old_site /new_site' }
   its(:content) { should match 'RewriteEngine on' }
   its(:content) { should match 'RewriteRule /url_of_page\(\.\*\) /path_to_file\$1 \[L,NC\]' }
   its(:content) { should match '<Directory />\s+Require all granted' }
@@ -148,6 +155,7 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   its(:content) { should match 'funny\.business_access\.log combined\s+LogLevel warn' }
   its(:content) { should match 'www\.me\.also_access\.log combined\s+LogLevel info' }
   its(:content) { should match 'me\.also_access\.log combined\s+LogLevel info' }
+
   its(:content) { should match 'Include conf.d/ssl-host.conf' }
 end
 
