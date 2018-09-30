@@ -30,6 +30,10 @@ apache_conf 'ssl_params' do
   enable true
 end
 
+# Default on Ubuntu
+file '/etc/apache2/sites-available/default-ssl.conf' do
+  action :delete
+end
 
 # Apache conf check ca_signed_cert? to switch cert path
 cert_path = path_to_ssl_cert
