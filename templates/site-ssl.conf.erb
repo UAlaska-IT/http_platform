@@ -5,11 +5,11 @@
   ServerName <%= host %>
 
   <% if node['platform_family'] == 'debian' -%>
-  ErrorLog ${APACHE_LOG_DIR}/<%= host %>_error.log
-  CustomLog ${APACHE_LOG_DIR}/<%= host %>_access.log combined
+  ErrorLog ${APACHE_LOG_DIR}/<%= options['log_prefix'] %>.error.log
+  CustomLog ${APACHE_LOG_DIR}/<%= options['log_prefix'] %>.access.log combined
   <% else -%>
-  ErrorLog logs/<%= host %>_error.log
-  CustomLog logs/<%= host %>_access.log combined
+  ErrorLog logs/<%= options['log_prefix'] %>.error.log
+  CustomLog logs/<%= options['log_prefix'] %>.access.log combined
   <% end -%>
   <% if options.key?('log_level') -%>
   LogLevel <%= options['log_level'] %>

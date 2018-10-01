@@ -148,13 +148,16 @@ describe file(sites_available_dir + '/ssl-site.conf') do
 
   ['www.funny.business', 'funny.business', 'www.me.also', 'me.also'].each do |host|
     its(:content) { should match "ServerName #{host}" }
-    its(:content) { should match "#{host}_error.log" }
-    its(:content) { should match "#{host}_access.log" }
   end
-  its(:content) { should match 'www\.funny\.business_access\.log combined\s+LogLevel warn' }
-  its(:content) { should match 'funny\.business_access\.log combined\s+LogLevel warn' }
-  its(:content) { should match 'www\.me\.also_access\.log combined\s+LogLevel info' }
-  its(:content) { should match 'me\.also_access\.log combined\s+LogLevel info' }
+  its(:content) { should_not match 'www\.funny\.business.error\.log' }
+  its(:content) { should match 'funny\.business.error\.log' }
+  its(:content) { should_not match 'www\.me\.also.error\.log' }
+  its(:content) { should match 'me\.also.error\.log' }
+
+  its(:content) { should_not match 'www\.funny\.business.access\.log' }
+  its(:content) { should match 'funny\.business.access\.log combined\s+LogLevel warn' }
+  its(:content) { should_not match 'www\.me\.also.access\.log' }
+  its(:content) { should match 'me\.also.access\.log combined\s+LogLevel info' }
 
   its(:content) { should match 'Include conf.d/ssl-host.conf' }
 end

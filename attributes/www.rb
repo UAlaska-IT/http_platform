@@ -15,7 +15,9 @@ default[tcb]['www']['error_documents'] = {}
 
 # We always create plain and www aliases for the FQDN
 # This is a map of additional aliases to options, e.g. { 'other.url' => {} }
-# Currently the only option recognized is log_level, see https://httpd.apache.org/docs/2.4/mod/core.html#loglevel
+# The options currently recognized
+# - log_level, defaults to warn, see https://httpd.apache.org/docs/2.4/mod/core.html#loglevel
+# - log_prefix, defaults to plain host name
 # If both the plain and www host are included, these are treated as independent
 # Otherwise they will be created as a matched pair with identical options
 # The www host will always be placed before the plain host

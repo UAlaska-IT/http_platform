@@ -101,40 +101,40 @@ module HttpPlatform
     def plain_server_name(host)
       return host unless host_is_www(host)
       remainder = host[4..-1]
-      raise 'FQDN must include root domain' unless remainder =~ /(!\.)+\.(!\.)+/
+      raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ /[a-z0-9]+(\.[a-z0-9]+)+/
       return remainder
     end
 
-    def default_server_aliases
-      return {
-        www_server_name(node['fqdn']) => {},
-        plain_server_name(node['fqdn']) => {}
-      }
-    end
-
-    def insert_conditional_options(aliases, host, options)
+    def insert_duplicate_options(aliases, host, options)
       aliases[host] =
         if node[TCB]['www']['additional_aliases'].key?(host)
-          node[TCB]['www']['additional_aliases'][host]
+          JSON.parse(JSON.generate(node[TCB]['www']['additional_aliases'][host]))
         else
-          options
+          JSON.parse(JSON.generate(options))
         end
+    end
+
+    def insert_options(aliases, host, options)
+      insert_duplicate_options(aliases, host, options)
+      aliases[host]['log_prefix'] = plain_server_name(host) unless aliases[host].key?('log_prefix')
     end
 
     def insert_ordered_aliases(aliases, host, options)
       # www_host always comes first, so we may co-opt list order
-      insert_conditional_options(aliases, www_server_name(host), options)
-      insert_conditional_options(aliases, plain_server_name(host), options)
+      insert_options(aliases, www_server_name(host), options)
+      insert_options(aliases, plain_server_name(host), options)
     end
 
     def insert_alias_pair(aliases, host)
       return if aliases.key?(host) # We already processed the sibling
       options = node[TCB]['www']['additional_aliases'][host]
+      options = {} if options.nil? # This happens for FQDN hosts
       insert_ordered_aliases(aliases, host, options)
     end
 
     def generate_alias_pairs
-      aliases = default_server_aliases
+      aliases = {}
+      insert_alias_pair(aliases, node['fqdn'])
       node[TCB]['www']['additional_aliases'].each do |host, _|
         insert_alias_pair(aliases, host)
       end
