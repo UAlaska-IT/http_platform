@@ -5,5 +5,5 @@ source 'https://supermarket.chef.io'
 metadata
 
 group :test do
-  cookbook 'nix_baseline', git: 'git@github.com:calsev/nix_baseline'
+  cookbook 'se-nix-baseline', git: 'git@github.alaska.edu:oit-cookbooks/se-nix-baseline'
 end

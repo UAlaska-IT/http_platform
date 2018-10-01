@@ -93,7 +93,7 @@ platforms:
 suites:
   - name: debian-based
     run_list:
-      - recipe[nix_baseline::default]
+      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     verifier:
       inspec_tests:
@@ -103,7 +103,7 @@ suites:
       - ubuntu-18.04
   - name: rhel-based
     run_list:
-      - recipe[nix_baseline::default]
+      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     verifier:
       inspec_tests:
