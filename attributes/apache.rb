@@ -4,6 +4,7 @@ tcb = 'http_platform'
 
 # The mods to install, in addition to headers, rewrite, ssl
 # Include the mod name only, e.g. php, without prefix 'mod_'
+# See https://github.com/sous-chefs/apache2#recipes for a list of modules
 default[tcb]['apache']['extra_mods_to_install'] = {}
 
 default[tcb]['admin_email'] = nil # This must be set or an exception is raised; also default for cert

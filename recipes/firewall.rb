@@ -2,7 +2,7 @@
 
 tcb = 'http_platform'
 
-firewall_rule 'http' do
+firewall_rule 'Allow HTTP' do
   port 80
   protocol :tcp
   position 1
@@ -10,7 +10,7 @@ firewall_rule 'http' do
   only_if { node[tcb]['firewall']['enable_http'] }
 end
 
-firewall_rule 'https' do
+firewall_rule 'Allow HTTPS' do
   port 443
   protocol :tcp
   position 1
