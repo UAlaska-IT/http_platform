@@ -1,9 +1,6 @@
 # HTTP Platform Cookbook
 
-[![License](https://img.shields.io/github/license/calsev/http_platform.svg)](https://github.com/calsev/http_platform)
-[![GitHub Tag](https://img.shields.io/github/tag/calsev/http_platform.svg)](https://github.com/calsev/http_platform)
-
-__Maintainer: Caleb J. Severn__ (<calnoreply@gmail.com>)
+__Maintainer: OIT Systems Engineering__ (<ua-oit-se@alaska.edu>)
 
 ## Purpose
 

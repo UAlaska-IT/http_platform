@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 name 'http_platform'
-maintainer 'Caleb Severn'
-maintainer_email 'calnoreply@gmail.com'
+maintainer 'OIT Systems Engineering'
+maintainer_email 'ua-oit-se@alaska.edu'
 license 'MIT'
 description 'Installs/Configures an HTTPS server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
