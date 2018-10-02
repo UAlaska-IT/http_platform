@@ -1,0 +1,24 @@
+# This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.conf.erb
+<% @params[:host_names].each do |host, options| -%>
+
+<VirtualHost *:443>
+  ServerName <%= host %>
+
+  <% if node['platform_family'] == 'debian' -%>
+  ErrorLog ${APACHE_LOG_DIR}/<%= options['log_prefix'] %>.error.log
+  CustomLog ${APACHE_LOG_DIR}/<%= options['log_prefix'] %>.access.log combined
+  <% else -%>
+  ErrorLog logs/<%= options['log_prefix'] %>.error.log
+  CustomLog logs/<%= options['log_prefix'] %>.access.log combined
+  <% end -%>
+  <% if options.key?('log_level') -%>
+  LogLevel <%= options['log_level'] %>
+  <% else -%>
+  LogLevel warn
+  <% end -%>
+
+  <% node['http_platform']['apache']['paths_to_additional_configs'].each do |conf, _| -%>
+  Include <%= conf %>
+  <% end -%>
+</VirtualHost>
+<% end -%>

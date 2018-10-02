@@ -1,0 +1,43 @@
+# This file is managed with Chef. For changes to persist, edit http_platform/templates/ssl-params.conf.erb
+
+SSLCipherSuite <%= node['http_platform']['cipher_suite'] %>
+SSLProtocol <%= node['http_platform']['ssl_protocol'] %>
+SSLHonorCipherOrder on
+
+SSLInsecureRenegotiation off
+
+# This requires a valid certificate
+# HSTS (mod_headers is required) (15768000 seconds = 6 months)
+Header always set Strict-Transport-Security "max-age=15768000; includeSubdomains"
+#; preload
+
+Header always set Referrer-Policy "no-referrer"
+Header always set X-Frame-Options DENY
+Header always set X-Content-Type-Options nosniff
+Header always set X-XSS-Protection "1; mode=block"
+
+Header always set Content-Security-Policy "base-uri 'none'"
+Header always set Content-Security-Policy "default-src 'none'"
+Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-MttToBeCode'"
+
+# How to implement this?
+# Header always set Content-Security-Policy "report-uri /some-report-uri"
+
+# Requires Apache >= 2.4
+SSLCompression off
+SSLSessionTickets off
+
+# OCSP Stapling, only in httpd 2.3.3 and later
+# Do not enable this without a CA cert
+SSLUseStapling <%= node['http_platform']['apache']['use_stapling'] %>
+SSLStaplingResponderTimeout 5
+SSLStaplingReturnResponderErrors off
+
+SSLStaplingCache shmcb
+# This path is Ubuntu-specific
+# SSLStaplingCache shmcb:${APACHE_RUN_DIR}/ssl_stapling(32768)
+# shmcb:/var/run/ocsp(32768)
+<% if node['platform_family'] == 'debian' -%>
+
+SSLOpenSSLConfCmd DHParameters <%= node['http_platform']['cert']['cert_public_directory'] %><%= node['http_platform']['cert']['dh_param']['dh_param_file_name'] %>
+<% end -%>
