@@ -1,4 +1,4 @@
-# Changelog for Secure Apache Cookbook
+# Changelog for HTTP Platform Cookbook
 
 ## 0.1.0
 
