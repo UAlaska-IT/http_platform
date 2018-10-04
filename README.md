@@ -5,8 +5,10 @@ __Maintainer: OIT Systems Engineering__ (<ua-oit-se@alaska.edu>)
 ## Purpose
 
 Configures an HTTPS server with a certificate and secure cypher and protocol suites.
+This cookbook configures only frontend nodes; load balancers, proxies, backends and everything else is out of scope.
+Custom conf files can be injected to add such things as needed.
 
-This cookbook is intended as a base for rapidly prototyping websites and as such favors opinion over flexibility.
+This cookbook is intended as a base for rapidly building websites and as such favors convention over configuration.
 
 * HTTP redirects to HTTPS
 * Multiple host names are supported, but hosts are little more than name aliases
@@ -26,6 +28,7 @@ Currently only Apache is supported.
 ToDo:
 
 * Manage CSR, switching hosts to CA-signed cert once in place
+* Cert for all hostnames
 
 ## Requirements
 
