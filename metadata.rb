@@ -6,8 +6,8 @@ maintainer_email 'ua-oit-se@alaska.edu'
 license 'MIT'
 description 'Installs/Configures an HTTPS server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-issues_url 'https://github.com/calsev/http_platform/issues' if respond_to?(:issues_url)
-source_url 'https://github.com/calsev/http_platform' if respond_to?(:source_url)
+issues_url 'https://github.alaska.edu/oit-cookbooks/http_platform/issues' if respond_to?(:issues_url)
+source_url 'https://github.alaska.edu/oit-cookbooks/http_platform' if respond_to?(:source_url)
 
 version '0.2.0'
 
