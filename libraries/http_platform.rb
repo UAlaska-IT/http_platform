@@ -7,6 +7,7 @@ module HttpPlatform
 
     def apache_service
       return 'apache2' if node['platform_family'] == 'debian'
+
       return 'httpd'
     end
 
@@ -29,6 +30,7 @@ module HttpPlatform
     def self_signed_cert_prefix
       prefix_attrib = node[TCB]['cert']['self_signed']['cert_prefix']
       return prefix_attrib unless prefix_attrib.nil?
+
       return node['fqdn']
     end
 
@@ -46,11 +48,13 @@ module HttpPlatform
 
     def path_to_ssl_cert
       return path_to_ca_signed_cert if ca_signed_cert?
+
       return path_to_self_signed_cert
     end
 
     def path_to_ssl_key
       return path_to_ca_signed_key if ca_signed_cert?
+
       return path_to_self_signed_key
     end
 
@@ -73,6 +77,7 @@ module HttpPlatform
     def cert_common_name
       name_attrib = node[TCB]['cert']['self_signed']['common_name']
       return name_attrib unless name_attrib.nil?
+
       return node['fqdn']
     end
 
@@ -82,6 +87,7 @@ module HttpPlatform
 
     def config_absolute_directory
       return '/etc/apache2/' + config_relative_directory if node['platform_family'] == 'debian'
+
       return '/etc/httpd/' + config_relative_directory
     end
 
@@ -95,13 +101,16 @@ module HttpPlatform
 
     def www_server_name(host)
       return host if host_is_www(host)
+
       return 'www.' + host
     end
 
     def plain_server_name(host)
       return host unless host_is_www(host)
+
       remainder = host[4..-1]
       raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ /[a-z0-9]+(\.[a-z0-9]+)+/
+
       return remainder
     end
 
@@ -127,6 +136,7 @@ module HttpPlatform
 
     def insert_alias_pair(aliases, host)
       return if aliases.key?(host) # We already processed the sibling
+
       options = node[TCB]['www']['additional_aliases'][host]
       options = {} if options.nil? # This happens for FQDN hosts
       insert_ordered_aliases(aliases, host, options)
