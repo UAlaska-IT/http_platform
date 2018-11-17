@@ -2,6 +2,8 @@
 
 tcb = 'http_platform'
 
+include_recipe 'firewall::default'
+
 firewall_rule 'Allow HTTP' do
   port 80
   protocol :tcp
