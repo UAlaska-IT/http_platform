@@ -1,8 +1,8 @@
 # Changelog for HTTP Platform Cookbook
 
-## 0.2.0
+## 0.1.1
 
-* Added switch to CA cert for Apache configs
+* Added explicit dependency on firewall cookbook
 
 ## 0.1.0
 
