@@ -6,9 +6,11 @@ provisioner:
   name: chef_zero
   always_update_cookbooks: true
   product_name: chef
-  product_version: 14.4.56
+  product_version: 14.7.17
   install_strategy: always
   attributes:
+    se_baseline:
+      chef_client_version: '14.7.17'
     nix_baseline:
       hostname: 'funny.business'
     http_platform:
@@ -95,6 +97,7 @@ suites:
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
+    data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:
         - test/integration/default
@@ -105,6 +108,7 @@ suites:
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
+    data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:
         - test/integration/default
