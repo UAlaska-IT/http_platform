@@ -69,9 +69,12 @@ template 'Common Logic for HTTPS Hosts' do
   owner 'root'
   group 'root'
   mode '0644'
+  # This notifies does not compile because there is no service[apache2] declared by the apache2 cookbook
   # notifies :restart, "service[#{apache_service}]", :delayed
 end
 
+# This block creates an explicit declaration for the service created by installing the apache2 package
+# Therefore client cookbooks can notify this service
 service apache_service do
   action :nothing
   subscribes :restart, 'template[Common Logic for HTTPS Hosts]', :delayed
