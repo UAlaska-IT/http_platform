@@ -11,6 +11,12 @@ module HttpPlatform
       return 'httpd'
     end
 
+    def path_to_elinks_config
+      return '/etc/elinks/elinks.conf' if node['platform_family'] == 'debian'
+
+      return '/etc/elinks.conf'
+    end
+
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
       return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']

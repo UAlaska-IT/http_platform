@@ -2,11 +2,27 @@
 
 tcb = 'http_platform'
 
+# For apachectl fullstatus
+package 'elinks' do
+  only_if { node[tcb]['apache']['install_test_suite'] }
+end
+
+file path_to_elinks_config do
+  content <<~CONTENT
+    # This file is managed with Chef. For changes to persist, edit http_platform/recipes/apache.rb
+
+    set connection.ssl.cert_verify = 0
+  CONTENT
+  only_if { node[tcb]['apache']['install_test_suite'] }
+end
+
 # We always include the basics
 include_recipe 'apache2::default'
 include_recipe 'apache2::mod_headers'
 include_recipe 'apache2::mod_rewrite'
 include_recipe 'apache2::mod_ssl'
+
+include_recipe 'apache2::mod_status' if node[tcb]['apache']['install_test_suite']
 
 # Now include any extras
 node[tcb]['apache']['extra_mods_to_install'].each do |name, _|

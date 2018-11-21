@@ -20,6 +20,10 @@ conf_enabled_dir = conf_root_dir + '/conf-enabled'
 sites_available_dir = conf_root_dir + '/sites-available'
 sites_enabled_dir = conf_root_dir + '/sites-enabled'
 
+describe package('elinks') do
+  it { should be_installed }
+end
+
 describe package(apache_service(node)) do
   it { should be_installed }
   its(:version) { should match(/^2\.4/) }
@@ -39,6 +43,7 @@ end
 
   describe http('https://localhost:443' + page, ssl_verify: false) do
     its(:status) { should cmp 200 }
+    its(:body) { should match('Now make yourself a website:\)') }
   end
 end
 
@@ -54,6 +59,14 @@ end
 describe http('https://localhost:443/old_site', ssl_verify: false) do
   its(:status) { should cmp 302 }
   its(:body) { should match('/new_site') }
+end
+
+if node['platform_family'] == 'debian' # CentOS ignores conf directive to not validate certificate
+  describe bash('elinks -dump https://localhost') do
+    its(:exit_status) { should eq 0 }
+    its(:stderr) { should eq '' }
+    its(:stdout) { should match 'Now make yourself a website:\)' }
+  end
 end
 
 describe apache_conf do
