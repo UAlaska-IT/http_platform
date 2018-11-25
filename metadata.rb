@@ -9,7 +9,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url 'https://github.alaska.edu/oit-cookbooks/http_platform/issues' if respond_to?(:issues_url)
 source_url 'https://github.alaska.edu/oit-cookbooks/http_platform' if respond_to?(:source_url)
 
-version '0.1.1'
+version '0.1.2'
 
 supports 'ubuntu', '>= 16.0'
 supports 'centos', '>= 7.0'
