@@ -12,9 +12,12 @@ provisioner:
     se_baseline:
       chef_client_version: '14.7.17'
     nix_baseline:
+      chef_client_version: '14.7.17'
       hostname: 'funny.business'
     http_platform:
       admin_email: 'fake-it@make-it'
+      apache:
+        install_test_suite: true
       www:
         additional_aliases:
           me.also:

@@ -2,6 +2,9 @@
 
 tcb = 'http_platform'
 
+# Testing facilities
+default[tcb]['apache']['install_test_suite'] = false
+
 # The mods to install, in addition to headers, rewrite, ssl
 # Include the mod name only, e.g. php, without prefix 'mod_'
 # See https://github.com/sous-chefs/apache2#recipes for a list of modules

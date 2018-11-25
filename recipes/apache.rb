@@ -2,11 +2,27 @@
 
 tcb = 'http_platform'
 
+# For apachectl fullstatus
+package 'elinks' do
+  only_if { node[tcb]['apache']['install_test_suite'] }
+end
+
+file path_to_elinks_config do
+  content <<~CONTENT
+    # This file is managed with Chef. For changes to persist, edit http_platform/recipes/apache.rb
+
+    set connection.ssl.cert_verify = 0
+  CONTENT
+  only_if { node[tcb]['apache']['install_test_suite'] }
+end
+
 # We always include the basics
 include_recipe 'apache2::default'
 include_recipe 'apache2::mod_headers'
 include_recipe 'apache2::mod_rewrite'
 include_recipe 'apache2::mod_ssl'
+
+include_recipe 'apache2::mod_status' if node[tcb]['apache']['install_test_suite']
 
 # Now include any extras
 node[tcb]['apache']['extra_mods_to_install'].each do |name, _|
@@ -53,9 +69,12 @@ template 'Common Logic for HTTPS Hosts' do
   owner 'root'
   group 'root'
   mode '0644'
+  # This notifies does not compile because there is no service[apache2] declared by the apache2 cookbook
   # notifies :restart, "service[#{apache_service}]", :delayed
 end
 
+# This block creates an explicit declaration for the service created by installing the apache2 package
+# Therefore client cookbooks can notify this service
 service apache_service do
   action :nothing
   subscribes :restart, 'template[Common Logic for HTTPS Hosts]', :delayed
