@@ -117,9 +117,9 @@ end
 
 describe apache_conf(conf_available_dir + '/ssl-params.conf') do
   its('SSLProtocol') { should eq ['All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'] }
-  its('SSLCipherSuite') { should_not match('NULL') }
-  its('SSLCipherSuite') { should_not match('CBC') }
-  its('SSLCipherSuite') { should_not match('SHA:') }
+  its('SSLCipherSuite') { should_not match 'NULL' }
+  its('SSLCipherSuite') { should_not match 'CBC' }
+  its('SSLCipherSuite') { should_not match 'SHA:' }
   its('SSLInsecureRenegotiation') { should eq ['off'] }
 end
 
