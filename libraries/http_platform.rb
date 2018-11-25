@@ -97,8 +97,27 @@ module HttpPlatform
       return '/etc/httpd/' + config_relative_directory
     end
 
+    def ssl_conf_name
+      return 'ssl-params.conf'
+    end
+
     def ssl_host_conf_name
       return 'ssl-host.conf' # Must match default conf from attributes
+    end
+
+    def bash_out(command)
+      stdout, stderr, status = Open3.capture3(command)
+      raise "Error: #{stderr}" unless stderr.empty?
+
+      raise "Status: #{status}" if status != 0
+
+      return stdout
+    end
+
+    def http_cipher_suite
+      generator = node[TCB]['cipher_generator']
+      ciphers = bash_out("openssl ciphers #{generator}")
+      return ciphers
     end
 
     def host_is_www(host)

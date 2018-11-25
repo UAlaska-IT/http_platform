@@ -1,6 +1,6 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/ssl-params.conf.erb
 
-SSLCipherSuite <%= node['http_platform']['cipher_suite'] %>
+SSLCipherSuite <%= @cipher_suite %>
 SSLProtocol <%= node['http_platform']['ssl_protocol'] %>
 SSLHonorCipherOrder on
 
