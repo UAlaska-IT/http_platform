@@ -82,7 +82,6 @@ link 'Link for SSL Conf' do
   to ssl_conf
   owner 'root'
   group 'root'
-  mode '0644'
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
