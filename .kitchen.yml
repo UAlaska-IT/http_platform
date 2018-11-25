@@ -7,7 +7,7 @@ provisioner:
   always_update_cookbooks: true
   product_name: chef
   product_version: 14.7.17
-  install_strategy: always
+  install_strategy: once
   attributes:
     se_baseline:
       chef_client_version: '14.7.17'
