@@ -25,13 +25,11 @@ provisioner:
         error_documents:
           '404': '404_kitten.php'
         redirect_rules:
-          -
-            comment: 'Site owners are a pain'
+          - comment: 'Site owners are a pain'
             from_regex: '/old_site'
             to_regex: '/new_site'
         rewrite_rules:
-          -
-            url_regex: '/url_of_page(.*)'
+          - url_regex: '/url_of_page(.*)'
             path_regex: '/path_to_file$1'
             flags: '[L,NC]'
         remove_default_index: false
