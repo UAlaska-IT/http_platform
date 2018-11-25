@@ -97,6 +97,7 @@ conf_to_delete = [
 conf_to_delete.each do |conf|
   file conf do
     action :delete
+    notifies :restart, "service[#{apache_service}]", :delayed
   end
 end
 
