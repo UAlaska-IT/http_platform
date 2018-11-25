@@ -15,8 +15,8 @@ else
 end
 
 conf_d_dir = conf_root_dir + '/conf.d'
-conf_available_dir = conf_root_dir + '/conf-available'
-conf_enabled_dir = conf_root_dir + '/conf-enabled'
+# conf_available_dir = conf_root_dir + '/conf-available'
+# conf_enabled_dir = conf_root_dir + '/conf-enabled'
 sites_available_dir = conf_root_dir + '/sites-available'
 sites_enabled_dir = conf_root_dir + '/sites-enabled'
 
@@ -117,7 +117,9 @@ end
 
 describe apache_conf(conf_d_dir + '/ssl-params.conf') do
   its('SSLProtocol') { should eq ['All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'] }
-  its('SSLCipherSuite') { should eq ['HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'] }
+  its('SSLCipherSuite') { should_not match('NULL') }
+  its('SSLCipherSuite') { should_not match('CBC') }
+  its('SSLCipherSuite') { should_not match('SHA:') }
   its('SSLInsecureRenegotiation') { should eq ['off'] }
 end
 

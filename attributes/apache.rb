@@ -15,6 +15,7 @@ default['apache']['contact'] = node[tcb]['admin_email']
 
 # Used for certs also
 default[tcb]['cipher_generator'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'
+default[tcb]['ciphers_to_remove'] = ['_CBC_']
 # Explicit TLSv1.3 breaks negotiation on Ubuntu 16.04, Chef Server 12.17.33
 default[tcb]['ssl_protocol'] = 'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'
 

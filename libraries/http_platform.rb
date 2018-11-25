@@ -114,10 +114,31 @@ module HttpPlatform
       return stdout
     end
 
+    def remove_cipher?(cipher)
+      return true if cipher.empty?
+
+      node[TCB]['ciphers_to_remove'].each do |regex|
+        return true if cipher.match?(regex)
+      end
+      return false
+    end
+
+    def remove_ciphers(ciphers)
+      cipher_list = []
+      ciphers.split(':').each do |cipher|
+        continue if remove_cipher?(cipher)
+        cipher_list.append(cipher)
+      end
+      return cipher_list
+    end
+
     def http_cipher_suite
       generator = node[TCB]['cipher_generator']
       ciphers = bash_out("openssl ciphers #{generator}")
-      return ciphers
+      cipher_list = remove_ciphers(ciphers)
+      raise "Cipher string too tight, only #{cipher_list.length} ciphers" unless cipher_list.length > 7
+
+      return cipher_list.join(':')
     end
 
     def host_is_www(host)
