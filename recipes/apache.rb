@@ -63,12 +63,23 @@ directory config_absolute_directory do
   mode '0755'
 end
 
+ssl_conf = File.join(conf_available_directory, ssl_conf_name)
+
 # Enable and harden TLS
 # We use template because apache_conf does not support variables
 template 'SSL Logic for HTTPS' do
-  path File.join(config_absolute_directory, ssl_conf_name)
+  path ssl_conf
   source 'ssl-params.conf.erb'
   variables var_map
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :restart, "service[#{apache_service}]", :delayed
+end
+
+link 'Link for SSL Conf' do
+  target_file File.join(conf_enabled_directory, ssl_conf_name)
+  to ssl_conf
   owner 'root'
   group 'root'
   mode '0644'
@@ -88,7 +99,6 @@ template 'Common Logic for HTTPS Hosts' do
 end
 
 conf_to_delete = [
-  'ssl-params.conf', # Legacy conf
   'default-ssl.conf' # Default on Ubuntu
 ]
 
