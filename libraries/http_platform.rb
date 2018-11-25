@@ -130,7 +130,7 @@ module HttpPlatform
       return true if cipher.empty?
 
       node[TCB]['ciphers_to_remove'].each do |regex|
-        return true if cipher.match?(regex)
+        return true if cipher.match?(Regexp.new(regex))
       end
       return false
     end
@@ -138,7 +138,7 @@ module HttpPlatform
     def remove_ciphers(ciphers)
       cipher_list = []
       ciphers.split(':').each do |cipher|
-        continue if remove_cipher?(cipher)
+        next if remove_cipher?(cipher)
         cipher_list.append(cipher)
       end
       return cipher_list
