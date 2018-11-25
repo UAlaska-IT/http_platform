@@ -2,6 +2,8 @@
 
 tcb = 'http_platform'
 
+node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
+
 # For apachectl fullstatus
 package 'elinks' do
   only_if { node[tcb]['apache']['install_test_suite'] }
@@ -44,14 +46,15 @@ end
 host_names = generate_alias_pairs
 
 var_map = {
+  cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
   path_to_key: path_to_ssl_key
 }
 
-# Enable and harden TLS
-apache_conf 'ssl-params' do
-  source 'ssl-params.conf.erb'
-  enable true
+# This block creates an explicit declaration for the service created by installing the apache2 package
+# Therefore client cookbooks can notify this service
+service apache_service do
+  action :nothing
 end
 
 directory config_absolute_directory do
@@ -60,24 +63,28 @@ directory config_absolute_directory do
   mode '0755'
 end
 
+# Enable and harden TLS
+# We use template because apache_conf does not support variables
+template 'SSL Logic for HTTPS' do
+  path File.join(config_absolute_directory, ssl_conf_name)
+  source 'ssl-params.conf.erb'
+  variables var_map
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :restart, "service[#{apache_service}]", :delayed
+end
+
 # Common config for all HTTPS hosts
 # We use template because apache_conf does not support variables
 template 'Common Logic for HTTPS Hosts' do
-  path config_absolute_directory + '/' + ssl_host_conf_name
+  path File.join(config_absolute_directory, ssl_host_conf_name)
   source 'ssl-host.conf.erb'
   variables var_map
   owner 'root'
   group 'root'
   mode '0644'
-  # This notifies does not compile because there is no service[apache2] declared by the apache2 cookbook
-  # notifies :restart, "service[#{apache_service}]", :delayed
-end
-
-# This block creates an explicit declaration for the service created by installing the apache2 package
-# Therefore client cookbooks can notify this service
-service apache_service do
-  action :nothing
-  subscribes :restart, 'template[Common Logic for HTTPS Hosts]', :delayed
+  notifies :restart, "service[#{apache_service}]", :delayed
 end
 
 # Default on Ubuntu
