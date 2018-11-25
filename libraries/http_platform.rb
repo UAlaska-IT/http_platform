@@ -87,14 +87,26 @@ module HttpPlatform
       return node['fqdn']
     end
 
+    def conf_root_directory
+      return '/etc/apache2' if node['platform_family'] == 'debian'
+
+      return '/etc/httpd'
+    end
+
     def config_relative_directory
       return 'conf.d' # Must match default conf from attributes
     end
 
     def config_absolute_directory
-      return '/etc/apache2/' + config_relative_directory if node['platform_family'] == 'debian'
+      return File.join(conf_root_directory, config_relative_directory)
+    end
 
-      return '/etc/httpd/' + config_relative_directory
+    def conf_available_directory
+      return File.join(conf_root_directory, 'conf-available')
+    end
+
+    def conf_enabled_directory
+      return File.join(conf_root_directory, 'conf-enabled')
     end
 
     def ssl_conf_name

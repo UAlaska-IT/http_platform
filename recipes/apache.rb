@@ -87,9 +87,17 @@ template 'Common Logic for HTTPS Hosts' do
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
-# Default on Ubuntu
-file '/etc/apache2/sites-available/default-ssl.conf' do
-  action :delete
+conf_to_delete = [
+  File.join(conf_available_directory, 'ssl-params.conf'), # Legacy conf
+  File.join(conf_enabled_directory, 'ssl-params.conf'), # Legacy conf
+  File.join(conf_available_directory, 'default-ssl.conf'), # Default on Ubuntu
+  File.join(conf_enabled_directory, 'default-ssl.conf') # Default on Ubuntu
+]
+
+conf_to_delete.each do |conf|
+  file conf do
+    action :delete
+  end
 end
 
 # HTTP host, permanent redirect
