@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 0.1.4
+
+* Now deleting legacy confs
+
 ## 0.1.3
 
 * Added filtering of cipher suites
