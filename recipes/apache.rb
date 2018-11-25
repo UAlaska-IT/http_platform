@@ -88,14 +88,16 @@ template 'Common Logic for HTTPS Hosts' do
 end
 
 conf_to_delete = [
-  File.join(conf_available_directory, 'ssl-params.conf'), # Legacy conf
-  File.join(conf_enabled_directory, 'ssl-params.conf'), # Legacy conf
-  File.join(conf_available_directory, 'default-ssl.conf'), # Default on Ubuntu
-  File.join(conf_enabled_directory, 'default-ssl.conf') # Default on Ubuntu
+  'ssl-params.conf', # Legacy conf
+  'default-ssl.conf' # Default on Ubuntu
 ]
 
 conf_to_delete.each do |conf|
-  file conf do
+  file File.join(conf_available_directory, conf) do
+    action :delete
+    notifies :restart, "service[#{apache_service}]", :delayed
+  end
+  link File.join(conf_enabled_directory, conf) do
     action :delete
     notifies :restart, "service[#{apache_service}]", :delayed
   end
