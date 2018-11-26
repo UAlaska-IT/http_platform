@@ -139,6 +139,7 @@ module HttpPlatform
       cipher_list = []
       ciphers.split(':').each do |cipher|
         next if remove_cipher?(cipher)
+
         cipher_list.append(cipher)
       end
       return cipher_list
