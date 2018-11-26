@@ -87,14 +87,26 @@ module HttpPlatform
       return node['fqdn']
     end
 
+    def conf_root_directory
+      return '/etc/apache2' if node['platform_family'] == 'debian'
+
+      return '/etc/httpd'
+    end
+
     def config_relative_directory
       return 'conf.d' # Must match default conf from attributes
     end
 
     def config_absolute_directory
-      return '/etc/apache2/' + config_relative_directory if node['platform_family'] == 'debian'
+      return File.join(conf_root_directory, config_relative_directory)
+    end
 
-      return '/etc/httpd/' + config_relative_directory
+    def conf_available_directory
+      return File.join(conf_root_directory, 'conf-available')
+    end
+
+    def conf_enabled_directory
+      return File.join(conf_root_directory, 'conf-enabled')
     end
 
     def ssl_conf_name
@@ -118,7 +130,7 @@ module HttpPlatform
       return true if cipher.empty?
 
       node[TCB]['ciphers_to_remove'].each do |regex|
-        return true if cipher.match?(regex)
+        return true if cipher.match?(Regexp.new(regex))
       end
       return false
     end
@@ -126,7 +138,8 @@ module HttpPlatform
     def remove_ciphers(ciphers)
       cipher_list = []
       ciphers.split(':').each do |cipher|
-        continue if remove_cipher?(cipher)
+        next if remove_cipher?(cipher)
+
         cipher_list.append(cipher)
       end
       return cipher_list
@@ -195,6 +208,15 @@ module HttpPlatform
         insert_alias_pair(aliases, host)
       end
       return aliases
+    end
+
+    def generate_alt_names
+      aliases = generate_alias_pairs
+      names = []
+      aliases.each do |name, _|
+        names.append("DNS:#{name}")
+      end
+      return names
     end
   end
 end

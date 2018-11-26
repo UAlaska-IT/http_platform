@@ -1,5 +1,11 @@
 # Changelog for HTTP Platform Cookbook
 
+## 0.2.0
+
+* Now deleting legacy confs
+* Added support for alt names
+* Made cert mutable
+
 ## 0.1.3
 
 * Added filtering of cipher suites
