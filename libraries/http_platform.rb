@@ -209,6 +209,15 @@ module HttpPlatform
       end
       return aliases
     end
+
+    def generate_alt_names
+      aliases = generate_alias_pairs
+      names = []
+      aliases.each do |name, _|
+        names.append(name)
+      end
+      return names
+    end
   end
 end
 

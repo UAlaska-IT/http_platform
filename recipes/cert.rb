@@ -18,7 +18,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   group 'root'
   mode '0600'
   common_name cert_common_name
-  # subject_alt_name
+  subject_alt_name generate_alt_names
   country node[tcb]['cert']['self_signed']['country']
   state node[tcb]['cert']['self_signed']['state']
   city node[tcb]['cert']['self_signed']['locale']
