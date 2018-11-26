@@ -53,7 +53,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   owner 'root'
   group 'root'
   mode '0600'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, "service[#{apache_service}]", :delayed if node[tcb]['configure_apache']
   # The fields below must match the file above!
 
   # ca_cert_file
