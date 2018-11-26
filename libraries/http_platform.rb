@@ -214,7 +214,7 @@ module HttpPlatform
       aliases = generate_alias_pairs
       names = []
       aliases.each do |name, _|
-        names.append(name)
+        names.append("DNS:#{name}")
       end
       return names
     end
