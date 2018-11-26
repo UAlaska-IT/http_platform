@@ -117,9 +117,9 @@ end
 
 describe apache_conf(conf_available_dir + '/ssl-params.conf') do
   its('SSLProtocol') { should eq ['All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'] }
-  its('SSLCipherSuite') { should_not match 'NULL' }
-  its('SSLCipherSuite') { should_not match 'CBC' }
-  its('SSLCipherSuite') { should_not match 'SHA:' }
+  its('SSLCipherSuite') { should_not match(/NULL/) }
+  its('SSLCipherSuite') { should_not match(/CBC/) }
+  its('SSLCipherSuite') { should_not match(/SHA:/) }
   its('SSLInsecureRenegotiation') { should eq ['off'] }
 end
 
@@ -155,14 +155,14 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   ['www.funny.business', 'funny.business', 'www.me.also', 'me.also'].each do |host|
     its(:content) { should match "ServerName #{host}" }
   end
-  its(:content) { should_not match 'www\.funny\.business.error\.log' }
+  its(:content) { should_not match(/www\.funny\.business.error\.log/) }
   its(:content) { should match 'funny\.business.error\.log' }
-  its(:content) { should_not match 'www\.me\.also.error\.log' }
+  its(:content) { should_not match(/www\.me\.also.error\.log/) }
   its(:content) { should match 'me\.also.error\.log' }
 
-  its(:content) { should_not match 'www\.funny\.business.access\.log' }
+  its(:content) { should_not match(/www\.funny\.business.access\.log/) }
   its(:content) { should match 'funny\.business.access\.log combined\s+LogLevel warn' }
-  its(:content) { should_not match 'www\.me\.also.access\.log' }
+  its(:content) { should_not match(/www\.me\.also.access\.log/) }
   its(:content) { should match 'me\.also.access\.log combined\s+LogLevel info' }
 
   its(:content) { should match 'Include conf.d/ssl-host.conf' }
