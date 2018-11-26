@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 0.2.1
+
+* Improved handling of cert and apache gates
+
 ## 0.2.0
 
 * Now deleting legacy confs
