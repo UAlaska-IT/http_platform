@@ -74,7 +74,7 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
-describe file(conf_d_dir + '/ssl-params.conf') do
+describe file(conf_available_dir + '/ssl-params.conf') do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
