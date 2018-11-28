@@ -26,7 +26,8 @@ module HttpPlatform
 
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
-      return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']
+      cert_post = node[TCB]['cert']['ca_signed']['cert_public_suffix']
+      return pub_dir + cert_prefix + cert_post
     end
 
     def ca_signed_cert?

@@ -15,7 +15,7 @@ end
 # Defaults to FQDN
 default[tcb]['cert']['prefix'] = nil
 
-default[tcb]['cert']['ca_signed']['cert_public_file_name'] = 'localhost_cert_ca_signed.pem'
+default[tcb]['cert']['ca_signed']['cert_public_suffix'] = '_cert_ca_signed.pem'
 
 default[tcb]['cert']['self_signed']['cert_public_suffix'] = '_cert_self_signed.pem'
 default[tcb]['cert']['self_signed']['cert_private_suffix'] = '_key_self_signed.pem'
