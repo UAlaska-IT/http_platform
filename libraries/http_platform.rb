@@ -40,7 +40,7 @@ module HttpPlatform
       return pub_dir + cert_prefix + cert_post
     end
 
-    def path_to_self_signed_key
+    def path_to_private_key
       key_dir = node[TCB]['cert']['cert_private_directory']
       key_post = node[TCB]['cert']['key_suffix']
       return key_dir + cert_prefix + key_post
@@ -52,10 +52,6 @@ module HttpPlatform
       return path_to_self_signed_cert
     end
 
-    def path_to_ssl_key
-      return path_to_self_signed_key
-    end
-
     def path_to_dh_config
       key_dir = node[TCB]['cert']['cert_private_directory']
       return key_dir + 'dh_config.txt'
@@ -63,7 +59,7 @@ module HttpPlatform
 
     def self_signed_cert?
       has_ss_cert = ::File.exist?(path_to_self_signed_cert)
-      has_ss_key = ::File.exist?(path_to_self_signed_key)
+      has_ss_key = ::File.exist?(path_to_private_key)
       return has_ss_cert && has_ss_key
     end
 

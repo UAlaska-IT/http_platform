@@ -48,7 +48,7 @@ host_names = generate_alias_pairs
 var_map = {
   cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
-  path_to_key: path_to_ssl_key
+  path_to_key: path_to_private_key
 }
 
 # This block creates an explicit declaration for the service created by installing the apache2 package

@@ -12,7 +12,7 @@ describe file(path_to_self_signed_cert(node)) do
   it { should be_grouped_into 'root' }
 end
 
-describe file(path_to_self_signed_key(node)) do
+describe file(path_to_private_key(node)) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o600 }

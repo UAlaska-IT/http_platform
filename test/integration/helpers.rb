@@ -26,7 +26,7 @@ def path_to_self_signed_cert(node)
   return cert_public_dir(node) + 'funny.business_cert_self_signed.pem'
 end
 
-def path_to_self_signed_key(node)
+def path_to_private_key(node)
   return cert_private_dir(node) + 'funny.business_key_self_signed.pem'
 end
 
