@@ -17,6 +17,13 @@ module HttpPlatform
       return '/etc/elinks.conf'
     end
 
+    def cert_prefix
+      prefix_attrib = node[TCB]['cert']['prefix']
+      return prefix_attrib unless prefix_attrib.nil?
+
+      return node['fqdn']
+    end
+
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
       return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']
@@ -24,13 +31,6 @@ module HttpPlatform
 
     def ca_signed_cert?
       return ::File.exist?(path_to_ca_signed_cert)
-    end
-
-    def cert_prefix
-      prefix_attrib = node[TCB]['cert']['prefix']
-      return prefix_attrib unless prefix_attrib.nil?
-
-      return node['fqdn']
     end
 
     def path_to_self_signed_cert
