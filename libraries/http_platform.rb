@@ -42,7 +42,7 @@ module HttpPlatform
 
     def path_to_self_signed_key
       key_dir = node[TCB]['cert']['cert_private_directory']
-      key_post = node[TCB]['cert']['self_signed']['cert_private_suffix']
+      key_post = node[TCB]['cert']['key_suffix']
       return key_dir + cert_prefix + key_post
     end
 

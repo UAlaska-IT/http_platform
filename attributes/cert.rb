@@ -14,11 +14,11 @@ end
 
 # Defaults to FQDN
 default[tcb]['cert']['prefix'] = nil
+default[tcb]['cert']['key_suffix'] = '_key.pem'
 
 default[tcb]['cert']['ca_signed']['cert_public_suffix'] = '_cert_ca_signed.pem'
 
 default[tcb]['cert']['self_signed']['cert_public_suffix'] = '_cert_self_signed.pem'
-default[tcb]['cert']['self_signed']['cert_private_suffix'] = '_key_self_signed.pem'
 
 default[tcb]['cert']['self_signed']['expiration_days'] = 365
 default[tcb]['cert']['self_signed']['rsa_bits'] = 2048
