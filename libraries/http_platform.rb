@@ -24,6 +24,12 @@ module HttpPlatform
       return node['fqdn']
     end
 
+    def path_to_ca_signed_request
+      pub_dir = node[TCB]['cert']['cert_public_directory']
+      request_post = node[TCB]['cert']['ca_signed']['request_suffix']
+      return pub_dir + cert_prefix + request_post
+    end
+
     def path_to_ca_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
       cert_post = node[TCB]['cert']['ca_signed']['cert_public_suffix']
