@@ -3,10 +3,10 @@
 tcb = 'http_platform'
 
 cert_email =
-  if node[tcb]['cert']['self_signed']['email'].nil?
+  if node[tcb]['cert']['email'].nil?
     node[tcb]['admin_email']
   else
-    node[tcb]['cert']['self_signed']['email']
+    node[tcb]['cert']['email']
   end
 
 # openssl_x509_certificate is not mutable, so becomes obsolete if anything changes
@@ -21,13 +21,13 @@ file cert_record do
     # csr_file
     common_name: #{cert_common_name}
     subject_alt_name: #{generate_alt_names}
-    country: #{node[tcb]['cert']['self_signed']['country']}
-    state: #{node[tcb]['cert']['self_signed']['state']}
-    city: #{node[tcb]['cert']['self_signed']['locale']}
-    org: #{node[tcb]['cert']['self_signed']['organization']}
-    org_unit: #{node[tcb]['cert']['self_signed']['org_unit']}
+    country: #{node[tcb]['cert']['country']}
+    state: #{node[tcb]['cert']['state']}
+    city: #{node[tcb]['cert']['locale']}
+    org: #{node[tcb]['cert']['organization']}
+    org_unit: #{node[tcb]['cert']['org_unit']}
     email: #{cert_email}
-    expire: #{node[tcb]['cert']['self_signed']['expiration_days']}
+    expire: #{node[tcb]['cert']['expiration_days']}
     # extensions
 
     key_file: #{path_to_private_key}
@@ -35,7 +35,7 @@ file cert_record do
 
     # key_type # default 'rsa'
     # key_curve # default 'prime256v1'
-    key_length: #{node[tcb]['cert']['self_signed']['rsa_bits']}
+    key_length: #{node[tcb]['cert']['rsa_bits']}
   CONTENT
 end
 
@@ -62,13 +62,13 @@ openssl_x509_certificate path_to_self_signed_cert do
   # csr_file
   common_name cert_common_name
   subject_alt_name generate_alt_names
-  country node[tcb]['cert']['self_signed']['country']
-  state node[tcb]['cert']['self_signed']['state']
-  city node[tcb]['cert']['self_signed']['locale']
-  org node[tcb]['cert']['self_signed']['organization']
-  org_unit node[tcb]['cert']['self_signed']['org_unit']
+  country node[tcb]['cert']['country']
+  state node[tcb]['cert']['state']
+  city node[tcb]['cert']['locale']
+  org node[tcb]['cert']['organization']
+  org_unit node[tcb]['cert']['org_unit']
   email cert_email
-  expire node[tcb]['cert']['self_signed']['expiration_days']
+  expire node[tcb]['cert']['expiration_days']
   # extensions
 
   key_file path_to_private_key
@@ -76,7 +76,7 @@ openssl_x509_certificate path_to_self_signed_cert do
 
   key_type 'rsa'
   # key_curve # default 'prime256v1'
-  key_length node[tcb]['cert']['self_signed']['rsa_bits']
+  key_length node[tcb]['cert']['rsa_bits']
 end
 
 template 'DH configuration' do

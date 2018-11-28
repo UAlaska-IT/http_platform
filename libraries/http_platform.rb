@@ -69,7 +69,7 @@ module HttpPlatform
     end
 
     def cert_common_name
-      name_attrib = node[TCB]['cert']['self_signed']['common_name']
+      name_attrib = node[TCB]['cert']['common_name']
       return name_attrib unless name_attrib.nil?
 
       return node['fqdn']

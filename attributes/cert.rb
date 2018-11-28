@@ -20,18 +20,18 @@ default[tcb]['cert']['ca_signed']['cert_public_suffix'] = '_cert_ca_signed.pem'
 
 default[tcb]['cert']['self_signed']['cert_public_suffix'] = '_cert_self_signed.pem'
 
-default[tcb]['cert']['self_signed']['expiration_days'] = 365
-default[tcb]['cert']['self_signed']['rsa_bits'] = 2048
+default[tcb]['cert']['expiration_days'] = 365
+default[tcb]['cert']['rsa_bits'] = 2048
 
-default[tcb]['cert']['self_signed']['country'] = 'US'
-default[tcb]['cert']['self_signed']['state'] = 'Alaska'
-default[tcb]['cert']['self_signed']['locale'] = 'Fairbanks'
-default[tcb]['cert']['self_signed']['organization'] = 'fake_org'
-default[tcb]['cert']['self_signed']['org_unit'] = 'fake_unit'
+default[tcb]['cert']['country'] = 'US'
+default[tcb]['cert']['state'] = 'Alaska'
+default[tcb]['cert']['locale'] = 'Fairbanks'
+default[tcb]['cert']['organization'] = 'fake_org'
+default[tcb]['cert']['org_unit'] = 'fake_unit'
 # Defaults to FQDN
-default[tcb]['cert']['self_signed']['common_name'] = nil
+default[tcb]['cert']['common_name'] = nil
 # Defaults to admin_email
-default[tcb]['cert']['self_signed']['email'] = nil
+default[tcb]['cert']['email'] = nil
 
 default[tcb]['cert']['dh_param']['dh_param_file_name'] = 'dh_param.pem'
 default[tcb]['cert']['dh_param']['bits'] = 2048
