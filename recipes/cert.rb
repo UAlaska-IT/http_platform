@@ -74,7 +74,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   key_file path_to_private_key
   # key_pass
 
-  # key_type # default 'rsa'
+  key_type 'rsa'
   # key_curve # default 'prime256v1'
   key_length node[tcb]['cert']['self_signed']['rsa_bits']
 end
