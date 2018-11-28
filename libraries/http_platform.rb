@@ -33,8 +33,8 @@ module HttpPlatform
       return have_ca_cert && have_ca_key
     end
 
-    def self_signed_cert_prefix
-      prefix_attrib = node[TCB]['cert']['self_signed']['cert_prefix']
+    def cert_prefix
+      prefix_attrib = node[TCB]['cert']['prefix']
       return prefix_attrib unless prefix_attrib.nil?
 
       return node['fqdn']
@@ -43,13 +43,13 @@ module HttpPlatform
     def path_to_self_signed_cert
       pub_dir = node[TCB]['cert']['cert_public_directory']
       cert_post = node[TCB]['cert']['self_signed']['cert_public_suffix']
-      return pub_dir + self_signed_cert_prefix + cert_post
+      return pub_dir + cert_prefix + cert_post
     end
 
     def path_to_self_signed_key
       key_dir = node[TCB]['cert']['cert_private_directory']
       key_post = node[TCB]['cert']['self_signed']['cert_private_suffix']
-      return key_dir + self_signed_cert_prefix + key_post
+      return key_dir + cert_prefix + key_post
     end
 
     def path_to_ssl_cert
