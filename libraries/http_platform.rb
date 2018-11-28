@@ -22,15 +22,8 @@ module HttpPlatform
       return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']
     end
 
-    def path_to_ca_signed_key
-      key_dir = node[TCB]['cert']['cert_private_directory']
-      return key_dir + node[TCB]['cert']['ca_signed']['cert_private_file_name']
-    end
-
     def ca_signed_cert?
-      have_ca_cert = ::File.exist?(path_to_ca_signed_cert)
-      have_ca_key = ::File.exist?(path_to_ca_signed_key)
-      return have_ca_cert && have_ca_key
+      return ::File.exist?(path_to_ca_signed_cert)
     end
 
     def cert_prefix
@@ -59,8 +52,6 @@ module HttpPlatform
     end
 
     def path_to_ssl_key
-      return path_to_ca_signed_key if ca_signed_cert?
-
       return path_to_self_signed_key
     end
 
