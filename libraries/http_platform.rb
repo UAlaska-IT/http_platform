@@ -111,6 +111,12 @@ module HttpPlatform
       return 'ssl-host.conf' # Must match default conf from attributes
     end
 
+    def cert_email
+      return node[TCB]['admin_email'] if node[TCB]['cert']['email'].nil?
+
+      return node[TCB]['cert']['email']
+    end
+
     def bash_out(command)
       stdout, stderr, status = Open3.capture3(command)
       raise "Error: #{stderr}" unless stderr.empty?

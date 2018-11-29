@@ -2,13 +2,6 @@
 
 tcb = 'http_platform'
 
-cert_email =
-  if node[tcb]['cert']['email'].nil?
-    node[tcb]['admin_email']
-  else
-    node[tcb]['cert']['email']
-  end
-
 # openssl_x509_certificate is not mutable, so becomes obsolete if anything changes
 # This file must record all fields in the cert, super manual, boo!
 cert_record = '/opt/chef/run_record/http_cert_record.txt'
