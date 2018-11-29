@@ -28,7 +28,9 @@ end
 if node[tcb]['configure_apache']
   if node['platform_family'] == 'debian'
     apt_package 'software-properties-common'
-    apt_repository 'ppa:certbot/certbot'
+    apt_repository 'certbot' do
+      uri 'ppa:certbot/certbot'
+    end
   else
     include_recipe 'yum-epel'
   end
