@@ -77,6 +77,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   key_type 'rsa'
   # key_curve # default 'prime256v1'
   key_length node[tcb]['cert']['rsa_bits']
+  notifies :run, 'bash[Get CA Certificate]', :delayed if node[tcb]['configure_apache']
 end
 
 template 'DH configuration' do

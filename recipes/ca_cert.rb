@@ -22,4 +22,21 @@ openssl_x509_request path_to_ca_signed_cert do
   key_type 'rsa'
   # key_curve # default 'prime256v1'
   key_length node[tcb]['cert']['rsa_bits']
+  notifies :run, 'bash[Get CA Certificate]', :delayed if node[tcb]['configure_apache']
+end
+
+if node[tcb]['configure_apache']
+  if node['platform_family'] == 'debian'
+    apt_package 'software-properties-common'
+    apt_repository 'ppa:certbot/certbot'
+  else
+    include_recipe 'yum-epel'
+  end
+
+  package 'python-certbot-apache'
+
+  bash 'Get CA Certificate' do
+    code 'sudo certbot --apache certonly'
+    action :nothing
+  end
 end
