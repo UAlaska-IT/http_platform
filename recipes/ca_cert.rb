@@ -2,7 +2,7 @@
 
 tcb = 'http_platform'
 
-openssl_x509_request path_to_ca_signed_cert do
+openssl_x509_request path_to_ca_signed_request do
   owner 'root'
   group 'root'
   mode '0600'
