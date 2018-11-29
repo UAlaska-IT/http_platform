@@ -23,7 +23,7 @@ def cert_private_dir(node)
 end
 
 def path_to_self_signed_cert(node)
-  return File.join(cert_public_dir(node),'funny.business_cert_self_signed.pem')
+  return File.join(cert_public_dir(node), 'funny.business_cert_self_signed.pem')
 end
 
 def path_to_private_key(node)
