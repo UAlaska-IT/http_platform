@@ -27,8 +27,9 @@ default[tcb]['cert']['rsa_bits'] = 2048
 default[tcb]['cert']['country'] = 'US'
 default[tcb]['cert']['state'] = 'Alaska'
 default[tcb]['cert']['locale'] = 'Fairbanks'
-default[tcb]['cert']['organization'] = 'fake_org'
-default[tcb]['cert']['org_unit'] = 'fake_unit'
+# These must be set if the cert is being created
+default[tcb]['cert']['organization'] = nil
+default[tcb]['cert']['org_unit'] = nil
 # Defaults to FQDN
 default[tcb]['cert']['common_name'] = nil
 # Defaults to admin_email

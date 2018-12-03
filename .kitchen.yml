@@ -20,6 +20,9 @@ provisioner:
       admin_email: 'fake-it@make-it'
       apache:
         install_test_suite: true
+      cert:
+        organization: 'fake_org'
+        org_unit: 'fake_unit'
       www:
         additional_aliases:
           me.also:
