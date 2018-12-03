@@ -11,8 +11,10 @@ provisioner:
   attributes:
     se_baseline:
       chef_client_version: '14.7.17'
+      configure_monitoring: false
     nix_baseline:
       chef_client_version: '14.7.17'
+      configure_update: false
       hostname: 'funny.business'
     http_platform:
       admin_email: 'fake-it@make-it'
