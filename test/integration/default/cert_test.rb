@@ -10,6 +10,7 @@ describe file(path_to_self_signed_cert(node)) do
   it { should be_mode 0o600 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  its(:content) { should match 'BEGIN CERTIFICATE' }
 end
 
 describe file(path_to_private_key(node)) do
@@ -18,6 +19,16 @@ describe file(path_to_private_key(node)) do
   it { should be_mode 0o600 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
+end
+
+describe file(path_to_dh_config(node)) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match '2048' }
 end
 
 describe file(path_to_dh_params(node)) do
@@ -26,6 +37,7 @@ describe file(path_to_dh_params(node)) do
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  its(:content) { should match 'BEGIN DH PARAMETERS' }
 end
 
 describe x509_certificate(path_to_self_signed_cert(node)) do

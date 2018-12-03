@@ -30,6 +30,10 @@ def path_to_private_key(node)
   return File.join(cert_private_dir(node), 'funny.business_key.pem')
 end
 
+def path_to_dh_config(node)
+  return File.join(cert_private_dir(node), 'dh_config.txt')
+end
+
 def path_to_dh_params(node)
   return File.join(cert_public_dir(node), 'dh_param.pem')
 end
