@@ -2,8 +2,8 @@
 
 tcb = 'http_platform'
 
-raise 'node[\'http_platform\'][\'cert\'][\'organization\'] must be set' unless default[tcb]['cert']['organization']
-raise 'node[\'http_platform\'][\'cert\'][\'org_unit\'] must be set' unless default[tcb]['cert']['org_unit']
+raise 'node[\'http_platform\'][\'cert\'][\'organization\'] must be set' unless node[tcb]['cert']['organization']
+raise 'node[\'http_platform\'][\'cert\'][\'org_unit\'] must be set' unless node[tcb]['cert']['org_unit']
 
 # openssl_x509_certificate is not mutable, so becomes obsolete if anything changes
 # This file must record all fields in the cert, super manual, boo!

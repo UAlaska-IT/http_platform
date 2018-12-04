@@ -4,6 +4,24 @@ require_relative '../helpers'
 
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
+describe file('/opt/chef/run_record/http_cert_record.txt') do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match 'common_name: funny.business' }
+  its(:content) { should match 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.me.also", "DNS:me.also"\]' }
+  its(:content) { should match 'country: US' }
+  its(:content) { should match 'state: Alaska' }
+  its(:content) { should match 'city: Fairbanks' }
+  its(:content) { should match 'org: fake_org' }
+  its(:content) { should match 'org_unit: fake_unit' }
+  its(:content) { should match 'email: fake-it@make-it' }
+  its(:content) { should match "key_file: #{path_to_private_key(node)}" }
+  its(:content) { should match 'key_length: 2048' }
+end
+
 describe file(path_to_self_signed_cert(node)) do
   it { should exist }
   it { should be_file }
