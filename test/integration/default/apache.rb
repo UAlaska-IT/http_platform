@@ -24,6 +24,21 @@ describe package('elinks') do
   it { should be_installed }
 end
 
+path_to_elinks_config = if node['platform_family'] == 'debian'
+                          '/etc/elinks/elinks.conf'
+                        else
+                          '/etc/elinks.conf'
+                        end
+
+describe file(path_to_elinks_config) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match 'set connection.ssl.cert_verify = 0' }
+end
+
 describe package(apache_service(node)) do
   it { should be_installed }
   its(:version) { should match(/^2\.4/) }
