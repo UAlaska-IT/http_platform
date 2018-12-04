@@ -50,6 +50,15 @@ describe service(apache_service(node)) do
   it { should be_running }
 end
 
+describe bash("#{module_command} -M") do
+  its(:exit_status) { should eq 0 }
+  its(:stderr) { should eq '' }
+  its(:stdout) { should match 'headers_module' }
+  its(:stdout) { should match 'rewrite_module' }
+  its(:stdout) { should match 'ssl_module' }
+  its(:stdout) { should match 'status_module' }
+end
+
 ['', '/'].each do |page|
   describe http('http://localhost:80' + page) do
     its(:status) { should cmp 301 }
@@ -205,12 +214,4 @@ describe bash('apachectl configtest') do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should match 'Syntax OK' } # Yep, output is on stderr
   its(:stdout) { should eq '' }
-end
-
-describe bash("#{module_command} -M") do
-  its(:exit_status) { should eq 0 }
-  its(:stderr) { should eq '' }
-  its(:stdout) { should match 'headers_module' }
-  its(:stdout) { should match 'rewrite_module' }
-  its(:stdout) { should match 'ssl_module' }
 end
