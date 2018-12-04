@@ -57,6 +57,7 @@ describe bash("#{module_command} -M") do
   its(:stdout) { should match 'rewrite_module' }
   its(:stdout) { should match 'ssl_module' }
   its(:stdout) { should match 'status_module' }
+  its(:stdout) { should match 'lua_module' }
 end
 
 ['', '/'].each do |page|

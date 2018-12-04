@@ -19,6 +19,8 @@ provisioner:
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
+        extra_mods_to_install:
+          - 'lua'
         install_test_suite: true
       cert:
         organization: 'fake_org'
