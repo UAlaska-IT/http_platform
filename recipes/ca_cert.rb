@@ -28,7 +28,7 @@ end
 acme_error = !node[tcb]['configure_apache'] && node[tcb]['cert']['use_lets_encrypt_cert']
 raise 'Cannot fetch Let\'s Encrypt certificate without Apache' if acme_error
 
-if node[tcb]['configure_apache']
+if node[tcb]['cert']['use_lets_encrypt_cert']
   if node['platform_family'] == 'debian'
     apt_package 'software-properties-common'
     apt_repository 'certbot' do
