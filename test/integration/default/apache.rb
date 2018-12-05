@@ -166,6 +166,14 @@ describe file(conf_d_dir + '/ssl-host.conf') do
   its(:content) { should match 'SetHandler application/x-httpd-php' }
 end
 
+describe file(conf_available_dir + '/default-ssl.conf') do
+  it { should_not exist }
+end
+
+describe file(conf_enabled_dir + '/default-ssl.conf') do
+  it { should_not exist }
+end
+
 describe file(sites_available_dir + '/000-site.conf') do
   it { should exist }
   it { should be_file }
