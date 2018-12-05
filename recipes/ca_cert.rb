@@ -37,8 +37,14 @@ if node[tcb]['configure_apache']
 
   package 'python-certbot-apache'
 
+  command = 'certbot --apache certonly -n'
+  names = generate_alt_names
+  names.each do |name|
+    command += " -d #{name}"
+  end
+
   bash 'Get CA Certificate' do
-    code 'sudo certbot --apache certonly'
+    code command
     action :nothing
   end
 end
