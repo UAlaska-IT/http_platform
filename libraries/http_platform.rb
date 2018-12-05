@@ -41,13 +41,13 @@ module HttpPlatform
       return File.join(cert_public_directory, cert_prefix + request_post)
     end
 
-    def path_to_ca_signed_cert
+    def path_to_vault_cert
       cert_post = node[TCB]['cert']['ca_signed']['cert_public_suffix']
       return File.join(cert_public_directory, cert_prefix + cert_post)
     end
 
     def vault_cert_exists?
-      return File.exist?(path_to_ca_signed_cert)
+      return File.exist?(path_to_vault_cert)
     end
 
     def path_to_lets_encrypt_cert
@@ -81,12 +81,16 @@ module HttpPlatform
     end
 
     def path_to_private_key
+      return path_to_lets_encrypt_key if use_lets_encrypt_cert?
+
       key_post = node[TCB]['cert']['key_suffix']
       return File.join(cert_private_directory, cert_prefix + key_post)
     end
 
     def path_to_ssl_cert
-      return path_to_ca_signed_cert if vault_cert_exists?
+      return path_to_vault_cert if use_vault_cert?
+
+      return path_to_lets_encrypt_cert if use_lets_encrypt_cert?
 
       return path_to_self_signed_cert
     end
