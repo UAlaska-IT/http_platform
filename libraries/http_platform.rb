@@ -36,8 +36,21 @@ module HttpPlatform
       return File.join(pub_dir, cert_prefix + cert_post)
     end
 
-    def ca_signed_cert?
-      return ::File.exist?(path_to_ca_signed_cert)
+    def vault_cert_exists?
+      return File.exist?(path_to_ca_signed_cert)
+    end
+
+    def path_to_lets_encrypt_cert
+      # This is the one-file/cert+chain version, for modern Apache
+      return '/etc/letsencrypt/live/fullchain.pem'
+    end
+
+    def path_to_lets_encrypt_key
+      return '/etc/letsencrypt/live/privkey.pem'
+    end
+
+    def lets_encrypt_cert_exists?
+      return File.exist?(path_to_letsencrypt_cert) && File.exist?(path_to_lets_encrypt_key)
     end
 
     def path_to_self_signed_cert
@@ -53,7 +66,7 @@ module HttpPlatform
     end
 
     def path_to_ssl_cert
-      return path_to_ca_signed_cert if ca_signed_cert?
+      return path_to_ca_signed_cert if vault_cert_exists?
 
       return path_to_self_signed_cert
     end

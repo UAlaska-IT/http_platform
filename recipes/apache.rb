@@ -42,7 +42,6 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['create_default_index'] }
 end
 
-# Apache conf check ca_signed_cert? to switch cert path
 host_names = generate_alias_pairs
 
 var_map = {
