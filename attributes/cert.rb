@@ -2,15 +2,6 @@
 
 tcb = 'http_platform'
 
-if node['platform_family'] == 'debian'
-  default[tcb]['cert']['cert_public_directory'] = '/etc/ssl/certs'
-  default[tcb]['cert']['cert_private_directory'] = '/etc/ssl/private'
-elsif node['platform_family'] == 'rhel'
-  default[tcb]['cert']['cert_public_directory'] = '/etc/pki/tls/certs'
-  default[tcb]['cert']['cert_private_directory'] = '/etc/pki/tls/private'
-else
-  raise "Platform family not recognized: #{node['platform_family']}"
-end
 
 # Defaults to FQDN
 default[tcb]['cert']['prefix'] = nil

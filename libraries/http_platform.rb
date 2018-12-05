@@ -5,6 +5,18 @@ module HttpPlatform
   module Helper
     TCB = 'http_platform'
 
+    def cert_public_directory
+      return '/etc/ssl/certs' if node['platform_family'] == 'debian'
+
+      return '/etc/pki/tls/certs'
+    end
+
+    def cert_private_directory
+      return '/etc/ssl/private' if node['platform_family'] == 'debian'
+
+      return '/etc/pki/tls/private'
+    end
+
     def apache_service
       return 'apache2' if node['platform_family'] == 'debian'
 
@@ -25,15 +37,13 @@ module HttpPlatform
     end
 
     def path_to_ca_signed_request
-      pub_dir = node[TCB]['cert']['cert_public_directory']
       request_post = node[TCB]['cert']['ca_signed']['request_suffix']
-      return File.join(pub_dir, cert_prefix + request_post)
+      return File.join(cert_public_directory, cert_prefix + request_post)
     end
 
     def path_to_ca_signed_cert
-      pub_dir = node[TCB]['cert']['cert_public_directory']
       cert_post = node[TCB]['cert']['ca_signed']['cert_public_suffix']
-      return File.join(pub_dir, cert_prefix + cert_post)
+      return File.join(cert_public_directory, cert_prefix + cert_post)
     end
 
     def vault_cert_exists?
@@ -54,15 +64,13 @@ module HttpPlatform
     end
 
     def path_to_self_signed_cert
-      pub_dir = node[TCB]['cert']['cert_public_directory']
       cert_post = node[TCB]['cert']['self_signed']['cert_public_suffix']
-      return File.join(pub_dir, cert_prefix + cert_post)
+      return File.join(cert_public_directory, cert_prefix + cert_post)
     end
 
     def path_to_private_key
-      key_dir = node[TCB]['cert']['cert_private_directory']
       key_post = node[TCB]['cert']['key_suffix']
-      return File.join(key_dir, cert_prefix + key_post)
+      return File.join(cert_private_directory, cert_prefix + key_post)
     end
 
     def path_to_ssl_cert
@@ -72,8 +80,7 @@ module HttpPlatform
     end
 
     def path_to_dh_config
-      key_dir = node[TCB]['cert']['cert_private_directory']
-      return File.join(key_dir, 'dh_config.txt')
+      return File.join(cert_private_directory, 'dh_config.txt')
     end
 
     def self_signed_cert?
@@ -83,8 +90,7 @@ module HttpPlatform
     end
 
     def path_to_dh_params
-      pub_dir = node[TCB]['cert']['cert_public_directory']
-      return File.join(pub_dir, node[TCB]['cert']['dh_param']['dh_param_file_name'])
+      return File.join(cert_public_directory, node[TCB]['cert']['dh_param']['dh_param_file_name'])
     end
 
     def cert_common_name
