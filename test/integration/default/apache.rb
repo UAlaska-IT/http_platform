@@ -14,11 +14,11 @@ else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
 
-conf_d_dir = conf_root_dir + '/conf.d'
-conf_available_dir = conf_root_dir + '/conf-available'
-conf_enabled_dir = conf_root_dir + '/conf-enabled'
-sites_available_dir = conf_root_dir + '/sites-available'
-sites_enabled_dir = conf_root_dir + '/sites-enabled'
+conf_d_dir = File.join(conf_root_dir, 'conf.d')
+conf_available_dir = File.join(conf_root_dir, 'conf-available')
+conf_enabled_dir = File.join(conf_root_dir, 'conf-enabled')
+sites_available_dir = File.join(conf_root_dir, 'sites-available')
+sites_enabled_dir = File.join(conf_root_dir, 'sites-enabled')
 
 describe package('elinks') do
   it { should be_installed }
@@ -108,7 +108,7 @@ describe apache_conf do
   its('Listen') { should match ['*:80', '*:443'] }
 end
 
-describe file(conf_available_dir + '/ssl-params.conf') do
+describe file(File.join(conf_available_dir, 'ssl-params.conf')) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -120,7 +120,7 @@ describe file(conf_available_dir + '/ssl-params.conf') do
   end
 end
 
-describe apache_conf(conf_available_dir + '/ssl-params.conf') do
+describe apache_conf(File.join(conf_available_dir, 'ssl-params.conf')) do
   its('SSLProtocol') { should eq ['All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'] }
   its('SSLCipherSuite') { should_not match(/NULL/) }
   its('SSLCipherSuite') { should_not match(/CBC/) }
@@ -128,13 +128,13 @@ describe apache_conf(conf_available_dir + '/ssl-params.conf') do
   its('SSLInsecureRenegotiation') { should eq ['off'] }
 end
 
-describe file(conf_enabled_dir + '/ssl-params.conf') do
+describe file(File.join(conf_enabled_dir, 'ssl-params.conf')) do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq conf_available_dir + '/ssl-params.conf' }
+  its(:link_path) { should eq File.join(conf_available_dir, 'ssl-params.conf') }
 end
 
 describe file(conf_d_dir) do
@@ -145,7 +145,7 @@ describe file(conf_d_dir) do
   it { should be_grouped_into 'root' }
 end
 
-describe file(conf_d_dir + '/ssl-host.conf') do
+describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -166,15 +166,15 @@ describe file(conf_d_dir + '/ssl-host.conf') do
   its(:content) { should match 'SetHandler application/x-httpd-php' }
 end
 
-describe file(conf_available_dir + '/default-ssl.conf') do
+describe file(File.join(conf_available_dir, 'default-ssl.conf')) do
   it { should_not exist }
 end
 
-describe file(conf_enabled_dir + '/default-ssl.conf') do
+describe file(File.join(conf_enabled_dir, 'default-ssl.conf')) do
   it { should_not exist }
 end
 
-describe file(sites_available_dir + '/000-site.conf') do
+describe file(File.join(sites_available_dir, '000-site.conf')) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -187,7 +187,7 @@ describe file(sites_available_dir + '/000-site.conf') do
   its(:content) { should match 'ServerName me.also\s+Redirect permanent "/" "https://me.also/"' }
 end
 
-describe file(sites_available_dir + '/ssl-site.conf') do
+describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }
@@ -210,22 +210,22 @@ describe file(sites_available_dir + '/ssl-site.conf') do
   its(:content) { should match 'Include conf.d/ssl-host.conf' }
 end
 
-describe file(sites_enabled_dir + '/000-site.conf') do
+describe file(File.join(sites_enabled_dir, '000-site.conf')) do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq sites_available_dir + '/000-site.conf' }
+  its(:link_path) { should eq File.join(sites_available_dir, '000-site.conf') }
 end
 
-describe file(sites_enabled_dir + '/ssl-site.conf') do
+describe file(File.join(sites_enabled_dir, 'ssl-site.conf')) do
   it { should exist }
   it { should be_symlink }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:link_path) { should eq sites_available_dir + '/ssl-site.conf' }
+  its(:link_path) { should eq File.join(sites_available_dir, 'ssl-site.conf') }
 end
 
 describe bash('apachectl configtest') do
