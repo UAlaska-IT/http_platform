@@ -63,6 +63,18 @@ module HttpPlatform
       return File.exist?(path_to_letsencrypt_cert) && File.exist?(path_to_lets_encrypt_key)
     end
 
+    def use_vault_cert?
+      return node[TCB]['cert']['use_vault_cert'] && vault_cert_exists?
+    end
+
+    def use_lets_encrypt_cert?
+      return !use_vault_cert? && node[TCB]['cert']['use_lets_encrypt_cert'] && lets_encrypt_cert_exists?
+    end
+
+    def use_self_signed_cert?
+      return !use_vault_cert? && !use_lets_encrypt_cert?
+    end
+
     def path_to_self_signed_cert
       cert_post = node[TCB]['cert']['self_signed']['cert_public_suffix']
       return File.join(cert_public_directory, cert_prefix + cert_post)
@@ -81,12 +93,6 @@ module HttpPlatform
 
     def path_to_dh_config
       return File.join(cert_private_directory, 'dh_config.txt')
-    end
-
-    def self_signed_cert?
-      has_ss_cert = ::File.exist?(path_to_self_signed_cert)
-      has_ss_key = ::File.exist?(path_to_private_key)
-      return has_ss_cert && has_ss_key
     end
 
     def path_to_dh_params
