@@ -22,12 +22,38 @@ def cert_private_dir(node)
   return dir
 end
 
+def path_to_conf_root_dir(node)
+  return '/etc/apache2' if node['platform_family'] == 'debian'
+
+  return '/etc/httpd'
+end
+
+def path_to_conf_d_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'conf.d')
+end
+
+def path_to_ssl_host_conf(node)
+  File.join(path_to_conf_d_dir(node), 'ssl-host.conf')
+end
+
 def path_to_self_signed_cert(node)
   return File.join(cert_public_dir(node), 'funny.business_cert_self_signed.pem')
 end
 
+def path_to_ca_signed_cert(node)
+  return File.join(cert_public_dir(node), 'funny.business_cert_ca_signed.pem')
+end
+
+def path_to_lets_encrypt_cert
+  return File.join('/etc/letsencrypt/live/fullchain.pem')
+end
+
 def path_to_private_key(node)
   return File.join(cert_private_dir(node), 'funny.business_key.pem')
+end
+
+def path_to_lets_encrypt_key
+  return File.join('/etc/letsencrypt/live/privkey.pem')
 end
 
 def path_to_dh_config(node)
