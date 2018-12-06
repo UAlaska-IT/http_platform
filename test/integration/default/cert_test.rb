@@ -20,7 +20,7 @@ describe file('/opt/chef/run_record/http_cert_record.txt') do
   its(:content) { should match 'org: fake_org' }
   its(:content) { should match 'org_unit: fake_unit' }
   its(:content) { should match 'email: fake-it@make-it' }
-  its(:content) { should match "expire: 365" }
+  its(:content) { should match 'expire: 365' }
   its(:content) { should match 'key_type: \'rsa\'' }
   its(:content) { should match 'key_length: 2048' }
 end
