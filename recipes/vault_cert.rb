@@ -2,13 +2,8 @@
 
 tcb = 'http_platform'
 
-bag_item = if node[tcb]['cert']['vault_bag_item']
-             node[tcb]['cert']['vault_bag_item']
-           else
-             node['fqdn']
-           end
 bag = node[tcb]['cert']['vault_data_bag']
-item = node[tcb]['cert']['vault_bag_item']
+item = node[tcb]['cert']['vault_bag_item'] || node['fqdn']
 key = node[tcb]['cert']['vault_item_key']
 cert = vault_secret(bag, item, key)
 
