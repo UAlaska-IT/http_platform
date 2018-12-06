@@ -99,3 +99,12 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('issuer.O') { should eq 'fake_org' }
   its('issuer.OU') { should eq 'fake_unit' }
 end
+
+describe file(File.join(cert_public_dir(node), 'funny.business_cert_ca_request.pem')) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o600 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match 'BEGIN CERTIFICATE REQUEST' }
+end
