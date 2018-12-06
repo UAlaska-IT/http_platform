@@ -101,7 +101,7 @@ platforms:
       name: winrm
 
 suites:
-  - name: debian-based
+  - name: self
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
@@ -109,10 +109,12 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/self_signed_cert
     attributes:
     includes:
       - ubuntu-18.04
-  - name: rhel-based
+      - centos-7.5
+  - name: vault
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
@@ -120,6 +122,10 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/vault_cert
     attributes:
+      http_platform:
+        configure_vault_cert: true
     includes:
+      - ubuntu-18.04
       - centos-7.5
