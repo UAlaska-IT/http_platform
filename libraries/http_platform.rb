@@ -34,13 +34,11 @@ module HttpPlatform
     end
 
     def path_to_ca_signed_request
-      request_post = node[TCB]['cert']['ca_signed']['request_suffix']
-      return File.join(cert_public_directory, cert_prefix + request_post)
+      return File.join(cert_public_directory, cert_prefix + '_cert_ca_request.pem')
     end
 
     def path_to_vault_cert
-      cert_post = node[TCB]['cert']['ca_signed']['cert_public_suffix']
-      return File.join(cert_public_directory, cert_prefix + cert_post)
+      return File.join(cert_public_directory, cert_prefix + '_cert_ca_signed.pem')
     end
 
     def vault_cert_exists?
@@ -73,8 +71,7 @@ module HttpPlatform
     end
 
     def path_to_self_signed_cert
-      cert_post = node[TCB]['cert']['self_signed']['cert_public_suffix']
-      return File.join(cert_public_directory, cert_prefix + cert_post)
+      return File.join(cert_public_directory, cert_prefix + '_cert_self_signed.pem')
     end
 
     def path_to_private_key
