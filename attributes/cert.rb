@@ -17,3 +17,8 @@ default[tcb]['cert']['common_name'] = nil
 default[tcb]['cert']['email'] = nil
 
 default[tcb]['cert']['dh_param']['bits'] = 2048
+
+default[tcb]['cert']['vault_data_bag'] = 'certs' # The name of the vault data bag
+# Defaults to fqdn
+default[tcb]['cert']['vault_bag_item'] = nil # item inside the data bag (json file)
+default[tcb]['cert']['vault_item_key'] = 'cert' # The key for password within the json object
