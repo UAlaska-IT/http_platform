@@ -21,6 +21,16 @@ describe file('/opt/chef/run_record/http_cert_record.txt') do
   its(:content) { should match 'org_unit: fake_unit' }
   its(:content) { should match 'email: fake-it@make-it' }
   its(:content) { should match "key_file: #{path_to_private_key(node)}" }
+  its(:content) { should match 'key_type: \'rsa\'' }
+  its(:content) { should match 'key_length: 2048' }
+end
+
+describe file('/opt/chef/run_record/http_key_record.txt') do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
   its(:content) { should match 'key_length: 2048' }
 end
 

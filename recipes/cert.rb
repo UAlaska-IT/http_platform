@@ -8,6 +8,7 @@ raise 'node[\'http_platform\'][\'cert\'][\'org_unit\'] must be set' unless node[
 # openssl_x509_certificate is not mutable, so becomes obsolete if anything changes
 # This file must record all fields in the cert, super manual, boo!
 cert_record = '/opt/chef/run_record/http_cert_record.txt'
+key_record = '/opt/chef/run_record/http_key_record.txt'
 
 file cert_record do
   content <<~CONTENT
@@ -29,8 +30,15 @@ file cert_record do
     key_file: #{path_to_private_key}
     # key_pass
 
-    # key_type # default 'rsa'
+    key_type: 'rsa'
     # key_curve # default 'prime256v1'
+    key_length: #{node[tcb]['cert']['rsa_bits']}
+  CONTENT
+end
+
+# Only delete private key if relevant parameter changes
+file key_record do
+  content <<~CONTENT
     key_length: #{node[tcb]['cert']['rsa_bits']}
   CONTENT
 end
@@ -42,7 +50,7 @@ end
 
 file path_to_private_key do
   action :nothing
-  subscribes :delete, "file[#{cert_record}]", :immediate
+  subscribes :delete, "file[#{key_record}]", :immediate
 end
 
 openssl_x509_certificate path_to_self_signed_cert do
