@@ -93,7 +93,7 @@ module HttpPlatform
     end
 
     def path_to_dh_params
-      return File.join(cert_public_directory, node[TCB]['cert']['dh_param']['dh_param_file_name'])
+      return File.join(cert_public_directory, 'dh_param.pem')
     end
 
     def cert_common_name

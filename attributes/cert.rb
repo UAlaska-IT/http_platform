@@ -16,5 +16,4 @@ default[tcb]['cert']['common_name'] = nil
 # Defaults to admin_email
 default[tcb]['cert']['email'] = nil
 
-default[tcb]['cert']['dh_param']['dh_param_file_name'] = 'dh_param.pem'
 default[tcb]['cert']['dh_param']['bits'] = 2048
