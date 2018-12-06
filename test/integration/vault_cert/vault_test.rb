@@ -11,7 +11,7 @@ describe file(path_to_ca_signed_cert(node)) do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:content) { should match 'BEGIN CERTIFICATE' }
-  its(:content) { should match 'MIIFBjCCA+6gAwIBAgIVAM' } # The first characters of the data
+  its(:content) { should match '6gAwIBAgIVAMfIPBAwPXzYRdyqAxhaEQI5X3OXMA0GCSqGSIb3DQEB' } # No escape, near beginning
 end
 
 # Special fields for this cert
