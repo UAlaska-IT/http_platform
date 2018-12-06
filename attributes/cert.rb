@@ -22,3 +22,7 @@ default[tcb]['cert']['vault_data_bag'] = 'certs' # The name of the vault data ba
 # Defaults to fqdn
 default[tcb]['cert']['vault_bag_item'] = nil # item inside the data bag (json file)
 default[tcb]['cert']['vault_item_key'] = 'cert' # The key for password within the json object
+
+# This will typically be nil because the generated CSR will be used to create the certificate
+# However, a key will be manually placed on the system if this is non-nil, e.g. in kitchen
+default[tcb]['key']['vault_item_key'] = nil # The key for password within the json object

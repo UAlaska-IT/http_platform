@@ -27,7 +27,7 @@ file cert_record do
     expire: #{node[tcb]['cert']['expiration_days']}
     # extensions
 
-    key_file: #{path_to_private_key}
+    # key_file
     # key_pass
 
     key_type: 'rsa'
@@ -48,7 +48,7 @@ file path_to_self_signed_cert do
   subscribes :delete, "file[#{cert_record}]", :immediate
 end
 
-file path_to_private_key do
+file path_to_self_signed_key do
   action :nothing
   subscribes :delete, "file[#{key_record}]", :immediate
 end
@@ -75,7 +75,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   expire node[tcb]['cert']['expiration_days']
   # extensions
 
-  key_file path_to_private_key
+  key_file path_to_self_signed_key
   # key_pass
 
   key_type 'rsa'
@@ -114,7 +114,7 @@ openssl_x509_request path_to_ca_signed_request do
   org_unit node[tcb]['cert']['org_unit']
   email cert_email
 
-  key_file path_to_private_key
+  key_file path_to_self_signed_key
   # key_pass
 
   key_type 'rsa'

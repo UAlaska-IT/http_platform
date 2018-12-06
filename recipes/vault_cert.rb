@@ -10,3 +10,15 @@ file path_to_vault_cert do
   # must be lazy because hostname may change!
   content lazy { vault_secret(bag, item, key) } # rubocop:disable Lint/AmbiguousBlockAssociation
 end
+
+key_key = node[TCB]['key']['vault_item_key']
+
+file path_to_vault_key do
+  # must be lazy because hostname may change!
+  content lazy { vault_secret(bag, item, key_key) } # rubocop:disable Lint/AmbiguousBlockAssociation
+  sensitive true
+  owner 'root'
+  group 'root'
+  mode '0600'
+  only_if { key_key }
+end

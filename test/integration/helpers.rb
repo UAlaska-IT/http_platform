@@ -48,8 +48,12 @@ def path_to_lets_encrypt_cert
   return File.join('/etc/letsencrypt/live/fullchain.pem')
 end
 
-def path_to_private_key(node)
+def path_to_self_signed_key(node)
   return File.join(cert_private_dir(node), 'funny.business_key.pem')
+end
+
+def path_to_vault_key(node)
+  return File.join(cert_private_dir(node), 'funny.business_ca_key.pem')
 end
 
 def path_to_lets_encrypt_key

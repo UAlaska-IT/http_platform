@@ -126,6 +126,8 @@ suites:
     attributes:
       http_platform:
         configure_vault_cert: true
+        key:
+          vault_item_key: 'key'
     includes:
       - ubuntu-18.04
       - centos-7.5
