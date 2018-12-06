@@ -80,8 +80,7 @@ module HttpPlatform
     def path_to_private_key
       return path_to_lets_encrypt_key if use_lets_encrypt_cert?
 
-      key_post = node[TCB]['cert']['key_suffix']
-      return File.join(cert_private_directory, cert_prefix + key_post)
+      return File.join(cert_private_directory, cert_prefix + '_key.pem')
     end
 
     def path_to_ssl_cert

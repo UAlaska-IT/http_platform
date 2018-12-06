@@ -2,8 +2,6 @@
 
 tcb = 'http_platform'
 
-default[tcb]['cert']['key_suffix'] = '_key.pem'
-
 default[tcb]['cert']['ca_signed']['request_suffix'] = '_cert_ca_request.pem'
 default[tcb]['cert']['ca_signed']['cert_public_suffix'] = '_cert_ca_signed.pem'
 
