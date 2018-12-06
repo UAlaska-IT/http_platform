@@ -64,7 +64,7 @@ module HttpPlatform
     end
 
     def use_vault_cert?
-      return node[TCB]['cert']['use_vault_cert'] && vault_cert_exists?
+      return node[TCB]['configure_vault_cert'] && vault_cert_exists?
     end
 
     def use_lets_encrypt_cert?

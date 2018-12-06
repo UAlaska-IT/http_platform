@@ -2,10 +2,6 @@
 
 tcb = 'http_platform'
 
-# These flags control certificate usage
-# Precedence is vault > lets encrypt > self-signed
-default[tcb]['cert']['use_vault_cert'] = false
-
 # Defaults to FQDN
 default[tcb]['cert']['prefix'] = nil
 default[tcb]['cert']['key_suffix'] = '_key.pem'
