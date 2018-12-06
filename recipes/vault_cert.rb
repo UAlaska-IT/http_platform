@@ -22,5 +22,4 @@ openssl_x509_request path_to_ca_signed_request do
   key_type 'rsa'
   # key_curve # default 'prime256v1'
   key_length node[tcb]['cert']['rsa_bits']
-  notifies :run, 'bash[Get CA Certificate]', :delayed if node[tcb]['configure_apache']
 end

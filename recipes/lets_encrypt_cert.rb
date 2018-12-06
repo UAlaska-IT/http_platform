@@ -17,7 +17,7 @@ names.each do |name|
   command += " -d #{name}"
 end
 
-bash 'Get CA Certificate' do
+bash 'Get Lets Encrypt Certificate' do
   code command
   action :nothing
 end
