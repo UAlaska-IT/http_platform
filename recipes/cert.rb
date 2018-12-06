@@ -96,4 +96,5 @@ bash 'Create DH parameters' do
   code "sudo openssl dhparam -out '#{path_to_dh_params}' #{node[tcb]['cert']['dh_param']['bits']}"
   action :nothing
   subscribes :run, 'template[DH configuration]', :immediate
+  notifies :restart, "service[#{apache_service}]", :delayed if node[tcb]['configure_apache']
 end
