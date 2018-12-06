@@ -59,10 +59,12 @@ module HttpPlatform
     end
 
     def use_vault_cert?
-      return node[TCB]['configure_vault_cert'] && vault_cert_exists?
+      # Must be 'lazy' to use vault cert on first run
+      return node[TCB]['configure_vault_cert'] # && vault_cert_exists?
     end
 
     def use_lets_encrypt_cert?
+      # Cannot be 'lazy'; must fetch cert at end and use next run
       return !use_vault_cert? && node[TCB]['configure_lets_encrypt_cert'] && lets_encrypt_cert_exists?
     end
 
