@@ -2,8 +2,6 @@
 
 tcb = 'http_platform'
 
-# Defaults to FQDN
-default[tcb]['cert']['prefix'] = nil
 default[tcb]['cert']['key_suffix'] = '_key.pem'
 
 default[tcb]['cert']['ca_signed']['request_suffix'] = '_cert_ca_request.pem'

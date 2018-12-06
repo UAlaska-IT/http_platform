@@ -30,9 +30,6 @@ module HttpPlatform
     end
 
     def cert_prefix
-      prefix_attrib = node[TCB]['cert']['prefix']
-      return prefix_attrib unless prefix_attrib.nil?
-
       return node['fqdn']
     end
 
