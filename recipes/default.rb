@@ -15,4 +15,7 @@ raise 'Cannot configure apache without configuring cert' if invalid_config
 
 include_recipe "#{tcb}::apache" if node[tcb]['configure_apache']
 
+acme_error = !node[tcb]['configure_apache'] && node[tcb]['configure_lets_encrypt_cert']
+raise 'Cannot fetch Let\'s Encrypt certificate without Apache' if acme_error
+
 include_recipe "#{tcb}::lets_encrypt_cert" if node[tcb]['configure_lets_encrypt_cert']

@@ -68,7 +68,7 @@ module HttpPlatform
     end
 
     def use_lets_encrypt_cert?
-      return !use_vault_cert? && node[TCB]['cert']['use_lets_encrypt_cert'] && lets_encrypt_cert_exists?
+      return !use_vault_cert? && node[TCB]['configure_lets_encrypt_cert'] && lets_encrypt_cert_exists?
     end
 
     def use_self_signed_cert?
