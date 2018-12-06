@@ -24,30 +24,3 @@ openssl_x509_request path_to_ca_signed_request do
   key_length node[tcb]['cert']['rsa_bits']
   notifies :run, 'bash[Get CA Certificate]', :delayed if node[tcb]['configure_apache']
 end
-
-acme_error = !node[tcb]['configure_apache'] && node[tcb]['cert']['use_lets_encrypt_cert']
-raise 'Cannot fetch Let\'s Encrypt certificate without Apache' if acme_error
-
-if node[tcb]['cert']['use_lets_encrypt_cert']
-  if node['platform_family'] == 'debian'
-    apt_package 'software-properties-common'
-    apt_repository 'certbot' do
-      uri 'ppa:certbot/certbot'
-    end
-  else
-    include_recipe 'yum-epel'
-  end
-
-  package 'python-certbot-apache'
-
-  command = 'certbot --apache certonly -n'
-  names = generate_alt_names
-  names.each do |name|
-    command += " -d #{name}"
-  end
-
-  bash 'Get CA Certificate' do
-    code command
-    action :nothing
-  end
-end
