@@ -59,7 +59,7 @@ module HttpPlatform
     end
 
     def lets_encrypt_cert_exists?
-      return File.exist?(path_to_letsencrypt_cert) && File.exist?(path_to_lets_encrypt_key)
+      return File.exist?(path_to_lets_encrypt_cert) && File.exist?(path_to_lets_encrypt_key)
     end
 
     def use_vault_cert?
