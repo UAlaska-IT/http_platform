@@ -108,13 +108,13 @@ __default__
 
 Default attributes control the features of the platform.
 
-* node['http_platform']['configure_firewall'].
+* `node['http_platform']['configure_firewall']`.
 Defaults to `true`.
 Determines if the firewall is configured.
-* node['http_platform']['configure_cert'].
+* `node['http_platform']['configure_cert']`.
 Defaults to `true`.
 Determines if a private key, self-signed certificate, CSR, and possibly other certificates are created.
-* node['http_platform']['configure_apache'].
+* `node['http_platform']['configure_apache']`.
 Defaults to `true`.
 Determines if the Apache HTTP server is installed and configured.
 Disabling this permits the certificate-handling logic to be used with, for example, Nginx.
@@ -124,10 +124,10 @@ These flags control trusted certificate usage.
 These attributes have no effect if `node['http_platform']['configure_cert']` is `false`.
 See above for certificate precedence.
 
-* node['http_platform']['configure_vault_cert'].
+* `node['http_platform']['configure_vault_cert']`.
 Defaults to `false`.
 Determines if a certificate is fetched from Chef vault.
-* node['http_platform']['configure_lets_encrypt_cert'].
+* `node['http_platform']['configure_lets_encrypt_cert']`.
 Defaults to `false`.
 Determines if a certificate is fetching using Certbot.
 Requires Apache running on a world-visible server.
@@ -137,29 +137,29 @@ The philosophy of this cookbook is to be optimistic and allow new ciphers and pr
 This is done by defining support in the negative: start with a candidate list and remove unsecure items.
 This is done mostly to reduce the burden of managing a platform-dependent list of supported ciphers over time.
 
-* node['http_platform']['cipher_generator'].
+* `node['http_platform']['cipher_generator']`.
 Defaults to `'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'`.
 This is the string used to generate a list of candidate ciphers using [OpenSSL](https://www.openssl.org/docs/man1.1.0/apps/ciphers.html).
 The precise list of ciphers generated depends on both OpenSSL version and compile options and will be specific to a distribution.
 The meaning of this string is 'All ciphers that use encryption with "high" strength rating - but not null authentication, RSA key exchange, or SHA hashing - ordered by strength'.
 This generator is sufficient to generate a tight cipher suite on Ubuntu 18, Ubuntu 16, or CentOS 7.
 Older distros may require more exclusions.
-* node['http_platform']['ciphers_to_remove'].
+* `node['http_platform']['ciphers_to_remove']`.
 Defaults to `['-CBC-']`.
 This is a list of regular expressions.
 Any cipher matching one or more of these regexes will be removed from the final list of ciphers.
 This attribute is used primarily to remove algorithms that cannot be specified as a group, as is done with `kRSA` above.
 By default, any cipher that uses [cipher block chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) will be removed.
-* node['http_platform']['ssl_protocol'].
+* `node['http_platform']['ssl_protocol']`.
 Defaults to `'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'`.
 This is the string used to specify protocol versions to be used.
 On Ubuntu 18, Ubuntu 16 and CentOS 7 this results in only TLSv1.2.
 TLSv1.3 will be automatically supported when it becomes available but explicit TLSv1.3 is not commonly supported at this time.
 Note that `node.default['apache']['mod_ssl']['ssl_protocol']` is set to the value of `node['http_platform']['ssl_protocol']` within a recipe.
-* node['http_platform']['apache']['use_stapling'].
+* `node['http_platform']['apache']['use_stapling']`.
 Defaults to `'off'`.
 This must not be enabled unless a trusted certificate is configured.
-* node['http_platform']['apache']['paths_to_additional_configs'].
+* `node['http_platform']['apache']['paths_to_additional_configs']`.
 Defaults to `{ 'conf.d/ssl-host.conf' => '' }`.
 A hash of relative paths to additional config files to be included by all HTTPS hosts.
 The default is the config file generated based on the attributes of this cookbook.
@@ -173,20 +173,20 @@ __apache__
 
 Apache attributes control the server configuration.
 
-* node['http_platform']['apache']['install_test_suite'].
+* `node['http_platform']['apache']['install_test_suite']`.
 Defaults to `false`.
 If true, installs support for running `apachectl fullstatus` for troubleshooting.
 This includes a command-line browser (elinks) and the Apache status module.
 Because 'localhost' will redirect to the default HTTPS host, to perform local testing it is advisable to either poison the hosts file on the host machine or to explicitly specify HTTPS protocol (and port if forwarded), e.g. 'https://localhost:8043'.
 
-* node['http_platform']['apache']['extra_mods_to_install'].
+* `node['http_platform']['apache']['extra_mods_to_install']`.
 Defaults to `{}`.
 A hash of Apache mods to install; e.g. `{ 'wsgi -> '' }`.
 Modules 'headers', 'rewrite', and 'ssl' are always installed.
 Include the mod name only, e.g. 'php', without prefix 'mod_' or suffix '_mod'
 See the [Apache cookbook](https://github.com/sous-chefs/apache2#recipes) for a list of modules
 
-* node['http_platform']['admin_email'].
+* `node['http_platform']['admin_email']`.
 Defaults to `nil`.
 This must be set or an exception is raised.
 This also serves as the default email for the CSR.
@@ -196,62 +196,62 @@ __cert__
 
 Cert attributes specify the fields of the PKI certificate and the parameters of the private key.
 
-* node['http_platform']['cert']['expiration_days'].
+* `node['http_platform']['cert']['expiration_days']`.
 Defaults to `365`.
 The number of days until expiration for the SS certificate and and the CSR.
-* node['http_platform']['cert']['rsa_bits'].
+* `node['http_platform']['cert']['rsa_bits']`.
 Defaults to `2048`.
 The number of bits in the private key.
 Currently only RSA keys are supported.
-* node['http_platform']['cert']['dh_param']['bits'].
+* `node['http_platform']['cert']['dh_param']['bits']`.
 Defaults to `2048`.
 The number of bits used for the Diffie-Hellman (DH) key exchange.
 Currently DH is configured only on Debian-based distros.
 
 The attributes below are given defaults but should typically be changed.
 
-* node['http_platform']['cert']['country'].
+* `node['http_platform']['cert']['country']`.
 Defaults to `'US'`.
 The host country.
-* node['http_platform']['cert']['state'].
+* `node['http_platform']['cert']['state']`.
 Defaults to `'Alaska'`.
 The host state, clients will typically want to override this:)
-* node['http_platform']['cert']['locale'].
+* `node['http_platform']['cert']['locale']`.
 Defaults to `'Fairbanks'`.
 The host city.
 Almost surely not correct for a client.
 
 The following attributes must be set if the cert is being created.
 
-* node['http_platform']['cert']['organization'].
+* `node['http_platform']['cert']['organization']`.
 Defaults to `nil`.
 The name of the host organization.
-* node['http_platform']['cert']['org_unit'].
+* `node['http_platform']['cert']['org_unit']`.
 Defaults to `nil`.
 The name of the unit, e.g. division, hosting the machine.
 
 The attributes below default to reasonable values.
 
-* node['http_platform']['cert']['common_name'].
+* `node['http_platform']['cert']['common_name']`.
 Defaults to `nil`.
 If nil, the FQDN of the node is used.
-* node['http_platform']['cert']['email'].
+* `node['http_platform']['cert']['email']`.
 Defaults to `nil`.
 If nil, the value of `node['http_platform']['admin_email']` is used.
 
 The attributes below control fetching of a certificate from a server vault.
 
-* node['http_platform']['cert']['vault_data_bag']. 
+* `node['http_platform']['cert']['vault_data_bag']`.
 Defaults to `'certs'`.
 The name of the vault data bag from which to fetch the certificate.
-* node['http_platform']['cert']['vault_bag_item'].
+* `node['http_platform']['cert']['vault_bag_item']`.
 Defaults to `nil`.
 The item inside the data bag (json file).
 If nil, Defaults to the FQDN of the node.
-* node['http_platform']['cert']['vault_item_key'].
+* `node['http_platform']['cert']['vault_item_key']`.
 Defaults to `'cert'`.
 The key for the certificate within the json object.
-* node['http_platform']['key']['vault_item_key'].
+* `node['http_platform']['key']['vault_item_key']`.
 Defaults to `nil`.
 The key for the private key within the json object.
 This will typically be nil because the generated CSR will be used to create a certificate for the generated private key.
@@ -261,7 +261,9 @@ __firewall__
 
 Firewall attributes control firewall settings.
 
-* node['http_platform']['firewall']['enable_http']. Defaults to `true`. Determines if world-accessible HTTP is allowed.
+* `node['http_platform']['firewall']['enable_http']`.
+Defaults to `true`.
+Determines if world-accessible HTTP is allowed.
 
 World-accessible HTTPS is _always_ allowed.
 If custom HTTP/HTTPS rules are desired, e.g. remote access from only specific CIDRs, then `node['http_platform']['configure_firewall']` can be set to `false` and the desired rules created elsewhere.
@@ -276,33 +278,33 @@ __www__
 
 WWW settings configure the application and hosts.
 
-* node['http_platform']['www']['document_root'].
+* `node['http_platform']['www']['document_root']`.
 Defaults to `'/var/www/html'`.
 The absolute path to the directory where web documents are located.
 
-* node['http_platform']['www']['remove_default_index'].
+* `node['http_platform']['www']['remove_default_index']`.
 Defaults to `true`.
 Some distributions provide a default document at $HTTP_HOST/index.html.
 If this flag is true any such document will be removed.
-* node['http_platform']['www']['create_default_index'].
+* `node['http_platform']['www']['create_default_index']`.
 Defaults to `false`.
 If true an extremely simple html page will be created at $HTTP_HOST/index.html.
 This can be used for initial troubleshooting.
 This setting overrides `node['http_platform']['www']['remove_default_index']`.
 
-* node['http_platform']['www']['access_directories'].
+* `node['http_platform']['www']['access_directories']`.
 Defaults to `{ '/' => '' }`.
 A hash of directories and files to which to allow http access.
 Each key is a relative path from `node['http_platform']['www']['document_root']` to the directory.
 Each value is a single file in that directory.
 To allow access recursively to all files in the directory, use an empty string as the file name.
 
-* node['http_platform']['www']['error_documents'].
+* `node['http_platform']['www']['error_documents']`.
 Defaults to `{}`.
 A mapping of status code => relative path to error document, e.g. { 404 => '/404_kitten.php' }.
 Error documents are shared by all hosts.
 
-* node['http_platform']['www']['additional_aliases'].
+* `node['http_platform']['www']['additional_aliases']`.
 Defaults to `{}`.
 This cookbook always creates plain (default host) and www hosts for the FQDN.
 This is a map of additional hosts to options, e.g. { 'other.url' => { 'log_level' -> 'info' } }.
@@ -317,7 +319,7 @@ The options currently recognized are:
   Defaults to the plain host name.
   For example, on Ubuntu the default access log for 'www.other.url' will be '/var/log/apache2/other.url.access.log'.
 
-* node['http_platform']['www']['redirect_rules'].
+* `node['http_platform']['www']['redirect_rules']`.
 Defaults to `[]`.
 This is an array of haches representing redirect rules; these will be matched first to last.
 The fields of a rule are:
@@ -331,7 +333,7 @@ The fields of a rule are:
   Required.
   The regex for the target URL.
 
-* node['http_platform']['www']['rewrite_rules'].
+* `node['http_platform']['www']['rewrite_rules']`.
 Defaults to `[]`.
 An array of hashes representing rewrite rules; these will be matched first to last.
 Rewrite rules are evaluated after redirect rules.
