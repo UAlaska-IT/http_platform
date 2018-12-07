@@ -202,6 +202,10 @@ The number of days until expiration for the SS certificate and and the CSR.
 Defaults to `2048`.
 The number of bits in the private key.
 Currently only RSA keys are supported.
+* node['http_platform']['cert']['dh_param']['bits'].
+Defaults to `2048`.
+The number of bits used for the Diffie-Hellman (DH) key exchange.
+Currently DH is configured only on Debian-based distros.
 
 The attributes below are given defaults but should typically be changed.
 
@@ -219,9 +223,11 @@ Almost surely not correct for a client.
 The following attributes must be set if the cert is being created.
 
 * node['http_platform']['cert']['organization'].
-Defaults to `nil`
+Defaults to `nil`.
+The name of the host organization.
 * node['http_platform']['cert']['org_unit'].
-Defaults to `nil`
+Defaults to `nil`.
+The name of the unit, e.g. division, hosting the machine.
 
 The attributes below default to reasonable values.
 
@@ -232,19 +238,14 @@ If nil, the FQDN of the node is used.
 Defaults to `nil`.
 If nil, the value of `node['http_platform']['admin_email']` is used.
 
-* node['http_platform']['cert']['dh_param']['bits'].
-Defaults to `2048`.
-The number of bits used for the Diffie-Hellman (DH) key exchange.
-Currently DH is configured only on Debian-based distros.
-
 The attributes below control fetching of a certificate from a server vault.
 
 * node['http_platform']['cert']['vault_data_bag']. 
 Defaults to `'certs'`.
-The name of the vault data bag from which to fetch the cert.
+The name of the vault data bag from which to fetch the certificate.
 * node['http_platform']['cert']['vault_bag_item'].
 Defaults to `nil`.
-The tem inside the data bag (json file).
+The item inside the data bag (json file).
 If nil, Defaults to the FQDN of the node.
 * node['http_platform']['cert']['vault_item_key'].
 Defaults to `'cert'`.
