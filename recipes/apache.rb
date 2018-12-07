@@ -42,13 +42,13 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['create_default_index'] }
 end
 
-# Apache conf check ca_signed_cert? to switch cert path
 host_names = generate_alias_pairs
 
 var_map = {
   cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
-  path_to_key: path_to_ssl_key
+  path_to_key: path_to_private_key,
+  path_to_dh_params: path_to_dh_params
 }
 
 # This block creates an explicit declaration for the service created by installing the apache2 package

@@ -11,13 +11,20 @@ provisioner:
   attributes:
     se_baseline:
       chef_client_version: '14.7.17'
+      configure_monitoring: false
     nix_baseline:
       chef_client_version: '14.7.17'
+      configure_update: false
       hostname: 'funny.business'
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
+        extra_mods_to_install:
+          - 'lua'
         install_test_suite: true
+      cert:
+        organization: 'fake_org'
+        org_unit: 'fake_unit'
       www:
         additional_aliases:
           me.also:
@@ -41,10 +48,10 @@ verifier:
 # Every bento box supported by Chef 14
 platforms:
   - name: ubuntu-18.04
-    driver:
-      network:
-        - ["forwarded_port", {guest: 80, host: 8080, host_ip: "localhost"}]
-        - ["forwarded_port", {guest: 443, host: 8043, host_ip: "localhost"}]
+#    driver:
+#      network:
+#        - ["forwarded_port", {guest: 80, host: 8080, host_ip: "localhost"}]
+#        - ["forwarded_port", {guest: 443, host: 8043, host_ip: "localhost"}]
   - name: ubuntu-16.04
   - name: ubuntu-16.04-i386
   - name: ubuntu-14.04
@@ -58,10 +65,10 @@ platforms:
   - name: debian-7.11
   - name: debian-7.11-i386
   - name: centos-7.5
-    driver:
-      network:
-        - ["forwarded_port", {guest: 80, host: 8180, host_ip: "localhost"}]
-        - ["forwarded_port", {guest: 443, host: 8143, host_ip: "localhost"}]
+#    driver:
+#      network:
+#        - ["forwarded_port", {guest: 80, host: 8180, host_ip: "localhost"}]
+#        - ["forwarded_port", {guest: 443, host: 8143, host_ip: "localhost"}]
   - name: centos-6.10
   - name: centos-6.10-i386
   - name: centos-5.11
@@ -94,7 +101,7 @@ platforms:
       name: winrm
 
 suites:
-  - name: debian-based
+  - name: self
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
@@ -102,10 +109,12 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/self_signed_cert
     attributes:
     includes:
       - ubuntu-18.04
-  - name: rhel-based
+      - centos-7.5
+  - name: vault
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
@@ -113,6 +122,12 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/vault_cert
     attributes:
+      http_platform:
+        configure_vault_cert: true
+        key:
+          vault_item_key: 'key'
     includes:
+      - ubuntu-18.04
       - centos-7.5

@@ -6,8 +6,10 @@ maintainer_email 'ua-oit-se@alaska.edu'
 license 'MIT'
 description 'Installs/configures an HTTPS server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-issues_url 'https://github.alaska.edu/oit-cookbooks/http_platform/issues' if respond_to?(:issues_url)
-source_url 'https://github.alaska.edu/oit-cookbooks/http_platform' if respond_to?(:source_url)
+
+git_url = 'https://github.alaska.edu/oit-cookbooks/http_platform'
+source_url git_url if respond_to?(:source_url)
+issues_url "#{git_url}/issues" if respond_to?(:issues_url)
 
 version '0.2.2'
 
@@ -17,4 +19,6 @@ supports 'centos', '>= 7.0'
 chef_version '>= 14.0' if respond_to?(:chef_version)
 
 depends 'apache2'
+depends 'chef-vault'
 depends 'firewall'
+depends 'yum-epel'

@@ -2,7 +2,7 @@
 
 def cert_public_dir(node)
   if node['platform_family'] == 'debian'
-    dir = '/etc/ssl/certs/'
+    dir = '/etc/ssl/certs'
   elsif node['platform_family'] == 'rhel'
     dir = '/etc/pki/tls/certs'
   else
@@ -13,25 +13,59 @@ end
 
 def cert_private_dir(node)
   if node['platform_family'] == 'debian'
-    dir = '/etc/ssl/private/'
+    dir = '/etc/ssl/private'
   elsif node['platform_family'] == 'rhel'
-    dir = '/etc/pki/tls/private/'
+    dir = '/etc/pki/tls/private'
   else
     raise "Platform family not recognized: #{node['platform_family']}"
   end
   return dir
 end
 
+def path_to_conf_root_dir(node)
+  return '/etc/apache2' if node['platform_family'] == 'debian'
+
+  return '/etc/httpd'
+end
+
+def path_to_conf_d_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'conf.d')
+end
+
+def path_to_ssl_host_conf(node)
+  File.join(path_to_conf_d_dir(node), 'ssl-host.conf')
+end
+
 def path_to_self_signed_cert(node)
-  return cert_public_dir(node) + 'funny.business_cert_self_signed.pem'
+  return File.join(cert_public_dir(node), 'funny.business_cert_self_signed.pem')
+end
+
+def path_to_ca_signed_cert(node)
+  return File.join(cert_public_dir(node), 'funny.business_cert_ca_signed.pem')
+end
+
+def path_to_lets_encrypt_cert
+  return File.join('/etc/letsencrypt/live/fullchain.pem')
 end
 
 def path_to_self_signed_key(node)
-  return cert_private_dir(node) + 'funny.business_key_self_signed.pem'
+  return File.join(cert_private_dir(node), 'funny.business_key.pem')
+end
+
+def path_to_vault_key(node)
+  return File.join(cert_private_dir(node), 'funny.business_ca_key.pem')
+end
+
+def path_to_lets_encrypt_key
+  return File.join('/etc/letsencrypt/live/privkey.pem')
+end
+
+def path_to_dh_config(node)
+  return File.join(cert_private_dir(node), 'dh_config.txt')
 end
 
 def path_to_dh_params(node)
-  return cert_public_dir(node) + 'dh_param.pem'
+  return File.join(cert_public_dir(node), 'dh_param.pem')
 end
 
 def apache_service(node)

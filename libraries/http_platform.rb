@@ -5,6 +5,18 @@ module HttpPlatform
   module Helper
     TCB = 'http_platform'
 
+    def cert_public_directory
+      return '/etc/ssl/certs' if node['platform_family'] == 'debian'
+
+      return '/etc/pki/tls/certs'
+    end
+
+    def cert_private_directory
+      return '/etc/ssl/private' if node['platform_family'] == 'debian'
+
+      return '/etc/pki/tls/private'
+    end
+
     def apache_service
       return 'apache2' if node['platform_family'] == 'debian'
 
@@ -17,71 +29,87 @@ module HttpPlatform
       return '/etc/elinks.conf'
     end
 
-    def path_to_ca_signed_cert
-      pub_dir = node[TCB]['cert']['cert_public_directory']
-      return pub_dir + node[TCB]['cert']['ca_signed']['cert_public_file_name']
-    end
-
-    def path_to_ca_signed_key
-      key_dir = node[TCB]['cert']['cert_private_directory']
-      return key_dir + node[TCB]['cert']['ca_signed']['cert_private_file_name']
-    end
-
-    def ca_signed_cert?
-      have_ca_cert = ::File.exist?(path_to_ca_signed_cert)
-      have_ca_key = ::File.exist?(path_to_ca_signed_key)
-      return have_ca_cert && have_ca_key
-    end
-
-    def self_signed_cert_prefix
-      prefix_attrib = node[TCB]['cert']['self_signed']['cert_prefix']
-      return prefix_attrib unless prefix_attrib.nil?
-
+    def cert_prefix
       return node['fqdn']
     end
 
+    def path_to_ca_signed_request
+      return File.join(cert_public_directory, cert_prefix + '_cert_ca_request.pem')
+    end
+
+    def path_to_vault_cert
+      return File.join(cert_public_directory, cert_prefix + '_cert_ca_signed.pem')
+    end
+
+    def path_to_vault_key
+      return File.join(cert_private_directory, cert_prefix + '_ca_key.pem')
+    end
+
+    def vault_cert_exists?
+      return File.exist?(path_to_vault_cert)
+    end
+
+    def path_to_lets_encrypt_cert
+      # This is the one-file/cert+chain version, for modern Apache
+      return '/etc/letsencrypt/live/fullchain.pem'
+    end
+
+    def path_to_lets_encrypt_key
+      return '/etc/letsencrypt/live/privkey.pem'
+    end
+
+    def lets_encrypt_cert_exists?
+      return File.exist?(path_to_letsencrypt_cert) && File.exist?(path_to_lets_encrypt_key)
+    end
+
+    def use_vault_cert?
+      # Must be 'lazy' to use vault cert on first run
+      return node[TCB]['configure_vault_cert'] # && vault_cert_exists?
+    end
+
+    def use_lets_encrypt_cert?
+      # Cannot be 'lazy'; must fetch cert at end and use next run
+      return !use_vault_cert? && node[TCB]['configure_lets_encrypt_cert'] && lets_encrypt_cert_exists?
+    end
+
+    def use_self_signed_cert?
+      return !use_vault_cert? && !use_lets_encrypt_cert?
+    end
+
     def path_to_self_signed_cert
-      pub_dir = node[TCB]['cert']['cert_public_directory']
-      cert_post = node[TCB]['cert']['self_signed']['cert_public_suffix']
-      return pub_dir + self_signed_cert_prefix + cert_post
+      return File.join(cert_public_directory, cert_prefix + '_cert_self_signed.pem')
     end
 
     def path_to_self_signed_key
-      key_dir = node[TCB]['cert']['cert_private_directory']
-      key_post = node[TCB]['cert']['self_signed']['cert_private_suffix']
-      return key_dir + self_signed_cert_prefix + key_post
+      return File.join(cert_private_directory, cert_prefix + '_key.pem')
     end
 
-    def path_to_ssl_cert
-      return path_to_ca_signed_cert if ca_signed_cert?
+    def path_to_private_key
+      return path_to_vault_key if use_vault_cert? && node[TCB]['key']['vault_item_key']
 
-      return path_to_self_signed_cert
-    end
-
-    def path_to_ssl_key
-      return path_to_ca_signed_key if ca_signed_cert?
+      return path_to_lets_encrypt_key if use_lets_encrypt_cert?
 
       return path_to_self_signed_key
     end
 
-    def path_to_dh_config
-      key_dir = node[TCB]['cert']['cert_private_directory']
-      return key_dir + 'dh_config.txt'
+    def path_to_ssl_cert
+      return path_to_vault_cert if use_vault_cert?
+
+      return path_to_lets_encrypt_cert if use_lets_encrypt_cert?
+
+      return path_to_self_signed_cert
     end
 
-    def self_signed_cert?
-      has_ss_cert = ::File.exist?(path_to_self_signed_cert)
-      has_ss_key = ::File.exist?(path_to_self_signed_key)
-      return has_ss_cert && has_ss_key
+    def path_to_dh_config
+      return File.join(cert_private_directory, 'dh_config.txt')
     end
 
     def path_to_dh_params
-      pub_dir = node[TCB]['cert']['cert_public_directory']
-      return pub_dir + node[TCB]['cert']['dh_param']['dh_param_file_name']
+      return File.join(cert_public_directory, 'dh_param.pem')
     end
 
     def cert_common_name
-      name_attrib = node[TCB]['cert']['self_signed']['common_name']
+      name_attrib = node[TCB]['cert']['common_name']
       return name_attrib unless name_attrib.nil?
 
       return node['fqdn']
@@ -115,6 +143,12 @@ module HttpPlatform
 
     def ssl_host_conf_name
       return 'ssl-host.conf' # Must match default conf from attributes
+    end
+
+    def cert_email
+      return node[TCB]['admin_email'] if node[TCB]['cert']['email'].nil?
+
+      return node[TCB]['cert']['email']
     end
 
     def bash_out(command)
@@ -218,6 +252,20 @@ module HttpPlatform
         names.append("DNS:#{name}")
       end
       return names
+    end
+
+    def vault_secret(bag, item, key)
+      # Will raise 404 error if not found
+      item = chef_vault_item(
+        bag,
+        item
+      )
+      raise 'Unable to retrieve vault item' if item.nil?
+
+      secret = item[key]
+      raise 'Unable to retrieve item key' if secret.nil?
+
+      return secret
     end
   end
 end

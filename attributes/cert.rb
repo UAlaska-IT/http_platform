@@ -2,36 +2,27 @@
 
 tcb = 'http_platform'
 
-if node['platform_family'] == 'debian'
-  default[tcb]['cert']['cert_public_directory'] = '/etc/ssl/certs/'
-  default[tcb]['cert']['cert_private_directory'] = '/etc/ssl/private/'
-elsif node['platform_family'] == 'rhel'
-  default[tcb]['cert']['cert_public_directory'] = '/etc/pki/tls/certs'
-  default[tcb]['cert']['cert_private_directory'] = '/etc/pki/tls/private/'
-else
-  raise "Platform family not recognized: #{node['platform_family']}"
-end
+default[tcb]['cert']['expiration_days'] = 365
+default[tcb]['cert']['rsa_bits'] = 2048
 
-default[tcb]['cert']['ca_signed']['cert_public_file_name'] = 'localhost_cert_ca_signed.pem'
-default[tcb]['cert']['ca_signed']['cert_private_file_name'] = 'localhost_key_ca_signed.pem'
-
+default[tcb]['cert']['country'] = 'US'
+default[tcb]['cert']['state'] = 'Alaska'
+default[tcb]['cert']['locale'] = 'Fairbanks'
+# These must be set if the cert is being created
+default[tcb]['cert']['organization'] = nil
+default[tcb]['cert']['org_unit'] = nil
 # Defaults to FQDN
-default[tcb]['cert']['self_signed']['cert_prefix'] = nil
-default[tcb]['cert']['self_signed']['cert_public_suffix'] = '_cert_self_signed.pem'
-default[tcb]['cert']['self_signed']['cert_private_suffix'] = '_key_self_signed.pem'
-
-default[tcb]['cert']['self_signed']['expiration_days'] = 365
-default[tcb]['cert']['self_signed']['rsa_bits'] = 2048
-
-default[tcb]['cert']['self_signed']['country'] = 'US'
-default[tcb]['cert']['self_signed']['state'] = 'Alaska'
-default[tcb]['cert']['self_signed']['locale'] = 'Fairbanks'
-default[tcb]['cert']['self_signed']['organization'] = 'fake_org'
-default[tcb]['cert']['self_signed']['org_unit'] = 'fake_unit'
-# Defaults to FQDN
-default[tcb]['cert']['self_signed']['common_name'] = nil
+default[tcb]['cert']['common_name'] = nil
 # Defaults to admin_email
-default[tcb]['cert']['self_signed']['email'] = nil
+default[tcb]['cert']['email'] = nil
 
-default[tcb]['cert']['dh_param']['dh_param_file_name'] = 'dh_param.pem'
 default[tcb]['cert']['dh_param']['bits'] = 2048
+
+default[tcb]['cert']['vault_data_bag'] = 'certs' # The name of the vault data bag
+# Defaults to fqdn
+default[tcb]['cert']['vault_bag_item'] = nil # item inside the data bag (json file)
+default[tcb]['cert']['vault_item_key'] = 'cert' # The key for password within the json object
+
+# This will typically be nil because the generated CSR will be used to create the certificate
+# However, a key will be manually placed on the system if this is non-nil, e.g. in kitchen
+default[tcb]['key']['vault_item_key'] = nil # The key for password within the json object
