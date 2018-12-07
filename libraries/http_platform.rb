@@ -51,11 +51,11 @@ module HttpPlatform
 
     def path_to_lets_encrypt_cert
       # This is the one-file/cert+chain version, for modern Apache
-      return '/etc/letsencrypt/live/fullchain.pem'
+      return "/etc/letsencrypt/live/#{www_server_name(node['fqdn'])}/fullchain.pem"
     end
 
     def path_to_lets_encrypt_key
-      return '/etc/letsencrypt/live/privkey.pem'
+      return "/etc/letsencrypt/live/#{www_server_name(node['fqdn'])}/privkey.pem"
     end
 
     def lets_encrypt_cert_exists?
