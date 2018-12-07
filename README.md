@@ -177,6 +177,7 @@ Apache attributes control the server configuration.
 Defaults to `false`.
 If true, installs support for running `apachectl fullstatus` for troubleshooting.
 This includes a command-line browser (elinks) and the Apache status module.
+Because 'localhost' will redirect to the default HTTPS host, to perform local testing it is advisable to either poison the hosts file on the host machine or to explicitly specify HTTPS protocol (and port if forwarded), e.g. 'https://localhost:8043'.
 
 * node['http_platform']['apache']['extra_mods_to_install'].
 Defaults to `{}`.

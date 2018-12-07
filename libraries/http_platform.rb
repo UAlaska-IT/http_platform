@@ -203,7 +203,8 @@ module HttpPlatform
       return host unless host_is_www(host)
 
       remainder = host[4..-1]
-      raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ /[a-z0-9]+(\.[a-z0-9]+)+/
+      fqdn_regex = /localhost|[a-z0-9]+(\.[a-z0-9]+)+/
+      raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ fqdn_regex
 
       return remainder
     end
@@ -239,6 +240,7 @@ module HttpPlatform
     def generate_alias_pairs
       aliases = {}
       insert_alias_pair(aliases, node['fqdn'])
+      # insert_alias_pair(aliases, 'localhost') if node[TCB]['apache']['install_test_suite']
       node[TCB]['www']['additional_aliases'].each do |host, _|
         insert_alias_pair(aliases, host)
       end

@@ -5,6 +5,9 @@ require_relative '../helpers'
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
 alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.me.also", "DNS:me.also"\]'
+# rubocop:disable Metrics/LineLength
+# alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.localhost", "DNS:localhost", "DNS:www.me.also", "DNS:me.also"\]'
+# rubocop:enable Metrics/LineLength
 
 describe file('/opt/chef/run_record/http_cert_record.txt') do
   it { should exist }
@@ -88,6 +91,8 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('extensions') { should include 'subjectAltName' }
   its('extensions.subjectAltName') { should include 'DNS:funny.business' }
   its('extensions.subjectAltName') { should include 'DNS:www.funny.business' }
+  # its('extensions.subjectAltName') { should include 'DNS:localhost' }
+  # its('extensions.subjectAltName') { should include 'DNS:www.localhost' }
   its('extensions.subjectAltName') { should include 'DNS:me.also' }
   its('extensions.subjectAltName') { should include 'DNS:www.me.also' }
 
