@@ -17,6 +17,8 @@ names.each do |name|
   command += " -d #{name}"
 end
 
+puts("CERTBOT COMMAND: #{command}")
+
 bash 'Get Lets Encrypt Certificate' do
   code command
   action :nothing
