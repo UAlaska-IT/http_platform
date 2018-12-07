@@ -51,11 +51,11 @@ module HttpPlatform
 
     def path_to_lets_encrypt_cert
       # This is the one-file/cert+chain version, for modern Apache
-      return "/etc/letsencrypt/live/#{www_server_name(node['fqdn'])}/fullchain.pem"
+      return "/etc/letsencrypt/live/#{plain_server_name(node['fqdn'])}/fullchain.pem"
     end
 
     def path_to_lets_encrypt_key
-      return "/etc/letsencrypt/live/#{www_server_name(node['fqdn'])}/privkey.pem"
+      return "/etc/letsencrypt/live/#{plain_server_name(node['fqdn'])}/privkey.pem"
     end
 
     def lets_encrypt_cert_exists?
@@ -209,6 +209,12 @@ module HttpPlatform
       return remainder
     end
 
+    def other_server_name(host)
+      return plain_server_name(host) if host_is_www(host)
+
+      return www_server_name(host)
+    end
+
     def insert_duplicate_options(aliases, host, options)
       aliases[host] =
         if node[TCB]['www']['additional_aliases'].key?(host)
@@ -248,10 +254,10 @@ module HttpPlatform
     end
 
     def generate_domain_names
-      aliases = generate_alias_pairs
+      aliases = generate_alias_pairs # www names are first
       names = []
       aliases.each do |name, _|
-        names.append(name)
+        names.append(other_server_name(name)) # List plain names first
       end
       return names
     end
