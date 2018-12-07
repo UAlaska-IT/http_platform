@@ -2,6 +2,7 @@
 
 tcb = 'http_platform'
 
+node.default['apache']['contact'] = node[tcb]['admin_email']
 node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
 
 # For apachectl fullstatus

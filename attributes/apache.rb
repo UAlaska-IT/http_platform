@@ -11,7 +11,6 @@ default[tcb]['apache']['install_test_suite'] = false
 default[tcb]['apache']['extra_mods_to_install'] = {}
 
 default[tcb]['admin_email'] = nil # This must be set or an exception is raised; also default for cert
-default['apache']['contact'] = node[tcb]['admin_email']
 
 # Used for certs also
 default[tcb]['cipher_generator'] = 'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'
