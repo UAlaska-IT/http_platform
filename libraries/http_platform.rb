@@ -30,19 +30,19 @@ module HttpPlatform
     end
 
     def cert_prefix
-      return node['fqdn']
+      return 'http_platform'
     end
 
     def path_to_ca_signed_request
-      return File.join(cert_public_directory, cert_prefix + '_cert_ca_request.pem')
+      return File.join(cert_public_directory, cert_prefix + '_csr.pem')
     end
 
     def path_to_vault_cert
-      return File.join(cert_public_directory, cert_prefix + '_cert_ca_signed.pem')
+      return File.join(cert_public_directory, cert_prefix + '_vault_cert.pem')
     end
 
     def path_to_vault_key
-      return File.join(cert_private_directory, cert_prefix + '_ca_key.pem')
+      return File.join(cert_private_directory, cert_prefix + '_vault_key.pem')
     end
 
     def vault_cert_exists?
@@ -77,7 +77,7 @@ module HttpPlatform
     end
 
     def path_to_self_signed_cert
-      return File.join(cert_public_directory, cert_prefix + '_cert_self_signed.pem')
+      return File.join(cert_public_directory, cert_prefix + '_ss_cert.pem')
     end
 
     def path_to_self_signed_key
