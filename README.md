@@ -258,11 +258,99 @@ However, a key will be manually placed on the system if this is non-nil, e.g. fo
 
 __firewall__
 
-Firewall attributes configure the firewall settings.
+Firewall attributes control firewall settings.
+
+* node['http_platform']['firewall']['enable_http']. Defaults to `true`. Determines if world-accessible HTTP is allowed.
+
+World-accessible HTTPS is _always_ allowed.
+If custom HTTP/HTTPS rules are desired, e.g. remote access from only specific CIDRs, then `node['http_platform']['configure_firewall']` can be set to `false` and the desired rules created elsewhere.
+
+Please note:
+
+* This cookbook uses the [firewall cookbook](https://github.com/chef-cookbooks/firewall) to create firewall rules so will conflict with other methods if configured.
+* An SSH rule __must__ be created outside of this cookbook or communication will be lost to the node after this cookbook is run. The `firewall::default` rule is used to initialize the firewall, and this recipe respects all attributes of the [firewall cookbook](https://github.com/chef-cookbooks/firewall).
+Notably, a world-accessible SSH rule can be created by setting `node['firewall']['allow_ssh']` to `true`.
 
 __www__
 
 WWW settings configure the application and hosts.
+
+* node['http_platform']['www']['document_root'].
+Defaults to `'/var/www/html'`.
+The absolute path to the directory where web documents are located.
+
+* node['http_platform']['www']['remove_default_index'].
+Defaults to `true`.
+Some distributions provide a default document at $HTTP_HOST/index.html.
+If this flag is true any such document will be removed.
+* node['http_platform']['www']['create_default_index'].
+Defaults to `false`.
+If true an extremely simple html page will be created at $HTTP_HOST/index.html.
+This can be used for initial troubleshooting.
+This setting overrides `node['http_platform']['www']['remove_default_index']`.
+
+* node['http_platform']['www']['access_directories'].
+Defaults to `{ '/' => '' }`.
+A hash of directories and files to which to allow http access.
+Each key is a relative path from `node['http_platform']['www']['document_root']` to the directory.
+Each value is a single file in that directory.
+To allow access recursively to all files in the directory, use an empty string as the file name.
+
+* node['http_platform']['www']['error_documents'].
+Defaults to `{}`.
+A mapping of status code => relative path to error document, e.g. { 404 => '/404_kitten.php' }.
+Error documents are shared by all hosts.
+
+* node['http_platform']['www']['additional_aliases'].
+Defaults to `{}`.
+This cookbook always creates plain (default host) and www hosts for the FQDN.
+This is a map of additional hosts to options, e.g. { 'other.url' => { 'log_level' -> 'info' } }.
+Options can also be set for the FQDN host by including that as well.
+If both the plain and www host are included, these are treated as independent and can be given different options.
+Otherwise the plain and www hosts will be created as a matched pair with identical options.
+The options currently recognized are:
+  * 'log_level'.
+  Defaults to 'warn'.
+  See the [Apache documentation](https://httpd.apache.org/docs/2.4/mod/core.html#loglevel).
+  * 'log_prefix'.
+  Defaults to the plain host name.
+  For example, on Ubuntu the default access log for 'www.other.url' will be '/var/log/apache2/other.url.access.log'.
+
+* node['http_platform']['www']['redirect_rules'].
+Defaults to `[]`.
+This is an array of haches representing redirect rules; these will be matched first to last.
+The fields of a rule are:
+  * 'comment'.
+  Optional.
+  Will be placed above the rule.
+  * 'from_regex'.
+  Required.
+  The regex for the incoming URL.
+  * 'to_regex'.
+  Required.
+  The regex for the target URL.
+
+* node['http_platform']['www']['rewrite_rules'].
+Defaults to `[]`.
+An array of hashes representing rewrite rules; these will be matched first to last.
+Rewrite rules are evaluated after redirect rules.
+This attribute only generates 'RewriteRule' entries.
+For other rewrite logic custom config files must be used.
+This attribute will eventually support generating both Apache and Nginx configs for the range of logic it supports.
+The fields of a rule are:
+  * 'comment'.
+  Optional.
+  Will be placed above the rule.
+  * 'url_regex'.
+  Required.
+  The regex for the URL.
+  * 'path_regex'.
+  Required.
+  The regex for the generated relative file path.
+  * 'flags'.
+  Optional.
+  The flags for the rule, e.g. '[L,NC]'.
+  See the [Apache documentation](https://httpd.apache.org/docs/2.4/rewrite/flags.html).
 
 ## Examples
 
