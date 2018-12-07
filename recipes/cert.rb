@@ -100,7 +100,7 @@ bash 'Create DH parameters' do
 end
 
 # Always create this so the request can be sent to the CA
-openssl_x509_request path_to_ca_signed_request do
+openssl_x509_request path_to_csr do
   owner 'root'
   group 'root'
   mode '0600'

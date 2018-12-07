@@ -33,7 +33,7 @@ module HttpPlatform
       return 'http_platform'
     end
 
-    def path_to_ca_signed_request
+    def path_to_csr
       return File.join(cert_public_directory, cert_prefix + '_csr.pem')
     end
 
