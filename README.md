@@ -193,7 +193,67 @@ Note that `node.default['apache']['contact']` is set to the value of `node['http
 
 __cert__
 
-Cert attributes specify the fields of the PKI certificate and the private key.
+Cert attributes specify the fields of the PKI certificate and the parameters of the private key.
+
+* node['http_platform']['cert']['expiration_days'].
+Defaults to `365`.
+The number of days until expiration for the SS certificate and and the CSR.
+* node['http_platform']['cert']['rsa_bits'].
+Defaults to `2048`.
+The number of bits in the private key.
+Currently only RSA keys are supported.
+
+The attributes below are given defaults but should typically be changed.
+
+* node['http_platform']['cert']['country'].
+Defaults to `'US'`.
+The host country.
+* node['http_platform']['cert']['state'].
+Defaults to `'Alaska'`.
+The host state, clients will typically want to override this:)
+* node['http_platform']['cert']['locale'].
+Defaults to `'Fairbanks'`.
+The host city.
+Almost surely not correct for a client.
+
+The following attributes must be set if the cert is being created.
+
+* node['http_platform']['cert']['organization'].
+Defaults to `nil`
+* node['http_platform']['cert']['org_unit'].
+Defaults to `nil`
+
+The attributes below default to reasonable values.
+
+* node['http_platform']['cert']['common_name'].
+Defaults to `nil`.
+If nil, the FQDN of the node is used.
+* node['http_platform']['cert']['email'].
+Defaults to `nil`.
+If nil, the value of `node['http_platform']['admin_email']` is used.
+
+* node['http_platform']['cert']['dh_param']['bits'].
+Defaults to `2048`.
+The number of bits used for the Diffie-Hellman (DH) key exchange.
+Currently DH is configured only on Debian-based distros.
+
+The attributes below control fetching of a certificate from a server vault.
+
+* node['http_platform']['cert']['vault_data_bag']. 
+Defaults to `'certs'`.
+The name of the vault data bag from which to fetch the cert.
+* node['http_platform']['cert']['vault_bag_item'].
+Defaults to `nil`.
+The tem inside the data bag (json file).
+If nil, Defaults to the FQDN of the node.
+* node['http_platform']['cert']['vault_item_key'].
+Defaults to `'cert'`.
+The key for the certificate within the json object.
+* node['http_platform']['key']['vault_item_key'].
+Defaults to `nil`.
+The key for the private key within the json object.
+This will typically be nil because the generated CSR will be used to create a certificate for the generated private key.
+However, a key will be manually placed on the system if this is non-nil, e.g. for use in Test Kitchen.
 
 __firewall__
 
