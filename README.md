@@ -25,7 +25,25 @@ This cookbook is intended as a base for rapidly building websites and as such fa
 
 Currently only Apache is supported.
 
-Host names are always populated as plain-www pairs, so either or both can be listed.
+Host names are always populated as plain-www pairs and each pair shares logging, so either plain, www, or both hosts can be listed.
+
+While convention is favored over configuration, almost all logic is placed in an auxiliary config file that is included in bare-minimum virtual hosts.
+For example:
+
+```text
+<VirtualHost *:443>
+  ServerName www.funny.business
+
+  ErrorLog ${APACHE_LOG_DIR}/funny.business.error.log
+  CustomLog ${APACHE_LOG_DIR}/funny.business.access.log combined
+  LogLevel warn
+
+  Include conf.d/ssl-host.conf
+</VirtualHost>
+```
+
+This allows the host-enumeration logic in this cookbook to be used with entirely custom configurations.
+See `node['http_platform']['apache']['paths_to_additional_configs']` below.
 
 Three sources are supported for certificates.
 The cookbook always creates a private key, Self-Signed (SS) certificate, and Certificate Signing Request (CSR).
@@ -42,6 +60,12 @@ If multiple certificates are configured, the hosts will use the certificate with
 Precedence is as follows.
 
 `Vault > Lets Encrypt > Self Signed`
+
+ToDo:
+
+* Automatic stapling
+* Additional access directories
+* Additional access files
 
 ## Requirements
 
@@ -108,9 +132,64 @@ Defaults to `false`.
 Determines if a certificate is fetching using Certbot.
 Requires Apache running on a world-visible server.
 
+Several attributes control security.
+The philosophy of this cookbook is to be optimistic and allow new ciphers and protocols to be added as time goes on.
+This is done by defining support in the negative: start with a candidate list and remove unsecure items.
+This is done mostly to reduce the burden of managing a platform-dependent list of supported ciphers over time.
+
+* node['http_platform']['cipher_generator'].
+Defaults to `'HIGH:!aNULL:!kRSA:!SHA:@STRENGTH'`.
+This is the string used to generate a list of candidate ciphers using [OpenSSL](https://www.openssl.org/docs/man1.1.0/apps/ciphers.html).
+The precise list of ciphers generated depends on both OpenSSL version and compile options and will be specific to a distribution.
+The meaning of this string is 'All ciphers that use encryption with "high" strength rating - but not null authentication, RSA key exchange, or SHA hashing - ordered by strength'.
+This generator is sufficient to generate a tight cipher suite on Ubuntu 18, Ubuntu 16, or CentOS 7.
+Older distros may require more exclusions.
+* node['http_platform']['ciphers_to_remove'].
+Defaults to `['-CBC-']`.
+This is a list of regular expressions.
+Any cipher matching one or more of these regexes will be removed from the final list of ciphers.
+This attribute is used primarily to remove algorithms that cannot be specified as a group, as is done with `kRSA` above.
+By default, any cipher that uses [cipher block chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) will be removed.
+* node['http_platform']['ssl_protocol'].
+Defaults to `'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'`.
+This is the string used to specify protocol versions to be used.
+On Ubuntu 18, Ubuntu 16 and CentOS 7 this results in only TLSv1.2.
+TLSv1.3 will be automatically supported when it becomes available but explicit TLSv1.3 is not commonly supported at this time.
+Note that `node.default['apache']['mod_ssl']['ssl_protocol']` is set to the value of `node['http_platform']['ssl_protocol']` within a recipe.
+* node['http_platform']['apache']['use_stapling'].
+Defaults to `'off'`.
+This must not be enabled unless a trusted certificate is configured.
+* node['http_platform']['apache']['paths_to_additional_configs'].
+Defaults to `{ 'conf.d/ssl-host.conf' => '' }`.
+A hash of relative paths to additional config files to be included by all HTTPS hosts.
+The default is the config file generated based on the attributes of this cookbook.
+Most clients will merge this hash to add additional configs as desired, but an entirely custom host configuration is hereby supported.
+
+The default security settings are sufficient to earn an 'A' grade on [Qualys SSL Server Test](https://www.ssllabs.com/ssltest/).
+If compatibility is a concern, the ciphers should be loosened.
+For high-traffic servers, less costly ciphers are advisable.
+
 __apache__
 
 Apache attributes control the server configuration.
+
+* node['http_platform']['apache']['install_test_suite'].
+Defaults to `false`.
+If true, installs support for running `apachectl fullstatus` for troubleshooting.
+This includes a command-line browser (elinks) and the Apache status module.
+
+* node['http_platform']['apache']['extra_mods_to_install'].
+Defaults to `{}`.
+A hash of Apache mods to install; e.g. `{ 'wsgi -> '' }`.
+Modules 'headers', 'rewrite', and 'ssl' are always installed.
+Include the mod name only, e.g. 'php', without prefix 'mod_' or suffix '_mod'
+See the [Apache cookbook](https://github.com/sous-chefs/apache2#recipes) for a list of modules
+
+* node['http_platform']['admin_email'].
+Defaults to `nil`.
+This must be set or an exception is raised.
+This also serves as the default email for the CSR.
+Note that `node.default['apache']['contact']` is set to the value of `node['http_platform']['admin_email']` within a recipe.
 
 __cert__
 
