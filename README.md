@@ -71,6 +71,35 @@ This cookbook does not constrain its dependencies because it is intended as a ut
 
 This cookbook provides no custom resources.
 
+## Recipes
+
+### http_platform::default
+
+This recipe configures the server, encryption, hosts, and access.
+Several additional recipes are called to accomplish these tasks, but only this recipe should be included by clients.
+
+#### Attributes
+
+__default__
+
+Default attributes control the features of the platform.
+
+__apache__
+
+Apache attributes control the server configuration.
+
+__cert__
+
+Cert attributes specify the fields of the PKI certificate and the private key.
+
+__firewall__
+
+Firewall attributes configure the firewall settings.
+
+__www__
+
+WWW settings configure the application and hosts.
+
 ## Examples
 
 This is an application cookbook; no custom resources are provided.  See recipes and attributes for details of what this cookbook does.
