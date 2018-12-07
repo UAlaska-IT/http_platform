@@ -23,3 +23,9 @@ bash 'Get Lets Encrypt Certificate' do
   code command
   action :nothing
 end
+
+file 'Certbot Record' do
+  path '/opt/chef/run_record/certbot_command.txt'
+  content command
+  notifies :run, "bash[Get Lets Encrypt Certificate]", :immediate
+end
