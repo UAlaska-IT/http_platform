@@ -84,6 +84,30 @@ __default__
 
 Default attributes control the features of the platform.
 
+* node['http_platform']['configure_firewall'].
+Defaults to `true`.
+Determines if the firewall is configured.
+* node['http_platform']['configure_cert'].
+Defaults to `true`.
+Determines if a private key, self-signed certificate, CSR, and possibly other certificates are created.
+* node['http_platform']['configure_apache'].
+Defaults to `true`.
+Determines if the Apache HTTP server is installed and configured.
+Disabling this permits the certificate-handling logic to be used with, for example, Nginx.
+Note that Apache must be configured to use Certbot to fetch a trusted certificate.
+
+These flags control trusted certificate usage.
+These attributes have no effect if `node['http_platform']['configure_cert']` is `false`.
+See above for certificate precedence.
+
+* node['http_platform']['configure_vault_cert'].
+Defaults to `false`.
+Determines if a certificate is fetched from Chef vault.
+* node['http_platform']['configure_lets_encrypt_cert'].
+Defaults to `false`.
+Determines if a certificate is fetching using Certbot.
+Requires Apache running on a world-visible server.
+
 __apache__
 
 Apache attributes control the server configuration.
