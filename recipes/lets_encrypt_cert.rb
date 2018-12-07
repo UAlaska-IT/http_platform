@@ -11,7 +11,7 @@ end
 
 package 'python-certbot-apache'
 
-command = 'certbot --apache certonly -n'
+command = "certbot --apache certonly -n --email #{cert_email} --agree-tos"
 names = generate_alt_names
 names.each do |name|
   command += " -d #{name}"

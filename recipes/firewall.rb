@@ -17,5 +17,4 @@ firewall_rule 'Allow HTTPS' do
   protocol :tcp
   position 1
   command :allow
-  only_if { node[tcb]['firewall']['enable_https'] }
 end

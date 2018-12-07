@@ -2,7 +2,11 @@
 
 tcb = 'http_platform'
 
+node.default['apache']['contact'] = node[tcb]['admin_email']
 node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
+
+staple_error = node[tcb]['apache']['use_stapling'] != 'off' && use_self_signed_cert?
+raise 'Cannot use stapling with an untrusted certificate' if staple_error
 
 # For apachectl fullstatus
 package 'elinks' do

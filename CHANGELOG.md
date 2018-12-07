@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 0.3.1
+
+* Fixed bug in function for lets encrypt
+
 ## 0.3.0
 
 * Added management of cert from vault

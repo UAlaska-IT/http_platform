@@ -30,19 +30,19 @@ module HttpPlatform
     end
 
     def cert_prefix
-      return node['fqdn']
+      return 'http_platform'
     end
 
-    def path_to_ca_signed_request
-      return File.join(cert_public_directory, cert_prefix + '_cert_ca_request.pem')
+    def path_to_csr
+      return File.join(cert_public_directory, cert_prefix + '_csr.pem')
     end
 
     def path_to_vault_cert
-      return File.join(cert_public_directory, cert_prefix + '_cert_ca_signed.pem')
+      return File.join(cert_public_directory, cert_prefix + '_vault_cert.pem')
     end
 
     def path_to_vault_key
-      return File.join(cert_private_directory, cert_prefix + '_ca_key.pem')
+      return File.join(cert_private_directory, cert_prefix + '_vault_key.pem')
     end
 
     def vault_cert_exists?
@@ -59,7 +59,7 @@ module HttpPlatform
     end
 
     def lets_encrypt_cert_exists?
-      return File.exist?(path_to_letsencrypt_cert) && File.exist?(path_to_lets_encrypt_key)
+      return File.exist?(path_to_lets_encrypt_cert) && File.exist?(path_to_lets_encrypt_key)
     end
 
     def use_vault_cert?
@@ -77,7 +77,7 @@ module HttpPlatform
     end
 
     def path_to_self_signed_cert
-      return File.join(cert_public_directory, cert_prefix + '_cert_self_signed.pem')
+      return File.join(cert_public_directory, cert_prefix + '_ss_cert.pem')
     end
 
     def path_to_self_signed_key
@@ -203,7 +203,8 @@ module HttpPlatform
       return host unless host_is_www(host)
 
       remainder = host[4..-1]
-      raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ /[a-z0-9]+(\.[a-z0-9]+)+/
+      fqdn_regex = /localhost|[a-z0-9]+(\.[a-z0-9]+)+/
+      raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ fqdn_regex
 
       return remainder
     end
@@ -239,6 +240,7 @@ module HttpPlatform
     def generate_alias_pairs
       aliases = {}
       insert_alias_pair(aliases, node['fqdn'])
+      # insert_alias_pair(aliases, 'localhost') if node[TCB]['apache']['install_test_suite']
       node[TCB]['www']['additional_aliases'].each do |host, _|
         insert_alias_pair(aliases, host)
       end
