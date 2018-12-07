@@ -131,3 +131,18 @@ suites:
     includes:
       - ubuntu-18.04
       - centos-7.5
+  - name: certbot
+    run_list:
+      - recipe[se-nix-baseline::default]
+      - recipe[http_platform::default]
+    data_bags_path: "test/integration/data_bags"
+    verifier:
+      inspec_tests:
+        - test/integration/default
+        - test/integration/vault_cert
+    attributes:
+      http_platform:
+        configure_lets_encrypt_cert: true
+    includes:
+      - ubuntu-18.04
+      - centos-7.5
