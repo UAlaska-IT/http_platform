@@ -133,8 +133,9 @@ Determines if a certificate is fetching using Certbot.
 Requires Apache running on a world-visible server.
 
 Several attributes control security.
-The philosophy of this cookbook is to be optimistic and allow new ciphers and protocols to be added as time goes on.
-This is done by defining support in the negative: start with a candidate list and remove unsecure items.
+The philosophy of this cookbook is to favor security over compatibility or performance.
+However, the cipher and protocol generators are optimistic and will automatically add new ciphers and protocols on future distros.
+This is done by defining support in the negative: generate with a candidate list and remove unsecure algorithms.
 This is done mostly to reduce the burden of managing a platform-dependent list of supported ciphers over time.
 
 * `node['http_platform']['cipher_generator']`.
@@ -165,7 +166,7 @@ A hash of relative paths to additional config files to be included by all HTTPS 
 The default is the config file generated based on the attributes of this cookbook.
 Most clients will merge this hash to add additional configs as desired, but an entirely custom host configuration is hereby supported.
 
-The default security settings are sufficient to earn an 'A' grade on [Qualys SSL Server Test](https://www.ssllabs.com/ssltest/).
+The default security settings are sufficient to earn an 'A+' grade on [Qualys SSL Server Test](https://www.ssllabs.com/ssltest/).
 If compatibility is a concern, the ciphers should be loosened.
 For high-traffic servers, less costly ciphers are advisable.
 
