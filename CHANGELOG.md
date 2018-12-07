@@ -1,5 +1,10 @@
 # Changelog for HTTP Platform Cookbook
 
+## 0.3.0
+
+* Added management of cert from vault
+* Added management of cert from certbot
+
 ## 0.2.2
 
 * Eliminated empty ciphers
