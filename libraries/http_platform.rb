@@ -5,6 +5,18 @@ module HttpPlatform
   module Helper
     TCB = 'http_platform'
 
+    def configure_apache?
+      return node['configure_server'] == 'apache'
+    end
+
+    def configure_nginx?
+      return node['configure_server'] == 'nginx'
+    end
+
+    def configure_server?
+      return configure_apache? || configure_nginx?
+    end
+
     def cert_public_directory
       return '/etc/ssl/certs' if node['platform_family'] == 'debian'
 

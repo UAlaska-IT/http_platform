@@ -112,11 +112,12 @@ Determines if the firewall is configured.
 * `node['http_platform']['configure_cert']`.
 Defaults to `true`.
 Determines if a private key, self-signed certificate, CSR, and possibly other certificates are created.
-* `node['http_platform']['configure_apache']`.
-Defaults to `true`.
-Determines if the Apache HTTP server is installed and configured.
-Disabling this permits the certificate-handling logic to be used with, for example, Nginx.
-Note that Apache must be configured to use Certbot to fetch a trusted certificate.
+* `node['http_platform']['configure_server']`.
+Defaults to `'apache'`.
+The HTTP server to configure, either `'apache'` or `'nginx'`.
+To not configure any server, set the value to anything that evaluates to false.
+Note that Apache is fully supported but Nginx is currently a placeholder to facilitate use of certificate-handling logic.
+Either Apache or Nginx must be configured to use Certbot to fetch a trusted certificate.
 
 These flags control trusted certificate usage.
 These attributes have no effect if `node['http_platform']['configure_cert']` is `false`.
