@@ -22,7 +22,7 @@ describe file(path_to_lets_encrypt_key) do
   its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
 end
 
-describe file(path_to_lets_encrypt_key) do
+describe file('/etc/letsencrypt/live') do
   it { should exist }
   it { should be_directory }
   it { should be_mode 0o750 }
