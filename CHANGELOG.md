@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.1.0
+
+* Added support for fetching a cert on Nginx
+
 ## 1.0.0
 
 * Certbot now works
