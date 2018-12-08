@@ -6,11 +6,11 @@ module HttpPlatform
     TCB = 'http_platform'
 
     def configure_apache?
-      return node['configure_server'] == 'apache'
+      return node[TCB]['configure_server'] == 'apache'
     end
 
     def configure_nginx?
-      return node['configure_server'] == 'nginx'
+      return node[TCB]['configure_server'] == 'nginx'
     end
 
     def configure_server?
