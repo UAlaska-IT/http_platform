@@ -146,7 +146,7 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
-        - test/integration/vault_cert
+        - test/integration/lets_encrypt_cert
     attributes:
       http_platform:
         configure_lets_encrypt_cert: true
