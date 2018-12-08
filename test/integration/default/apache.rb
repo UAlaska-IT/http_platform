@@ -101,7 +101,7 @@ if node['platform_family'] == 'debian' # CentOS ignores conf directive to not va
     end
   end
 
-  describe bash("elinks -dump https://localhost/index.html") do
+  describe bash('elinks -dump https://localhost/index.html') do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq '' }
     its(:stdout) { should match 'Now make yourself a website:\)' }
