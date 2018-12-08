@@ -9,7 +9,7 @@ describe file(path_to_ca_signed_cert(node)) do
   it { should be_file }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
+  it { should be_grouped_into 'adm' }
   its(:content) { should match 'BEGIN CERTIFICATE' }
   its(:content) { should match '6gAwIBAgIVAM2EyVtFbBhD5K29iY60ULQ/gIbnMA0GCSqGSIb3DQEB' } # No escape, near beginning
 end
@@ -17,9 +17,9 @@ end
 describe file(path_to_vault_key(node)) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o600 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
+  it { should be_grouped_into 'adm' }
   its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
   its(:content) { should match 'MIIEpQIBAAKCAQEAmdeLBWsW3xYyCCcijBjQb' } # No escape, near beginning
 end

@@ -23,6 +23,7 @@ provisioner:
           - 'lua'
         install_test_suite: true
       cert:
+        owner_group: 'adm'
         organization: 'fake_org'
         org_unit: 'fake_unit'
       www:
@@ -145,7 +146,7 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
-        - test/integration/vault_cert
+        - test/integration/lets_encrypt_cert
     attributes:
       http_platform:
         configure_lets_encrypt_cert: true

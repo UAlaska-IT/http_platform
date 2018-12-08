@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+tcb = 'http_platform'
+
 if node['platform_family'] == 'debian'
   apt_package 'software-properties-common'
   apt_repository 'certbot' do
@@ -28,4 +30,12 @@ file 'Certbot Record' do
   path '/opt/chef/run_record/certbot_command.txt'
   content command
   notifies :run, 'bash[Get Lets Encrypt Certificate]', :immediate
+end
+
+# Certbot permissions are weird; everything is world readable except for archive and live directories
+# Works for us; give permissions to group by changing one directory
+directory '/etc/letsencrypt/live' do
+  owner 'root'
+  group node[tcb]['cert']['owner_group']
+  mode '0750'
 end

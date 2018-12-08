@@ -12,6 +12,7 @@ key_record = '/opt/chef/run_record/http_key_record.txt'
 
 file cert_record do
   content <<~CONTENT
+    group: #{node[tcb]['cert']['owner_group']}
     # ca_cert_file
     # ca_key_file
     # ca_key_pass
@@ -39,6 +40,7 @@ end
 # Only delete private key if relevant parameter changes
 file key_record do
   content <<~CONTENT
+    group: #{node[tcb]['cert']['owner_group']}
     key_length: #{node[tcb]['cert']['rsa_bits']}
   CONTENT
 end
@@ -55,9 +57,9 @@ end
 
 openssl_x509_certificate path_to_self_signed_cert do
   owner 'root'
-  group 'root'
-  mode '0600'
-  notifies :restart, "service[#{apache_service}]", :delayed if node[tcb]['configure_apache']
+  group node[tcb]['cert']['owner_group']
+  mode '0640'
+  notifies :restart, "service[#{apache_service}]", :delayed if configure_apache?
   # The fields below must match the file above!
 
   # ca_cert_file
@@ -96,14 +98,14 @@ bash 'Create DH parameters' do
   code "sudo openssl dhparam -out '#{path_to_dh_params}' #{node[tcb]['cert']['dh_param']['bits']}"
   action :nothing
   subscribes :run, 'template[DH configuration]', :immediate
-  notifies :restart, "service[#{apache_service}]", :delayed if node[tcb]['configure_apache']
+  notifies :restart, "service[#{apache_service}]", :delayed if configure_apache?
 end
 
 # Always create this so the request can be sent to the CA
 openssl_x509_request path_to_csr do
   owner 'root'
-  group 'root'
-  mode '0600'
+  group node[tcb]['cert']['owner_group']
+  mode '0644'
 
   # Below must match the certificate
   common_name cert_common_name
