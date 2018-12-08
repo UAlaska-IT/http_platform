@@ -29,3 +29,11 @@ file 'Certbot Record' do
   content command
   notifies :run, 'bash[Get Lets Encrypt Certificate]', :immediate
 end
+
+# Certbot permissions are weird; everything is world readable except for archive and live directories
+# Works for us; give permissions to group by changing one directory
+directory '/etc/letsencrypt/live' do
+  owner 'root'
+  group node[tcb]['cert']['owner_group']
+  mode '0750'
+end
