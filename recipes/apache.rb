@@ -47,8 +47,11 @@ file '/var/www/html/index.html' do
 end
 
 host_names = generate_alias_pairs
+access_directories, access_files = access_directories_and_files
 
 var_map = {
+  access_directories: access_directories,
+  access_files: access_files,
   cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
   path_to_key: path_to_private_key,

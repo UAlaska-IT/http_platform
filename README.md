@@ -64,8 +64,6 @@ Precedence is as follows.
 ToDo:
 
 * Automatic stapling
-* Additional access directories
-* Additional access files
 
 ## Requirements
 
@@ -151,6 +149,7 @@ This is a list of regular expressions.
 Any cipher matching one or more of these regexes will be removed from the final list of ciphers.
 This attribute is used primarily to remove algorithms that cannot be specified as a group, as is done with `kRSA` above.
 By default, any cipher that uses [cipher block chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) will be removed.
+Note that `node.default['apache']['mod_ssl']['cipher_suite']` is set within a recipe to the final list of ciphers generated here.
 * `node['http_platform']['ssl_protocol']`.
 Defaults to `'All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1'`.
 This is the string used to specify protocol versions to be used.
@@ -297,8 +296,8 @@ This setting overrides `node['http_platform']['www']['remove_default_index']`.
 Defaults to `{ '/' => '' }`.
 A hash of directories and files to which to allow http access.
 Each key is a relative path from `node['http_platform']['www']['document_root']` to the directory.
-Each value is a single file in that directory.
-To allow access recursively to all files in the directory, use an empty string as the file name.
+Each value is either a single file name or a list of file names in that directory.
+To allow access recursively to all files in the directory, use an empty string or empty list as the value.
 
 * `node['http_platform']['www']['error_documents']`.
 Defaults to `{}`.

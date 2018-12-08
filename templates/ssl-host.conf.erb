@@ -35,10 +35,19 @@ RewriteEngine on
 RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% if rule.key?('flags') && rule['flags'] -%> <%= rule['flags'] %><% end -%>
 <% end -%>
 
-<% node['http_platform']['www']['access_directories'].each do |dir, _| -%>
+<% @access_directories.each do |dir| -%>
 <Directory <%= dir %>>
   Require all granted
 </Directory>
+<% end -%>
+<% @access_files.each do |dir, files| -%>
+  <% files.each do |file| -%>
+<Directory <%= dir %>>
+  <Files <%= file %>>
+    Require all granted
+  </Files>
+</Directory>
+  <% end %>
 <% end -%>
 
 <% node['http_platform']['www']['error_documents'].each do |status, path| -%>

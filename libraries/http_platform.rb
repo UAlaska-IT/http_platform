@@ -189,6 +189,34 @@ module HttpPlatform
       return cipher_list.join(':')
     end
 
+    def insert_list_or_file(files, dir, file)
+      if file.is_a? String
+        files[dir].append(file)
+      else
+        file.each do |f|
+          files[dir].append(f)
+        end
+      end
+    end
+
+    def insert_directory_or_files(directories, files, dir, file)
+      if file.nil? || file.to_s == '' || file.empty?
+        directories.append(dir)
+      else
+        files[dir] = [] if files[dir].nil?
+        insert_list_or_file(files, dir, file)
+      end
+    end
+
+    def access_directories_and_files
+      directories = []
+      files = {}
+      node['http_platform']['www']['access_directories'].each do |dir, file|
+        insert_directory_or_files(directories, files, dir, file)
+      end
+      return directories, files
+    end
+
     def host_is_www(host)
       return host =~ /^www\./
     end

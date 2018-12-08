@@ -3,6 +3,7 @@
 ## 1.0.0
 
 * Certbot now works
+* Implemented access directories and files
 
 ## 0.3.1
 
