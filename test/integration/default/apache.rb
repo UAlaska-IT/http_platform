@@ -69,35 +69,39 @@ describe file('/var/www/html/index.html') do
   its(:content) { should match 'Welcome to Apache' }
 end
 
-['', '/'].each do |page|
-  describe http('http://localhost:80' + page) do
+['', '/', '/index.html', '/not_a_page'].each do |page|
+  describe http('http://localhost' + page) do
     its(:status) { should cmp 301 }
-    its(:body) { should match('https://www.funny.business') }
-    # its(:body) { should match('https://localhost') }
-  end
-
-  describe http('https://localhost:443' + page, ssl_verify: false) do
-    its(:status) { should cmp 200 }
-    its(:body) { should match('Now make yourself a website:\)') }
   end
 end
 
-describe http('https://localhost:443/index.html', ssl_verify: false) do
+['', '/', '/not_a_page'].each do |page|
+  describe http('https://localhost' + page, ssl_verify: false) do
+    its(:status) { should cmp 403 }
+    its(:body) { should match('403_puppy.php') }
+  end
+end
+
+describe http('https://localhost/index.html', ssl_verify: false) do
   its(:status) { should cmp 200 }
+  its(:body) { should match('Now make yourself a website:\)') }
 end
 
-describe http('https://localhost:443/not_a_page', ssl_verify: false) do
-  its(:status) { should cmp 404 }
-  its(:body) { should match('404_kitten.php') }
-end
-
-describe http('https://localhost:443/old_site', ssl_verify: false) do
+describe http('https://localhost/old_site', ssl_verify: false) do
   its(:status) { should cmp 302 }
   its(:body) { should match('/new_site') }
 end
 
 if node['platform_family'] == 'debian' # CentOS ignores conf directive to not validate certificate
-  describe bash('elinks -dump https://localhost') do
+  ['', '/', '/not_a_page'].each do |page|
+    describe bash("elinks -dump https://localhost#{page}") do
+      its(:exit_status) { should eq 0 }
+      its(:stderr) { should eq '' }
+      its(:stdout) { should match '403_puppy.php' }
+    end
+  end
+
+  describe bash("elinks -dump https://localhost/index.html") do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq '' }
     its(:stdout) { should match 'Now make yourself a website:\)' }
@@ -159,7 +163,9 @@ describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
   its(:content) { should match 'Redirect /old_site /new_site' }
   its(:content) { should match 'RewriteEngine on' }
   its(:content) { should match 'RewriteRule /url_of_page\(\.\*\) /path_to_file\$1 \[L,NC\]' }
-  its(:content) { should match '<Directory />\s+Require all granted' }
+  its(:content) { should match '<Directory />\s+<Files />\s+Require all granted' }
+  its(:content) { should match '<Directory />\s+<Files index.html>\s+Require all granted' }
+  its(:content) { should match '<Directory /stuff>\s+Require all granted' }
   its(:content) { should match 'ErrorDocument 404 404_kitten.php' }
   its(:content) { should match 'SSLOptions \+StdEnvVars' }
   its(:content) { should match 'SetHandler application/x-httpd-php' }

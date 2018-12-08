@@ -26,10 +26,16 @@ provisioner:
         organization: 'fake_org'
         org_unit: 'fake_unit'
       www:
+        access_directories:
+          /:
+            - '/'
+            - 'index.html'
+          /stuff: ''
         additional_aliases:
           me.also:
             log_level: 'info'
         error_documents:
+          '403': '403_puppy.php'
           '404': '404_kitten.php'
         redirect_rules:
           - comment: 'Site owners are a pain'

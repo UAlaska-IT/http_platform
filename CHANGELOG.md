@@ -1,5 +1,10 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.0.0
+
+* Certbot now works
+* Implemented access directories and files
+
 ## 0.3.1
 
 * Fixed bug in function for lets encrypt

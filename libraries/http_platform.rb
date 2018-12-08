@@ -51,11 +51,11 @@ module HttpPlatform
 
     def path_to_lets_encrypt_cert
       # This is the one-file/cert+chain version, for modern Apache
-      return '/etc/letsencrypt/live/fullchain.pem'
+      return "/etc/letsencrypt/live/#{plain_server_name(node['fqdn'])}/fullchain.pem"
     end
 
     def path_to_lets_encrypt_key
-      return '/etc/letsencrypt/live/privkey.pem'
+      return "/etc/letsencrypt/live/#{plain_server_name(node['fqdn'])}/privkey.pem"
     end
 
     def lets_encrypt_cert_exists?
@@ -189,6 +189,34 @@ module HttpPlatform
       return cipher_list.join(':')
     end
 
+    def insert_list_or_file(files, dir, file)
+      if file.is_a? String
+        files[dir].append(file)
+      else
+        file.each do |f|
+          files[dir].append(f)
+        end
+      end
+    end
+
+    def insert_directory_or_files(directories, files, dir, file)
+      if file.nil? || file.to_s == '' || file.empty?
+        directories.append(dir)
+      else
+        files[dir] = [] if files[dir].nil?
+        insert_list_or_file(files, dir, file)
+      end
+    end
+
+    def access_directories_and_files
+      directories = []
+      files = {}
+      node['http_platform']['www']['access_directories'].each do |dir, file|
+        insert_directory_or_files(directories, files, dir, file)
+      end
+      return directories, files
+    end
+
     def host_is_www(host)
       return host =~ /^www\./
     end
@@ -207,6 +235,12 @@ module HttpPlatform
       raise "FQDN must include root domain: #{host}, #{remainder}" unless remainder =~ fqdn_regex
 
       return remainder
+    end
+
+    def other_server_name(host)
+      return plain_server_name(host) if host_is_www(host)
+
+      return www_server_name(host)
     end
 
     def insert_duplicate_options(aliases, host, options)
@@ -245,6 +279,15 @@ module HttpPlatform
         insert_alias_pair(aliases, host)
       end
       return aliases
+    end
+
+    def generate_domain_names
+      aliases = generate_alias_pairs # www names are first
+      names = []
+      aliases.each do |name, _|
+        names.append(other_server_name(name)) # List plain names first
+      end
+      return names
     end
 
     def generate_alt_names
