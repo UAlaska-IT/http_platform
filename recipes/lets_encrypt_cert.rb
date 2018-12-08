@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+tcb = 'http_platform'
+
 if node['platform_family'] == 'debian'
   apt_package 'software-properties-common'
   apt_repository 'certbot' do
