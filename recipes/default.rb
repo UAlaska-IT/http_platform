@@ -15,7 +15,4 @@ include_recipe "#{tcb}::firewall" if node[tcb]['configure_firewall']
 
 include_recipe "#{tcb}::apache" if configure_apache?
 
-acme_error = !configure_server? && node[tcb]['configure_lets_encrypt_cert']
-raise 'Cannot fetch Let\'s Encrypt certificate without Apache' if acme_error
-
 include_recipe "#{tcb}::lets_encrypt_cert" if node[tcb]['configure_lets_encrypt_cert']
