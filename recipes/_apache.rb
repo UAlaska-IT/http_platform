@@ -19,7 +19,7 @@ end
 
 file path_to_elinks_config do
   content <<~CONTENT
-    # This file is managed with Chef. For changes to persist, edit http_platform/recipes/apache.rb
+    # This file is managed with Chef. For changes to persist, edit http_platform/recipes/_apache.rb
 
     set connection.ssl.cert_verify = 0
   CONTENT
