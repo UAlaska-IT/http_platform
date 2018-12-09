@@ -7,4 +7,4 @@ raise 'Set node[\'http_platform\'][\'admin_email\'] or node[\'http_platform\'][\
 
 include_recipe "#{tcb}::_generate_cert"
 
-include_recipe "#{tcb}::vault_cert" if node[tcb]['configure_vault_cert']
+include_recipe "#{tcb}::_vault_cert" if node[tcb]['configure_vault_cert']
