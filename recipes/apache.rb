@@ -2,6 +2,8 @@
 
 tcb = 'http_platform'
 
+raise 'Must set node[\'http_platform\'][\'admin_email\']' unless node[tcb]['admin_email']
+
 node.default['apache']['contact'] = node[tcb]['admin_email']
 node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
 
