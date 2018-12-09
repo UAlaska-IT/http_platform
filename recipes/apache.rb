@@ -4,11 +4,13 @@ tcb = 'http_platform'
 
 raise 'Must set node[\'http_platform\'][\'admin_email\']' unless node[tcb]['admin_email']
 
-node.default['apache']['contact'] = node[tcb]['admin_email']
-node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
+raise 'Cannot configure apache without configuring cert' unless node[tcb]['configure_cert']
 
 staple_error = node[tcb]['apache']['use_stapling'] != 'off' && use_self_signed_cert?
 raise 'Cannot use stapling with an untrusted certificate' if staple_error
+
+node.default['apache']['contact'] = node[tcb]['admin_email']
+node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
 
 # For apachectl fullstatus
 package 'elinks' do

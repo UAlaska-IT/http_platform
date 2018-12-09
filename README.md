@@ -98,6 +98,7 @@ This cookbook provides no custom resources.
 ### http_platform::default
 
 This recipe configures the server, encryption, hosts, and access.
+The certificate and CSR will be recreated if the FQDN of the node changes, so this should be done earlier in the Chef run before any http_platform recipes execute.
 Several additional recipes are called to accomplish these tasks, but only this recipe should be included by clients.
 
 #### Attributes
