@@ -61,6 +61,9 @@ The workflow for doing so is below.
 ```ruby
 include_recipe 'http_platform::local_cert'
 
+# Optional; use if the firewall not configured by server recipes
+include_recipe 'http_platform::firewall'
+
 # Install the web server
 # Use path_to_ssl_cert, path_to_ssl_key as helpers
 ...
@@ -148,10 +151,17 @@ The certificate and CSR will be recreated if the FQDN of the node changes, so th
 
 Creates a private key and both SS certificate and CSR corresponding to this key.
 May fetch a certificate and key from Vault.
+Included by the default recipe.
 
 ### http_platform::certbot_cert
 
 Uses a previously installed server to fetch a trusted certificate from Let's Encrypt by using Certbot.
+Included by the default recipe.
+
+### http_platform::firewall
+
+Adds rules that accept incoming connections for HTTP and HTTPS.
+Included by the default recipe.
 
 ## Attributes
 
@@ -179,10 +189,12 @@ See above for certificate precedence.
 * `node['http_platform']['configure_vault_cert']`.
 Defaults to `false`.
 Determines if a certificate is fetched from Chef vault.
+Has no effect if `node['http_platform']['configure_cert']` is false.
 * `node['http_platform']['configure_lets_encrypt_cert']`.
 Defaults to `false`.
 Determines if a certificate is fetching using Certbot.
 Requires Apache running on a world-visible server.
+Has no effect if `node['http_platform']['configure_cert']` is false.
 
 Several attributes control security.
 The philosophy of this cookbook is to favor security over compatibility or performance.
