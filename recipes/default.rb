@@ -15,4 +15,4 @@ include_recipe "#{tcb}::firewall" if node[tcb]['configure_firewall']
 
 include_recipe "#{tcb}::apache" if configure_apache?
 
-include_recipe "#{tcb}::lets_encrypt_cert" if node[tcb]['configure_lets_encrypt_cert']
+include_recipe "#{tcb}::certbot_cert" if node[tcb]['configure_lets_encrypt_cert']
