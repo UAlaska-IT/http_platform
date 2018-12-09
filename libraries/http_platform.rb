@@ -96,7 +96,7 @@ module HttpPlatform
       return File.join(cert_private_directory, cert_prefix + '_key.pem')
     end
 
-    def path_to_private_key
+    def path_to_ssl_key
       return path_to_vault_key if use_vault_cert? && node[TCB]['key']['vault_item_key']
 
       return path_to_lets_encrypt_key if use_lets_encrypt_cert?

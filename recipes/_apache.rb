@@ -58,7 +58,7 @@ var_map = {
   access_files: access_files,
   cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
-  path_to_key: path_to_private_key,
+  path_to_key: path_to_ssl_key,
   path_to_dh_params: path_to_dh_params
 }
 
