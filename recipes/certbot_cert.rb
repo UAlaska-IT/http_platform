@@ -51,6 +51,13 @@ end
 
 # Certbot permissions are weird; everything is world readable except for archive and live directories
 # Works for us; give permissions to group by changing one directory
+directory '/etc/letsencrypt' do
+  owner 'root'
+  group node[tcb]['cert']['owner_group']
+  mode '0750'
+  # In production this is created by the certbot command
+  # Not recursive because we do not want to mess with /etc
+end
 directory '/etc/letsencrypt/live' do
   owner 'root'
   group node[tcb]['cert']['owner_group']
