@@ -7,7 +7,7 @@ raise 'Cannot fetch Let\'s Encrypt certificate without a server configured' if a
 
 if node['platform_family'] == 'debian'
   apt_package 'software-properties-common'
-  apt_repository 'universe'
+  # apt_repository 'universe'
   apt_repository 'certbot' do
     uri 'ppa:certbot/certbot'
   end

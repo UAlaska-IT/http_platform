@@ -199,7 +199,7 @@ Has no effect if `node['http_platform']['configure_cert']` is false.
 Several attributes control security.
 The philosophy of this cookbook is to favor security over compatibility or performance.
 However, the cipher and protocol generators are optimistic and will automatically add new ciphers and protocols on future distros.
-This is done by defining support in the negative: generate with a candidate list and remove unsecure algorithms.
+This is done by defining support in the negative: a candidate list is generated and unsecure algorithms removed.
 This is done mostly to reduce the burden of managing a platform-dependent list of supported ciphers over time.
 
 * `node['http_platform']['cipher_generator']`.
