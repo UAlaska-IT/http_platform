@@ -46,6 +46,7 @@ end
 # If certs exist and are not ready to renew then this does nothing
 bash 'Get Lets Encrypt Certificate' do
   code command
+  not_if { node[tcb]['cert']['kitchen_test'] }
 end
 
 # Certbot permissions are weird; everything is world readable except for archive and live directories

@@ -150,6 +150,8 @@ suites:
     attributes:
       http_platform:
         configure_lets_encrypt_cert: true
+        cert:
+          kitchen_test: true
     includes:
       - ubuntu-18.04
       - centos-7.5

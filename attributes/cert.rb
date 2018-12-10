@@ -23,3 +23,6 @@ default[tcb]['cert']['vault_bag_item'] = nil
 default[tcb]['cert']['vault_item_key'] = 'cert'
 
 default[tcb]['key']['vault_item_key'] = nil
+
+# Hidden attribute to disable actually fetching the cert in kitchen
+default[tcb]['cert']['kitchen_test'] = false
