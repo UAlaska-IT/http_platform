@@ -50,6 +50,11 @@ file path_to_self_signed_cert do
   subscribes :delete, "file[#{cert_record}]", :immediate
 end
 
+file path_to_csr do
+  action :nothing
+  subscribes :delete, "file[#{cert_record}]", :immediate
+end
+
 file path_to_self_signed_key do
   action :nothing
   subscribes :delete, "file[#{key_record}]", :immediate
