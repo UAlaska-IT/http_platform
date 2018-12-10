@@ -31,15 +31,21 @@ end
 
 puts("CERTBOT COMMAND: #{command}")
 
-bash 'Get Lets Encrypt Certificate' do
-  code command
-  action :nothing
-end
-
 file 'Certbot Record' do
   path '/opt/chef/run_record/certbot_command.txt'
   content command
-  notifies :run, 'bash[Get Lets Encrypt Certificate]', :immediate
+end
+
+# Certbot does not create new certs when hosts change, until the current certs expire
+directory '/etc/letsencrypt' do
+  recursive true
+  action :nothing
+  subscribes :delete, 'file[Certbot Record]', :immediate
+end
+
+# If certs exist and are not ready to renew then this does nothing
+bash 'Get Lets Encrypt Certificate' do
+  code command
 end
 
 # Certbot permissions are weird; everything is world readable except for archive and live directories
