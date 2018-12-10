@@ -28,7 +28,7 @@ This cookbook is intended as a base for rapidly building websites and as such fa
 
 ### Full server install
 
-A functioning web server cab be spun up by including `http_platform::default`.
+A functioning web server can be spun up by including `http_platform::default`.
 Currently only Apache is supported.
 Nginx will be added in the future.
 
@@ -61,7 +61,7 @@ The workflow for doing so is below.
 ```ruby
 include_recipe 'http_platform::local_cert'
 
-# Optional; use if the firewall not configured by server recipes
+# Optional; use if the firewall is not configured by server recipes
 include_recipe 'http_platform::firewall'
 
 # Install the web server
