@@ -7,6 +7,7 @@ raise 'Cannot fetch Let\'s Encrypt certificate without a server configured' if a
 
 if node['platform_family'] == 'debian'
   apt_package 'software-properties-common'
+  apt_repository 'universe'
   apt_repository 'certbot' do
     uri 'ppa:certbot/certbot'
   end
@@ -14,9 +15,15 @@ else
   include_recipe 'yum-epel'
 end
 
-package 'python-certbot-apache'
+if configure_apache?
+  package 'python-certbot-apache'
+  bot_flag = 'apache'
+else
+  package 'python-certbot-nginx'
+  bot_flag = 'nginx'
+end
 
-command = "certbot --apache certonly -n --email #{cert_email} --agree-tos"
+command = "certbot --#{bot_flag} certonly -n --email #{cert_email} --agree-tos"
 names = generate_domain_names
 names.each do |name|
   command += " -d #{name}"
