@@ -22,12 +22,14 @@ describe file(path_to_lets_encrypt_key) do
   its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
 end
 
-describe file('/etc/letsencrypt/live') do
-  it { should exist }
-  it { should be_directory }
-  it { should be_mode 0o750 }
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into 'adm' }
+['/etc/letsencrypt', '/etc/letsencrypt/live'].each do |dir|
+  describe file(dir) do
+    it { should exist }
+    it { should be_directory }
+    it { should be_mode 0o750 }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'adm' }
+  end
 end
 
 # Special fields for this cert
