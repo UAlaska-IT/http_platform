@@ -1,8 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
-## 1.1.1
+## 1.2.0
 
 * Added support for fetching a cert on Nginx
+* Reorganized workflow to support serverless install of certs
 
 ## 1.1.0
 
