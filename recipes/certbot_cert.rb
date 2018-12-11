@@ -33,8 +33,8 @@ command = "certbot --#{bot_flag} certonly -n --email #{cert_email} --agree-tos"
 if configure_webroot?
   command += " -w #{node['http_platform']['www']['document_root']}"
 elsif configure_standalone?
-  http_port = node['http_platform']['www']['document_root']
-  https_port = node['http_platform']['www']['document_root']
+  http_port = node[tcb]['cert']['standalone_http_port']
+  https_port = node[tcb]['cert']['standalone_https_port']
   command += " --http-01-port #{http_port} --tls-sni-01-port #{https_port}"
 end
 names = generate_domain_names
