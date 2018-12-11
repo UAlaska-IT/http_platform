@@ -177,10 +177,20 @@ Defaults to `true`.
 Determines if a private key, self-signed certificate, CSR, and possibly other certificates are created.
 * `node['http_platform']['configure_server']`.
 Defaults to `'apache'`.
-The HTTP server to configure, either `'apache'` or `'nginx'`.
+The HTTP server to configure.
+Allowed values are `'apache'`, `'nginx'`, `'webroot'`, `'standalone'`'.
 To not configure any server, set the value to anything that evaluates to false.
-Note that Apache is fully supported but Nginx is currently a placeholder to facilitate use of certificate-handling logic.
-Either Apache or Nginx must be configured to use Certbot to fetch a trusted certificate.
+
+To run the default recipe a server must be installed.
+Currently only Apache is supported.
+
+All allowed values can be used to install a trusted certificate only.
+Certbot supports custom agents that are robust for Apache and Nginx _system_ installs.
+For installations that do not support standard system commands for Apache/Nginx, the `'webroot'` method can be used.
+The `'webroot'` method supports most server installations provided that the server will serve files from the $HTTP_ROOT/.well-known directory.
+If all else fails, `'standalone'` can be specified to run a standalone server to install the certificate.
+The standalone server will conflict with any running server if it attempts to bind to the same ports.
+See `node['http_platform']['cert']['standalone_http_port']` and `node['http_platform']['cert']['standalone_https_port']`.
 
 These flags control trusted certificate usage.
 These attributes have no effect if `node['http_platform']['configure_cert']` is `false`.
@@ -331,6 +341,17 @@ An example vault item is show below, assuming `node['http_platform']['cert']['va
   "key": "-----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----\n"
 }
 ```
+
+Two attributes control the standalone server.
+Ports should be set to not conflict with any port binding on the system.
+These have no effect unless `node['http_platform']['configure_server']` is set to `'standalone'`.
+
+* `node['http_platform']['cert']['standalone_http_port']`.
+Defaults to `8080`.
+The port on which the standalone server will bind to complete the HTTP challenge.
+* `node['http_platform']['cert']['standalone_https_port']`.
+Defaults to `8043`.
+The port on which the standalone server will bind to complete the HTTPS challenge.
 
 __firewall__
 
