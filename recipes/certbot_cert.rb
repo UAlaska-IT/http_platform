@@ -18,16 +18,31 @@ end
 if configure_apache?
   package 'python-certbot-apache'
   bot_flag = 'apache'
-else
+elsif configure_nginx?
   package 'python-certbot-nginx'
   bot_flag = 'nginx'
+elsif configure_webroot?
+  package 'certbot'
+  bot_flag = 'webroot'
+elsif configure_standalone?
+  package 'certbot'
+  bot_flag = 'standalone'
 end
 
-command = "certbot --#{bot_flag} certonly -n --email #{cert_email} --agree-tos"
+command = if configure_standalone?
+            "#{node[tcb]['cert']['standalone_stop_command']}\n"
+          else
+            ''
+          end
+command += "certbot --#{bot_flag} certonly -n --email #{cert_email} --agree-tos"
+command += " -w #{node['http_platform']['www']['document_root']}" if configure_webroot?
+
 names = generate_domain_names
 names.each do |name|
   command += " -d #{name}"
 end
+
+command += "\n#{node[tcb]['cert']['standalone_start_command']}" if configure_standalone?
 
 puts("CERTBOT COMMAND: #{command}")
 
@@ -46,6 +61,8 @@ end
 # If certs exist and are not ready to renew then this does nothing
 bash 'Get Lets Encrypt Certificate' do
   code command
+  action :nothing if configure_standalone?
+  subscribes :run, 'file[Certbot Record]', :delayed if configure_standalone?
   not_if { node[tcb]['cert']['kitchen_test'] }
 end
 

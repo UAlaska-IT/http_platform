@@ -13,8 +13,16 @@ module HttpPlatform
       return node[TCB]['configure_server'] == 'nginx'
     end
 
+    def configure_webroot?
+      return node[TCB]['configure_server'] == 'webroot'
+    end
+
+    def configure_standalone?
+      return node[TCB]['configure_server'] == 'standalone'
+    end
+
     def configure_server?
-      return configure_apache? || configure_nginx?
+      return configure_apache? || configure_nginx? || configure_webroot? || configure_standalone?
     end
 
     def cert_public_directory

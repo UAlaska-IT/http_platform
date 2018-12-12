@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.3.0
+
+* Added support for webroot and standalone strategies for fetching cert.
+
 ## 1.2.0
 
 * Added support for fetching a cert on Nginx

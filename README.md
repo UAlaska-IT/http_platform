@@ -28,7 +28,7 @@ This cookbook is intended as a base for rapidly building websites and as such fa
 
 ### Full server install
 
-A functioning web server cab be spun up by including `http_platform::default`.
+A functioning web server can be spun up by including `http_platform::default`.
 Currently only Apache is supported.
 Nginx will be added in the future.
 
@@ -61,7 +61,7 @@ The workflow for doing so is below.
 ```ruby
 include_recipe 'http_platform::local_cert'
 
-# Optional; use if the firewall not configured by server recipes
+# Optional; use if the firewall is not configured by server recipes
 include_recipe 'http_platform::firewall'
 
 # Install the web server
@@ -177,10 +177,21 @@ Defaults to `true`.
 Determines if a private key, self-signed certificate, CSR, and possibly other certificates are created.
 * `node['http_platform']['configure_server']`.
 Defaults to `'apache'`.
-The HTTP server to configure, either `'apache'` or `'nginx'`.
+The HTTP server to configure.
+Allowed values are `'apache'`, `'nginx'`, `'webroot'`, `'standalone'`'.
 To not configure any server, set the value to anything that evaluates to false.
-Note that Apache is fully supported but Nginx is currently a placeholder to facilitate use of certificate-handling logic.
-Either Apache or Nginx must be configured to use Certbot to fetch a trusted certificate.
+
+To run the default recipe a server must be installed.
+Currently only Apache is supported.
+
+All allowed values can be used to install a trusted certificate only.
+Certbot supports custom agents that are robust for Apache and Nginx _system_ installs.
+For installations that do not support standard system commands for Apache/Nginx, the `'webroot'` method can be used.
+The `'webroot'` method supports most server installations provided that the server will serve files from the $HTTP_ROOT/.well-known directory.
+If all else fails, `'standalone'` can be specified to run a standalone server to install the certificate.
+The standalone server will conflict with any running server if it attempts to bind to the same ports.
+Therefore, this method requires stopping any running web server.
+See `node['http_platform']['cert']['standalone_stop_command']` and `node['http_platform']['cert']['standalone_start_command']`.
 
 These flags control trusted certificate usage.
 These attributes have no effect if `node['http_platform']['configure_cert']` is `false`.
@@ -331,6 +342,21 @@ An example vault item is show below, assuming `node['http_platform']['cert']['va
   "key": "-----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----\n"
 }
 ```
+
+Two attributes control the standalone server.
+The challenge must be conducted over ports 80 and 443.
+Therefore an existing web server that listens on these ports must be stopped to complete the challenge.
+These have no effect unless `node['http_platform']['configure_server']` is set to `'standalone'`.
+To run no command commands, leave these as empty strings.
+
+* `node['http_platform']['cert']['standalone_stop_command']`.
+Defaults to `''`.
+The command to stop the web server.
+Will be run before fetching the certbot cert.
+* `node['http_platform']['cert']['standalone_start_command']`.
+Defaults to `''`.
+The command to start the web server.
+Will be run after fetching the certbot cert.
 
 __firewall__
 
