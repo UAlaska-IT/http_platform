@@ -60,6 +60,8 @@ end
 # If certs exist and are not ready to renew then this does nothing
 bash 'Get Lets Encrypt Certificate' do
   code command
+  action :nothing if configure_standalone?
+  subscribes :run, 'template[DH configuration]', :immediate if configure_standalone?
   not_if { node[tcb]['cert']['kitchen_test'] }
 end
 
