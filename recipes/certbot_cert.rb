@@ -61,7 +61,7 @@ end
 bash 'Get Lets Encrypt Certificate' do
   code command
   action :nothing if configure_standalone?
-  subscribes :run, 'template[DH configuration]', :immediate if configure_standalone?
+  subscribes :run, 'file[Certbot Record]', :delayed if configure_standalone?
   not_if { node[tcb]['cert']['kitchen_test'] }
 end
 
