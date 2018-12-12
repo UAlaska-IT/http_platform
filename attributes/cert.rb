@@ -24,8 +24,8 @@ default[tcb]['cert']['vault_item_key'] = 'cert'
 
 default[tcb]['key']['vault_item_key'] = nil
 
-default[tcb]['cert']['standalone_http_port'] = '8080'
-default[tcb]['cert']['standalone_https_port'] = '8043'
+default[tcb]['cert']['standalone_stop_command'] = ''
+default[tcb]['cert']['standalone_start_command'] = ''
 
 # Hidden attribute to disable actually fetching the cert in kitchen
 default[tcb]['cert']['kitchen_test'] = false

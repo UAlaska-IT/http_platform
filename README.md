@@ -190,7 +190,8 @@ For installations that do not support standard system commands for Apache/Nginx,
 The `'webroot'` method supports most server installations provided that the server will serve files from the $HTTP_ROOT/.well-known directory.
 If all else fails, `'standalone'` can be specified to run a standalone server to install the certificate.
 The standalone server will conflict with any running server if it attempts to bind to the same ports.
-See `node['http_platform']['cert']['standalone_http_port']` and `node['http_platform']['cert']['standalone_https_port']`.
+Therefore, this method requires stopping any running web server.
+See `node['http_platform']['cert']['standalone_stop_command']` and `node['http_platform']['cert']['standalone_start_command']`.
 
 These flags control trusted certificate usage.
 These attributes have no effect if `node['http_platform']['configure_cert']` is `false`.
@@ -343,15 +344,19 @@ An example vault item is show below, assuming `node['http_platform']['cert']['va
 ```
 
 Two attributes control the standalone server.
-Ports should be set to not conflict with any port binding on the system.
+The challenge must be conducted over ports 80 and 443.
+Therefore an existing web server that listens on these ports must be stopped to complete the challenge.
 These have no effect unless `node['http_platform']['configure_server']` is set to `'standalone'`.
+To run no command commands, leave these as empty strings.
 
-* `node['http_platform']['cert']['standalone_http_port']`.
-Defaults to `8080`.
-The port on which the standalone server will bind to complete the HTTP challenge.
-* `node['http_platform']['cert']['standalone_https_port']`.
-Defaults to `8043`.
-The port on which the standalone server will bind to complete the HTTPS challenge.
+* `node['http_platform']['cert']['standalone_stop_command']`.
+Defaults to `''`.
+The command to stop the web server.
+Will be run before fetching the certbot cert.
+* `node['http_platform']['cert']['standalone_start_command']`.
+Defaults to `''`.
+The command to start the web server.
+Will be run after fetching the certbot cert.
 
 __firewall__
 
