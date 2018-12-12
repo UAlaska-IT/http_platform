@@ -36,12 +36,13 @@ command = if configure_standalone?
           end
 command += "certbot --#{bot_flag} certonly -n --email #{cert_email} --agree-tos"
 command += " -w #{node['http_platform']['www']['document_root']}" if configure_webroot?
-command += "\n#{node[tcb]['cert']['standalone_start_command']}" if configure_standalone?
 
 names = generate_domain_names
 names.each do |name|
   command += " -d #{name}"
 end
+
+command += "\n#{node[tcb]['cert']['standalone_start_command']}" if configure_standalone?
 
 puts("CERTBOT COMMAND: #{command}")
 
