@@ -2,7 +2,7 @@
 
 tcb = 'http_platform'
 
-default[tcb]['cert']['owner_group'] = 'root'
+default[tcb]['cert']['owner_group'] = 'ssl-cert'
 
 default[tcb]['cert']['expiration_days'] = 365
 default[tcb]['cert']['rsa_bits'] = 2048
