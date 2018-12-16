@@ -40,9 +40,9 @@ end
 describe file(path_to_self_signed_cert(node)) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o640 }
+  it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
-  it { should be_grouped_into 'adm' }
+  it { should be_grouped_into 'root' }
   its(:content) { should match 'BEGIN CERTIFICATE' }
 end
 
@@ -110,6 +110,6 @@ describe file(File.join(cert_public_dir(node), 'http_platform_csr.pem')) do
   it { should be_file }
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
-  it { should be_grouped_into 'adm' }
+  it { should be_grouped_into 'root' }
   its(:content) { should match 'BEGIN CERTIFICATE REQUEST' }
 end

@@ -45,7 +45,7 @@ def path_to_ca_signed_cert(node)
 end
 
 def path_to_lets_encrypt_cert
-  return File.join('/etc/letsencrypt/live/fullchain.pem')
+  return File.join(cert_public_dir(node), 'http_platform_le_cert.pem')
 end
 
 def path_to_self_signed_key(node)
@@ -57,7 +57,7 @@ def path_to_vault_key(node)
 end
 
 def path_to_lets_encrypt_key
-  return File.join('/etc/letsencrypt/live/privkey.pem')
+  return File.join(cert_private_dir(node), 'http_platform_le_key.pem')
 end
 
 def path_to_dh_config(node)

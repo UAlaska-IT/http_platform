@@ -66,17 +66,21 @@ bash 'Get Lets Encrypt Certificate' do
   not_if { node[tcb]['cert']['kitchen_test'] }
 end
 
-# Certbot permissions are weird; everything is world readable except for archive and live directories
-# Works for us; give permissions to group by changing one directory
-directory '/etc/letsencrypt' do
+# Certbot permissions are unsecure enough that daemons refuse to load them
+# Copy them to the usual directory
+remote_file path_to_lets_encrypt_cert do
   owner 'root'
-  group node[tcb]['cert']['owner_group']
-  mode '0750'
-  # In production this is created by the certbot command
-  # Not recursive because we do not want to mess with /etc
+  group 'root'
+  mode '0644'
+  source "file://#{path_to_lets_encrypt_cert_link}"
+  # force_unlink
+  # manage_symlink_source
 end
-directory '/etc/letsencrypt/live' do
+remote_file path_to_lets_encrypt_key do
   owner 'root'
   group node[tcb]['cert']['owner_group']
-  mode '0750'
+  mode '0640'
+  source "file://#{path_to_lets_encrypt_key_link}"
+  # force_unlink
+  # manage_symlink_source
 end
