@@ -83,4 +83,5 @@ remote_file path_to_lets_encrypt_key do
   source "file://#{path_to_lets_encrypt_key_link}"
   # force_unlink
   # manage_symlink_source
+  sensitive true
 end
