@@ -63,14 +63,10 @@ platforms:
   - name: ubuntu-16.04-i386
   - name: ubuntu-14.04
   - name: ubuntu-14.04-i386
-  - name: ubuntu-12.04
-  - name: ubuntu-12.04-i386
   - name: debian-9.5
   - name: debian-9.5-i386
   - name: debian-8.11
-  - name: debian-8.10-i386
-  - name: debian-7.11
-  - name: debian-7.11-i386
+  - name: debian-8.11-i386
   - name: centos-7.5
 #    driver:
 #      network:
@@ -87,12 +83,13 @@ platforms:
   - name: oracle-5.11-i386
   - name: fedora-28
   - name: fedora-27
-  - name: fedora-26
-  - name: gbailey/amzn2 # 2018.08
+  - name: gbailey/amzn2 # 2018.11
   - name: stakahashi/amazonlinux2 # 2017.12
   - name: realreadme/amazon2016.09
   - name: opensuse-leap-15.0
   - name: opensuse-leap-42.3
+  - name: freebsd-12.0
+  - name: freebsd-12.0-i386
   - name: freebsd-11.2
   - name: freebsd-11.2-i386
   - name: freebsd-10.4

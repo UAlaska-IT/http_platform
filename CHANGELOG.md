@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.3.1
+
+* Fixed permission issues for Certbot cert
+
 ## 1.3.0
 
 * Added support for webroot and standalone strategies for fetching cert.

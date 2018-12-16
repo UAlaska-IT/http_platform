@@ -12,11 +12,6 @@ key_record = '/opt/chef/run_record/http_key_record.txt'
 
 file cert_record do
   content <<~CONTENT
-    group: #{node[tcb]['cert']['owner_group']}
-    # ca_cert_file
-    # ca_key_file
-    # ca_key_pass
-    # csr_file
     common_name: #{cert_common_name}
     subject_alt_name: #{generate_alt_names}
     country: #{node[tcb]['cert']['country']}
@@ -28,9 +23,7 @@ file cert_record do
     expire: #{node[tcb]['cert']['expiration_days']}
     # extensions
 
-    # key_file
-    # key_pass
-
+    group: #{node[tcb]['cert']['owner_group']}
     key_type: 'rsa'
     # key_curve # default 'prime256v1'
     key_length: #{node[tcb]['cert']['rsa_bits']}
@@ -60,10 +53,17 @@ file path_to_self_signed_key do
   subscribes :delete, "file[#{key_record}]", :immediate
 end
 
-openssl_x509_certificate path_to_self_signed_cert do
+openssl_rsa_private_key path_to_self_signed_key do
   owner 'root'
   group node[tcb]['cert']['owner_group']
   mode '0640'
+  key_length node[tcb]['cert']['rsa_bits']
+end
+
+openssl_x509_certificate path_to_self_signed_cert do
+  owner 'root'
+  group 'root'
+  mode '0644'
   notifies :restart, "service[#{apache_service}]", :delayed if configure_apache?
   # The fields below must match the file above!
 
@@ -109,7 +109,7 @@ end
 # Always create this so the request can be sent to the CA
 openssl_x509_request path_to_csr do
   owner 'root'
-  group node[tcb]['cert']['owner_group']
+  group 'root'
   mode '0644'
 
   # Below must match the certificate

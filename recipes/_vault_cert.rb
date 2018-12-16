@@ -10,7 +10,7 @@ file path_to_vault_cert do
   # must be lazy because hostname may change!
   content lazy { vault_secret(bag, item, key) } # rubocop:disable Lint/AmbiguousBlockAssociation
   owner 'root'
-  group node[tcb]['cert']['owner_group']
+  group 'root'
   mode '0644'
 end
 

@@ -69,13 +69,22 @@ module HttpPlatform
       return File.exist?(path_to_vault_cert)
     end
 
-    def path_to_lets_encrypt_cert
+    def path_to_lets_encrypt_cert_link
       # This is the one-file/cert+chain version, for modern Apache
       return "/etc/letsencrypt/live/#{plain_server_name(node['fqdn'])}/fullchain.pem"
     end
 
-    def path_to_lets_encrypt_key
+    def path_to_lets_encrypt_key_link
       return "/etc/letsencrypt/live/#{plain_server_name(node['fqdn'])}/privkey.pem"
+    end
+
+    def path_to_lets_encrypt_cert
+      # This is the one-file/cert+chain version, for modern Apache
+      return File.join(cert_public_directory, cert_prefix + '_le_cert.pem')
+    end
+
+    def path_to_lets_encrypt_key
+      return File.join(cert_private_directory, cert_prefix + '_le_key.pem')
     end
 
     def lets_encrypt_cert_exists?
