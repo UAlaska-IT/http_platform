@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.3.2
+
+* Fixed key group on CentOS
+
 ## 1.3.1
 
 * Fixed permission issues for Certbot cert
