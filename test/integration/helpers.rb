@@ -78,3 +78,9 @@ def apache_service(node)
   end
   return service
 end
+
+def key_group(node)
+  return 'ssl-cert' if node['platform_family'] == 'debian'
+
+  return 'root'
+end

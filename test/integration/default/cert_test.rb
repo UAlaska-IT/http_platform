@@ -51,7 +51,7 @@ describe file(path_to_self_signed_key(node)) do
   it { should be_file }
   it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
-  it { should be_grouped_into 'adm' }
+  it { should be_grouped_into key_group(node) }
   its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
 end
 
