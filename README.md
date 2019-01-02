@@ -465,7 +465,3 @@ See recipes and attributes for details of what this cookbook does.
 ## Development
 
 See CONTRIBUTING.md and TESTING.md.
-
-### ToDo
-
-* Automatic stapling
