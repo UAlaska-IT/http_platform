@@ -6,9 +6,6 @@ raise 'Must set node[\'http_platform\'][\'admin_email\']' unless node[tcb]['admi
 
 raise 'Cannot configure apache without configuring cert' unless node[tcb]['configure_cert']
 
-staple_error = node[tcb]['apache']['use_stapling'] != 'off' && use_self_signed_cert?
-raise 'Cannot use stapling with an untrusted certificate' if staple_error
-
 node.default['apache']['contact'] = node[tcb]['admin_email']
 node.default['apache']['mod_ssl']['cipher_suite'] = http_cipher_suite
 
@@ -52,6 +49,12 @@ end
 
 host_names = generate_alias_pairs
 access_directories, access_files = access_directories_and_files
+use_stapling =
+  if node[tcb]['apache']['use_stapling'] && !use_self_signed_cert?
+    'on'
+  else
+    'off'
+  end
 
 var_map = {
   access_directories: access_directories,
@@ -59,7 +62,8 @@ var_map = {
   cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
   path_to_key: path_to_ssl_key,
-  path_to_dh_params: path_to_dh_params
+  path_to_dh_params: path_to_dh_params,
+  use_stapling: use_stapling
 }
 
 # This block creates an explicit declaration for the service created by installing the apache2 package

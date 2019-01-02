@@ -6,21 +6,6 @@ DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 SSLEngine on
 SSLCertificateFile <%= @path_to_cert %>
 SSLCertificateKeyFile <%= @path_to_key %>
-
-#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
-
-#SSLCACertificatePath /etc/ssl/certs/
-#SSLCACertificateFile /etc/apache2/ssl.crt/ca-bundle.crt
-
-#SSLCARevocationPath /etc/apache2/ssl.crl/
-#SSLCARevocationFile /etc/apache2/ssl.crl/ca-bundle.crl
-
-# Types are none, optional, require and optional_no_ca.
-#SSLVerifyClient require
-#SSLVerifyDepth 10
-
-# Set various options for the SSL engine.
-#SSLOptions +StrictRequire +SSLRequireSSL
 <% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
 
 <% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
