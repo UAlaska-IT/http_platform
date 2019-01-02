@@ -1,11 +1,9 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/ssl-params.conf.erb
 
 <IfModule mod_ssl.c>
-  SSLCipherSuite <%= @cipher_suite %>
   SSLProtocol <%= node['http_platform']['ssl_protocol'] %>
+  SSLCipherSuite <%= @cipher_suite %>
   SSLHonorCipherOrder on
-  SSLInsecureRenegotiation off
-
   SSLCompression off
   SSLSessionTickets off
 
