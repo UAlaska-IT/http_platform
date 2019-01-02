@@ -21,13 +21,10 @@
   Header always set Content-Security-Policy "default-src 'none'"
   Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-MttToBeCode'"
 
-  # Requires Apache >= 2.4
   SSLCompression off
   SSLSessionTickets off
 
-  # OCSP Stapling, only in httpd 2.3.3 and later
-  # Do not enable this without a CA cert
-  SSLUseStapling <%= node['http_platform']['apache']['use_stapling'] %>
+  SSLUseStapling <%= @use_stapling %>
   SSLStaplingResponderTimeout 5
   SSLStaplingReturnResponderErrors off
 

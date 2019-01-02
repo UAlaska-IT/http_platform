@@ -52,6 +52,12 @@ end
 
 host_names = generate_alias_pairs
 access_directories, access_files = access_directories_and_files
+use_stapling =
+  if node['http_platform']['apache']['use_stapling'] && !use_self_signed_cert?
+    'on'
+  else
+    'off'
+  end
 
 var_map = {
   access_directories: access_directories,
@@ -59,7 +65,8 @@ var_map = {
   cipher_suite: http_cipher_suite,
   path_to_cert: path_to_ssl_cert,
   path_to_key: path_to_ssl_key,
-  path_to_dh_params: path_to_dh_params
+  path_to_dh_params: path_to_dh_params,
+  use_stapling: use_stapling
 }
 
 # This block creates an explicit declaration for the service created by installing the apache2 package

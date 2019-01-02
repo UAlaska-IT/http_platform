@@ -234,8 +234,9 @@ On Ubuntu 18, Ubuntu 16 and CentOS 7 this results in only TLSv1.2.
 TLSv1.3 will be automatically supported when it becomes available but explicit TLSv1.3 is not commonly supported at this time.
 Note that `node.default['apache']['mod_ssl']['ssl_protocol']` is set to the value of `node['http_platform']['ssl_protocol']` within a recipe.
 * `node['http_platform']['apache']['use_stapling']`.
-Defaults to `'off'`.
-This must not be enabled unless a trusted certificate is configured.
+Defaults to `true`.
+Enable stapling of the certificate.
+Stapling will not be configured if a self-signed certificate is used.
 * `node['http_platform']['apache']['paths_to_additional_configs']`.
 Defaults to `{ 'conf.d/ssl-host.conf' => '' }`.
 A hash of relative paths to additional config files to be included by all HTTPS hosts.
