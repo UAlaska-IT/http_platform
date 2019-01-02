@@ -6,6 +6,20 @@ DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 SSLEngine on
 SSLCertificateFile <%= @path_to_cert %>
 SSLCertificateKeyFile <%= @path_to_key %>
+
+# This requires a valid certificate
+# HSTS (mod_headers is required) (15768000 seconds = 6 months)
+Header always set Strict-Transport-Security "max-age=15768000; includeSubdomains"
+#; preload
+
+Header always set Referrer-Policy "no-referrer"
+Header always set X-Frame-Options DENY
+Header always set X-Content-Type-Options nosniff
+Header always set X-XSS-Protection "1; mode=block"
+
+Header always set Content-Security-Policy "base-uri 'none'"
+Header always set Content-Security-Policy "default-src 'none'"
+Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-MttToBeCode'"
 <% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
 
 <% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
