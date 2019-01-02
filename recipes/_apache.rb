@@ -50,7 +50,7 @@ end
 host_names = generate_alias_pairs
 access_directories, access_files = access_directories_and_files
 use_stapling =
-  if node['http_platform']['apache']['use_stapling'] && !use_self_signed_cert?
+  if node[tcb]['apache']['use_stapling'] && !use_self_signed_cert?
     'on'
   else
     'off'

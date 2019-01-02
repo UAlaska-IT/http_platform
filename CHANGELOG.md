@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.4.0
+
+* Implemented automatic stapling
+
 ## 1.3.2
 
 * Fixed key group on CentOS
