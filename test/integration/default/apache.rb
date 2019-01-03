@@ -113,7 +113,7 @@ end
 describe file(File.join(path_to_conf_available_dir(node), 'ssl-params.conf')) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   if node['platform_family'] == 'debian'
@@ -132,7 +132,7 @@ end
 describe file(File.join(conf_enabled_dir, 'ssl-params.conf')) do
   it { should exist }
   it { should be_symlink }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq File.join(path_to_conf_available_dir(node), 'ssl-params.conf') }
@@ -149,7 +149,7 @@ end
 describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:content) { should match 'ServerAdmin fake-it@make-it' }
