@@ -127,7 +127,6 @@ describe apache_conf(File.join(path_to_conf_available_dir(node), 'ssl-params.con
   its('SSLCipherSuite') { should_not match(/NULL/) }
   its('SSLCipherSuite') { should_not match(/CBC/) }
   its('SSLCipherSuite') { should_not match(/SHA:/) }
-  its('SSLInsecureRenegotiation') { should eq ['off'] }
 end
 
 describe file(File.join(conf_enabled_dir, 'ssl-params.conf')) do
@@ -156,6 +155,7 @@ describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
   its(:content) { should match 'ServerAdmin fake-it@make-it' }
   its(:content) { should match 'DocumentRoot /var/www/html' }
   its(:content) { should match 'SSLEngine on' }
+  its(:content) { should match 'Header always set Content-Security-Policy "base-uri \'none\'"' }
   its(:content) { should match '# Site owners are a pain' }
   its(:content) { should match 'Redirect /old_site /new_site' }
   its(:content) { should match 'RewriteEngine on' }

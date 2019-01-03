@@ -457,6 +457,8 @@ The fields of a rule are:
   The flags for the rule, e.g. '[L,NC]'.
   See the [Apache documentation](https://httpd.apache.org/docs/2.4/rewrite/flags.html).
 
+Several attributes control header policy.
+
 * `node['http_platform']['www']['header_policy']['referrer']`.
 Defaults to `true`.
 Determines if referrer is always omitted from headers.
@@ -469,6 +471,12 @@ Determines if no sniff policy is set in headers.
 * `node['http_platform']['www']['header_policy']['xss']`.
 Defaults to `true`.
 Determines if XSS control is always enabled.
+
+Content policy is not fully implemented and it is recommended to create a config to lock down content.
+
+* `node['http_platform']['www']['header_policy']['base_uri']`.
+Defaults to `'none'`.
+The URIs allowed in the base element.
 
 ## Examples
 

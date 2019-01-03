@@ -21,3 +21,5 @@ default[tcb]['www']['header_policy']['referrer'] = true
 default[tcb]['www']['header_policy']['x_frame'] = true
 default[tcb]['www']['header_policy']['x_content'] = true
 default[tcb]['www']['header_policy']['xss'] = true
+
+default[tcb]['www']['header_policy']['base_uri'] = '\'none\''

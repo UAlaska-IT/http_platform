@@ -17,7 +17,9 @@ Header always set Strict-Transport-Security "max-age=15768000"
 <% if node['http_platform']['www']['header_policy']['x_content'] -%>Header always set X-Content-Type-Options nosniff<% end -%>
 <% if node['http_platform']['www']['header_policy']['xss'] -%>Header always set X-XSS-Protection "1; mode=block"<% end -%>
 
-#Header always set Content-Security-Policy "base-uri 'none'"
+<% if node['http_platform']['www']['header_policy']['base_uri'] -%>
+  Header always set Content-Security-Policy "base-uri <%= node['http_platform']['www']['header_policy']['base_uri'] %>"
+<% end -%>
 #Header always set Content-Security-Policy "default-src 'none'"
 #Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-MttToBeCode'"
 <% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
