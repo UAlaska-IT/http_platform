@@ -458,21 +458,23 @@ The fields of a rule are:
   See the [Apache documentation](https://httpd.apache.org/docs/2.4/rewrite/flags.html).
 
 Several attributes control header policy.
+Any of these attributes can be set to nil to prevent the policy from being generated.
 
 * `node['http_platform']['www']['header_policy']['referrer']`.
-Defaults to `true`.
+Defaults to `"no-referrer"`.
 Determines if referrer is always omitted from headers.
 * `node['http_platform']['www']['header_policy']['x_frame']`.
-Defaults to `true`.
+Defaults to `DENY`.
 Determines if frame content is blocked.
 * `node['http_platform']['www']['header_policy']['x_content']`.
-Defaults to `true`.
+Defaults to `nosniff`.
 Determines if no sniff policy is set in headers.
 * `node['http_platform']['www']['header_policy']['xss']`.
-Defaults to `true`.
-Determines if XSS control is always enabled.
+Defaults to `"1; mode=block"`.
+Determines XSS control is set in headers.
 
 Content policy is not fully implemented and it is recommended to create a config to lock down content.
+Any of these attributes can be set to nil to prevent the policy from being generated.
 
 * `node['http_platform']['www']['header_policy']['base_uri']`.
 Defaults to `'none'`.

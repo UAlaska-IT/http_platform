@@ -155,6 +155,10 @@ describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
   its(:content) { should match 'ServerAdmin fake-it@make-it' }
   its(:content) { should match 'DocumentRoot /var/www/html' }
   its(:content) { should match 'SSLEngine on' }
+  its(:content) { should match 'Header always set Referrer-Policy "no-referrer"' }
+  its(:content) { should match 'Header always set X-Frame-Options DENY' }
+  its(:content) { should match 'Header always set X-Content-Type-Options nosniff' }
+  its(:content) { should match 'Header always set X-XSS-Protection "1; mode=block"' }
   its(:content) { should match 'Header always set Content-Security-Policy "base-uri \'none\'"' }
   its(:content) { should match '# Site owners are a pain' }
   its(:content) { should match 'Redirect /old_site /new_site' }
