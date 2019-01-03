@@ -69,8 +69,6 @@ end
 # Certbot permissions are unsecure enough that daemons refuse to load them
 # Copy them to the usual directory
 remote_file path_to_lets_encrypt_cert do
-  owner 'root'
-  group 'root'
   mode '0644'
   source "file://#{path_to_lets_encrypt_cert_link}"
   # force_unlink

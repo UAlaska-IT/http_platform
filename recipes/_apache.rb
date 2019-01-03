@@ -73,8 +73,6 @@ service apache_service do
 end
 
 directory config_absolute_directory do
-  owner 'root'
-  group 'root'
   mode '0755'
 end
 
@@ -86,8 +84,6 @@ template 'SSL Logic for HTTPS' do
   path ssl_conf
   source 'ssl-params.conf.erb'
   variables var_map
-  owner 'root'
-  group 'root'
   mode '0644'
   notifies :restart, "service[#{apache_service}]", :delayed
 end
@@ -95,8 +91,6 @@ end
 link 'Link for SSL Conf' do
   target_file File.join(conf_enabled_directory, ssl_conf_name)
   to ssl_conf
-  owner 'root'
-  group 'root'
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
@@ -106,8 +100,6 @@ template 'Common Logic for HTTPS Hosts' do
   path File.join(config_absolute_directory, ssl_host_conf_name)
   source 'ssl-host.conf.erb'
   variables var_map
-  owner 'root'
-  group 'root'
   mode '0644'
   notifies :restart, "service[#{apache_service}]", :delayed
 end
