@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.4.1
+
+* Implemented header policies
+
 ## 1.4.0
 
 * Implemented automatic stapling
