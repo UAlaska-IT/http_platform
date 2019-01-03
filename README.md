@@ -457,6 +457,19 @@ The fields of a rule are:
   The flags for the rule, e.g. '[L,NC]'.
   See the [Apache documentation](https://httpd.apache.org/docs/2.4/rewrite/flags.html).
 
+* `node['http_platform']['www']['header_policy']['referrer']`.
+Defaults to `true`.
+Determines if referrer is always omitted from headers.
+* `node['http_platform']['www']['header_policy']['x_frame']`.
+Defaults to `true`.
+Determines if frame content is blocked.
+* `node['http_platform']['www']['header_policy']['x_content']`.
+Defaults to `true`.
+Determines if no sniff policy is set in headers.
+* `node['http_platform']['www']['header_policy']['xss']`.
+Defaults to `true`.
+Determines if XSS control is always enabled.
+
 ## Examples
 
 This is an application cookbook; no custom resources are provided.
