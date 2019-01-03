@@ -12,10 +12,10 @@ Header always set Strict-Transport-Security "max-age=15768000"
 #; includeSubdomains
 #; preload
 
-Header always set Referrer-Policy "no-referrer"
-Header always set X-Frame-Options DENY
-Header always set X-Content-Type-Options nosniff
-Header always set X-XSS-Protection "1; mode=block"
+<% if node['http_platform']['www']['header_policy']['referrer'] -%>Header always set Referrer-Policy "no-referrer"<% end -%>
+<% if node['http_platform']['www']['header_policy']['x_frame'] -%>Header always set X-Frame-Options DENY<% end -%>
+<% if node['http_platform']['www']['header_policy']['x_content'] -%>Header always set X-Content-Type-Options nosniff<% end -%>
+<% if node['http_platform']['www']['header_policy']['xss'] -%>Header always set X-XSS-Protection "1; mode=block"<% end -%>
 
 Header always set Content-Security-Policy "base-uri 'none'"
 Header always set Content-Security-Policy "default-src 'none'"
