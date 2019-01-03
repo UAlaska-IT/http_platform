@@ -6,6 +6,30 @@ DocumentRoot <%= node['http_platform']['www']['document_root'] %>
 SSLEngine on
 SSLCertificateFile <%= @path_to_cert %>
 SSLCertificateKeyFile <%= @path_to_key %>
+
+# HSTS (mod_headers is required) (15768000 seconds = 6 months)
+Header always set Strict-Transport-Security "max-age=15768000"
+#; includeSubdomains
+#; preload
+
+<% if node['http_platform']['www']['header_policy']['referrer'] -%>
+  Header always set Referrer-Policy <%= node['http_platform']['www']['header_policy']['referrer'] %>
+<% end -%>
+<% if node['http_platform']['www']['header_policy']['x_frame'] -%>
+  Header always set X-Frame-Options <%= node['http_platform']['www']['header_policy']['x_frame'] %>
+<% end -%>
+<% if node['http_platform']['www']['header_policy']['x_content'] -%>
+  Header always set X-Content-Type-Options <%= node['http_platform']['www']['header_policy']['x_content'] %>
+<% end -%>
+<% if node['http_platform']['www']['header_policy']['xss'] -%>
+  Header always set X-XSS-Protection <%= node['http_platform']['www']['header_policy']['xss'] %>
+<% end -%>
+
+<% if node['http_platform']['www']['header_policy']['base_uri'] -%>
+  Header always set Content-Security-Policy "base-uri <%= node['http_platform']['www']['header_policy']['base_uri'] %>"
+<% end -%>
+#Header always set Content-Security-Policy "default-src 'none'"
+#Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-MttToBeCode'"
 <% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
 
 <% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
