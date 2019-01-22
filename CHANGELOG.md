@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.4.2
+
+* Tightened permissions on some configs
+
 ## 1.4.1
 
 * Implemented header policies
