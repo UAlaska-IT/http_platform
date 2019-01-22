@@ -26,6 +26,11 @@ This cookbook is intended as a base for rapidly building websites and as such fa
   * Log files
   * Log levels
 
+Default security settings are tight and appropriate for a static web page or pure PHP application (e.g. MediaWiki).
+Other technologies may require other policies.
+For example, CSRF in Django/Rails requires enabling referrer in header.
+See [www policies](#www) below.
+
 ### Full server install
 
 A functioning web server can be spun up by including `http_platform::default`.
@@ -165,7 +170,7 @@ Included by the default recipe.
 
 ## Attributes
 
-__default__
+### default
 
 Default attributes control the features of the platform.
 
@@ -247,7 +252,7 @@ The default security settings are sufficient to earn an 'A+' grade on [Qualys SS
 If compatibility is a concern, the ciphers should be loosened.
 For high-traffic servers, less costly ciphers are advisable.
 
-__apache__
+### apache
 
 Apache attributes control the server configuration.
 
@@ -270,7 +275,7 @@ This must be set or an exception is raised.
 This also serves as the default email for the CSR.
 Note that `node.default['apache']['contact']` is set to the value of `node['http_platform']['admin_email']` within a recipe.
 
-__cert__
+### cert
 
 Cert attributes specify the fields of the PKI certificate and the parameters of the private key.
 
@@ -359,7 +364,7 @@ Defaults to `''`.
 The command to start the web server.
 Will be run after fetching the certbot cert.
 
-__firewall__
+### firewall
 
 Firewall attributes control firewall settings.
 
@@ -376,7 +381,7 @@ Please note:
 * An SSH rule __must__ be created outside of this cookbook or communication will be lost to the node after this cookbook is run. The `firewall::default` rule is used to initialize the firewall, and this recipe respects all attributes of the [firewall cookbook](https://github.com/chef-cookbooks/firewall).
 Notably, a world-accessible SSH rule can be created by setting `node['firewall']['allow_ssh']` to `true`.
 
-__www__
+### www
 
 WWW settings configure the application and hosts.
 

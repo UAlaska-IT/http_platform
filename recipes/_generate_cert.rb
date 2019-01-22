@@ -61,8 +61,6 @@ openssl_rsa_private_key path_to_self_signed_key do
 end
 
 openssl_x509_certificate path_to_self_signed_cert do
-  owner 'root'
-  group 'root'
   mode '0644'
   notifies :restart, "service[#{apache_service}]", :delayed if configure_apache?
   # The fields below must match the file above!
@@ -93,8 +91,6 @@ end
 template 'DH configuration' do
   path path_to_dh_config
   source 'dh_config.erb'
-  owner 'root'
-  group 'root'
   mode '0644'
 end
 
@@ -108,8 +104,6 @@ end
 
 # Always create this so the request can be sent to the CA
 openssl_x509_request path_to_csr do
-  owner 'root'
-  group 'root'
   mode '0644'
 
   # Below must match the certificate
