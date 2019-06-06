@@ -1,12 +1,21 @@
 ---
 driver:
   name: vagrant
+  region: us-west-1
+  instance_type: t2.micro
+  tags:
+    Name: HTTP Platform
+    Service: Infrastructure
+    Environment: Test
+    Fund: 103010
+    Org: 60412
+    Department: Systems Engineering
 
 provisioner:
   name: chef_zero
   always_update_cookbooks: true
   product_name: chef
-  product_version: 14.8.12
+  product_version: 14.10.9
   install_strategy: once
   attributes:
     se_baseline:
@@ -51,55 +60,33 @@ provisioner:
 verifier:
   name: inspec
 
-# Every bento box supported by Chef 14
 platforms:
   - name: ubuntu-18.04
-#    driver:
-#      network:
-#        - ["forwarded_port", {guest: 80, host: 8080, host_ip: "localhost"}]
-#        - ["forwarded_port", {guest: 443, host: 8043, host_ip: "localhost"}]
   - name: ubuntu-16.04
-  - name: ubuntu-16.04-i386
   - name: ubuntu-14.04
-  - name: ubuntu-14.04-i386
-  - name: debian-9.5
-  - name: debian-9.5-i386
-  - name: debian-8.11
-  - name: debian-8.11-i386
-  - name: centos-7.5
-#    driver:
-#      network:
-#        - ["forwarded_port", {guest: 80, host: 8180, host_ip: "localhost"}]
-#        - ["forwarded_port", {guest: 443, host: 8143, host_ip: "localhost"}]
-  - name: centos-6.10
-  - name: centos-6.10-i386
-  - name: centos-5.11
-  - name: centos-5.11-i386
-  - name: oracle-7.5
+  - name: debian-9
+  - name: debian-8
+  - name: centos-7
+  - name: centos-6
+  - name: oracle-7.6
   - name: oracle-6.10
-  - name: oracle-6.10-i386
-  - name: oracle-5.11
-  - name: oracle-5.11-i386
+  - name: fedora-29
   - name: fedora-28
-  - name: fedora-27
-  - name: gbailey/amzn2 # 2018.11
-  - name: stakahashi/amazonlinux2 # 2017.12
-  - name: realreadme/amazon2016.09
-  - name: opensuse-leap-15.0
-  - name: opensuse-leap-42.3
-  - name: freebsd-12.0
-  - name: freebsd-12.0-i386
-  - name: freebsd-11.2
-  - name: freebsd-11.2-i386
-  - name: freebsd-10.4
-  - name: freebsd-10.4-i386
-  - name: mwrock/Windows2016
+  - name: bento/amazonlinux-2 # amazon2
+  - name: realreadme/amazon2016.09 # amazon-
+  - name: bento/opensuse-leap-15 # sles-15
+  - name: StefanScherer/windows_2019 # windows-2019
+    driver:
+      image_id: ami-087efd22b572d6bc1
     transport:
       name: winrm
-  - name: a-mcf/Win2012R2-WMF5-min
+  - name: mwrock/Windows2016 # windows-2016
     transport:
       name: winrm
-  - name: salesforce/server2008r2
+  - name: a-mcf/Win2012R2-WMF5-min # windows-2012r2
+    transport:
+      name: winrm
+  - name: salesforce/server2008r2 # windows-2008r2sp1
     transport:
       name: winrm
 
@@ -116,7 +103,8 @@ suites:
     attributes:
     includes:
       - ubuntu-18.04
-      - centos-7.5
+      - ubuntu-16.04
+      - centos-7
   - name: vault
     run_list:
       - recipe[se-nix-baseline::default]
@@ -133,7 +121,8 @@ suites:
           vault_item_key: 'key'
     includes:
       - ubuntu-18.04
-      - centos-7.5
+      - ubuntu-16.04
+      - centos-7
   - name: certbot
     run_list:
       - recipe[se-nix-baseline::default]
@@ -150,4 +139,5 @@ suites:
           kitchen_test: true
     includes:
       - ubuntu-18.04
-      - centos-7.5
+      - ubuntu-16.04
+      - centos-7
