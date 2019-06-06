@@ -1,6 +1,6 @@
 ---
 driver:
-  name: vagrant
+  name: ec2
   region: us-west-1
   instance_type: t2.micro
   tags:
@@ -72,21 +72,21 @@ platforms:
   - name: oracle-6.10
   - name: fedora-29
   - name: fedora-28
-  - name: bento/amazonlinux-2 # amazon2
-  - name: realreadme/amazon2016.09 # amazon-
-  - name: bento/opensuse-leap-15 # sles-15
-  - name: StefanScherer/windows_2019 # windows-2019
+  - name: amazon2
+  - name: amazon-
+  - name: sles-15
+  - name: windows-2019
     driver:
       image_id: ami-087efd22b572d6bc1
     transport:
       name: winrm
-  - name: mwrock/Windows2016 # windows-2016
+  - name: windows-2016
     transport:
       name: winrm
-  - name: a-mcf/Win2012R2-WMF5-min # windows-2012r2
+  - name: windows-2012r2
     transport:
       name: winrm
-  - name: salesforce/server2008r2 # windows-2008r2sp1
+  - name: windows-2008r2sp1
     transport:
       name: winrm
 
