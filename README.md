@@ -139,7 +139,8 @@ Platforms validated via Test Kitchen:
 
 ### Dependencies
 
-This cookbook does not constrain its dependencies because it is intended as a utility library.  It should ultimately be used within a wrapper cookbook.
+This cookbook does not constrain its dependencies because it is intended as a utility library.
+It should ultimately be used within a wrapper cookbook.
 
 ## Resources
 
