@@ -73,7 +73,7 @@ platforms:
   - name: fedora-29
   - name: fedora-28
   - name: amazon2
-  - name: amazon-
+  - name: amazon2-2018
   - name: sles-15
   - name: windows-2019
     driver:
@@ -95,7 +95,7 @@ suites:
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
-    data_bags_path: "test/integration/data_bags"
+    data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
         - test/integration/default
@@ -109,7 +109,7 @@ suites:
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
-    data_bags_path: "test/integration/data_bags"
+    data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
         - test/integration/default
@@ -127,7 +127,7 @@ suites:
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
-    data_bags_path: "test/integration/data_bags"
+    data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
         - test/integration/default
