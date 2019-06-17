@@ -15,14 +15,14 @@ provisioner:
   name: chef_zero
   always_update_cookbooks: true
   product_name: chef
-  product_version: 14.10.9
+  product_version: 15.0.300
   install_strategy: once
   attributes:
     se_baseline:
-      chef_client_version: '14.10.9'
+      chef_client_version: '15.0.300'
       configure_monitoring: false
     nix_baseline:
-      chef_client_version: '14.10.9'
+      chef_client_version: '15.0.300'
       configure_update: false
       hostname: 'funny.business'
     http_platform:
