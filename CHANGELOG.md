@@ -1,5 +1,10 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.4.3
+
+* Updated kitchen to use EC2
+* Added pin for apache2 cookbook
+
 ## 1.4.2
 
 * Tightened permissions on some configs

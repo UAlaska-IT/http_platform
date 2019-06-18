@@ -11,14 +11,14 @@ git_url = 'https://github.alaska.edu/oit-cookbooks/http_platform'
 source_url git_url if respond_to?(:source_url)
 issues_url "#{git_url}/issues" if respond_to?(:issues_url)
 
-version '1.4.2'
+version '1.4.3'
 
 supports 'ubuntu', '>= 16.0'
 supports 'centos', '>= 7.0'
 
 chef_version '>= 14.0' if respond_to?(:chef_version)
 
-depends 'apache2'
+depends 'apache2', '~> 5.2' # 7 support coming soon
 depends 'chef-vault'
 depends 'firewall'
 depends 'yum-epel'
