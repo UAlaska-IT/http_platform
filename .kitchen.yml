@@ -23,12 +23,12 @@ provisioner:
       configure_monitoring: false
     nix_baseline:
       chef_client_version: '15.0.300'
-      configure_update: false
       firewall:
         additional_rules:
           - name: 'Allow all SSH'
             port: 22
       hostname: 'funny.business'
+      initial_reboot: true
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
