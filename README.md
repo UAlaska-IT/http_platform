@@ -1,5 +1,8 @@
 # HTTP Platform Cookbook
 
+[![License](https://img.shields.io/github/license/ualaska-it/http_platform.svg)](https://github.com/ualaska-it/http_platform)
+[![GitHub Tag](https://img.shields.io/github/tag/ualaska-it/http_platform.svg)](https://github.com/ualaska-it/http_platform)
+
 __Maintainer: OIT Systems Engineering__ (<ua-oit-se@alaska.edu>)
 
 ## Purpose

@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 1.4.4
+
+* Cleanup for Supermarket
+
 ## 1.4.3
 
 * Updated kitchen to use EC2
