@@ -7,7 +7,7 @@ license 'MIT'
 description 'Installs/configures an HTTPS server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 
-git_url = 'https://github.alaska.edu/oit-cookbooks/http_platform'
+git_url = 'https://github.com/ualaska-it/http_platform'
 source_url git_url if respond_to?(:source_url)
 issues_url "#{git_url}/issues" if respond_to?(:issues_url)
 
