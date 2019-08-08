@@ -139,7 +139,11 @@ Supported Platform Families:
 Platforms validated via Test Kitchen:
 
 * Ubuntu
+* Debian
 * CentOS
+* Oracle
+* Fedora
+* Amazon
 
 ### Dependencies
 
