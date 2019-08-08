@@ -150,6 +150,11 @@ Platforms validated via Test Kitchen:
 This cookbook does not constrain its dependencies because it is intended as a utility library.
 It should ultimately be used within a wrapper cookbook.
 
+Note:
+
+Version 2 of this cookbook requires [apache2 cookbook](https://github.com/sous-chefs/apache2) >= 6.0.
+To support older apache2 versions, use version 1 of this cookbook.
+
 ## Resources
 
 This cookbook provides no custom resources.

@@ -25,7 +25,7 @@ supports 'amazon'
 
 chef_version '>= 14.0' if respond_to?(:chef_version)
 
-depends 'apache2', '~> 5.2' # 7 support coming soon
+depends 'apache2', '>= 6.0'
 depends 'chef-vault'
 depends 'firewall'
 depends 'yum-epel'
