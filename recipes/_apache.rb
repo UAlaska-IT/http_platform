@@ -24,16 +24,16 @@ file path_to_elinks_config do
 end
 
 # We always include the basics
-include_recipe 'apache2::default'
-include_recipe 'apache2::mod_headers'
-include_recipe 'apache2::mod_rewrite'
-include_recipe 'apache2::mod_ssl'
+apache2_install 'default_install'
+apache2_module 'headers'
+apache2_module 'rewrite'
+apache2_module 'ssl'
 
-include_recipe 'apache2::mod_status' if node[tcb]['apache']['install_test_suite']
+apache2_module 'status' if node[tcb]['apache']['install_test_suite']
 
 # Now include any extras
 node[tcb]['apache']['extra_mods_to_install'].each do |name, _|
-  include_recipe "apache2::mod_#{name}"
+  apache2_module name
 end
 
 # Remove Apache default file
