@@ -119,18 +119,22 @@ conf_to_delete.each do |conf|
   end
 end
 
+var_map = {
+  host_names: host_names
+}
+
 # HTTP host, permanent redirect
-web_app '000-site' do
-  template 'site-000.conf.erb'
-  host_names host_names
-  # mode '0640' # Not supported
-  enable true
+template File.join(conf_available_directory, 'site-000.conf') do
+  source 'site-000.conf.erb'
+  variables var_map
 end
 
+apache2_site 'site-000.conf'
+
 # HTTPS host
-web_app 'ssl-site' do
-  template 'site-ssl.conf.erb'
-  host_names host_names
-  # mode '0640' # Not supported
-  enable true
+template File.join(conf_available_directory, 'site-ssl.conf') do
+  source 'site-ssl.conf.erb'
+  variables var_map
 end
+
+apache2_site 'site-ssl.conf'
