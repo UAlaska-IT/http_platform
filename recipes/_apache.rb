@@ -69,6 +69,9 @@ var_map = {
 # This block creates an explicit declaration for the service created by installing the apache2 package
 # Therefore client cookbooks can notify this service
 service apache_service do
+  extend Apache2::Cookbook::Helpers
+  service_name(lazy { apache_platform_service_name })
+  supports restart: true, status: true, reload: true
   action :nothing
 end
 
@@ -124,17 +127,23 @@ var_map = {
 }
 
 # HTTP host, permanent redirect
-template File.join(conf_available_directory, 'site-000.conf') do
+template 'Default Host' do
+  path File.join(conf_available_directory, 'site-000.conf')
   source 'site-000.conf.erb'
   variables var_map
+  mode '0640'
+  notifies :restart, "service[#{apache_service}]", :delayed
 end
 
 apache2_site 'site-000.conf'
 
 # HTTPS host
-template File.join(conf_available_directory, 'site-ssl.conf') do
+template 'SSL Host' do
+  path File.join(conf_available_directory, 'site-ssl.conf')
   source 'site-ssl.conf.erb'
   variables var_map
+  mode '0640'
+  notifies :restart, "service[#{apache_service}]", :delayed
 end
 
 apache2_site 'site-ssl.conf'
