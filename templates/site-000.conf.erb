@@ -2,7 +2,7 @@
 
 # Loop over names for redirect because redirect does not support HTTP_HOST
 # For relatively few named hosts, this should be faster than rewrite
-<% @params[:host_names].each do |host, _| -%>
+<% @host_names.each do |host, _| -%>
 
 <VirtualHost *:80>
   ServerName <%= host %>
