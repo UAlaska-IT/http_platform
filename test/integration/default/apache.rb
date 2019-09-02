@@ -69,6 +69,7 @@ end
 ['', '/', '/index.html', '/not_a_page'].each do |page|
   describe http('http://localhost' + page) do
     its(:status) { should cmp 301 }
+    its(:body) { should match('https://') }
   end
 end
 
