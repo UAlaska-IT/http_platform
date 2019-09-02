@@ -37,7 +37,7 @@ module HttpPlatform
       return '/etc/pki/tls/private'
     end
 
-    def apache_service
+    def apache_package
       return 'apache2' if node['platform_family'] == 'debian'
 
       return 'httpd'

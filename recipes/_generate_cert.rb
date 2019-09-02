@@ -62,7 +62,7 @@ end
 
 openssl_x509_certificate path_to_self_signed_cert do
   mode '0644'
-  notifies :restart, "service[#{apache_service}]", :delayed if configure_apache?
+  notifies :restart, 'service[apache2]', :delayed if configure_apache?
   # The fields below must match the file above!
 
   # ca_cert_file
@@ -99,7 +99,7 @@ bash 'Create DH parameters' do
   code "sudo openssl dhparam -out '#{path_to_dh_params}' #{node[tcb]['cert']['dh_param']['bits']}"
   action :nothing
   subscribes :run, 'template[DH configuration]', :immediate
-  notifies :restart, "service[#{apache_service}]", :delayed if configure_apache?
+  notifies :restart, 'service[apache2]', :delayed if configure_apache?
 end
 
 # Always create this so the request can be sent to the CA

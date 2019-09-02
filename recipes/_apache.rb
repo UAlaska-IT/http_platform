@@ -79,13 +79,13 @@ template 'SSL Logic for HTTPS' do
   source 'ssl-params.conf.erb'
   variables var_map
   mode '0640'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 link 'Link for SSL Conf' do
   target_file File.join(conf_enabled_directory, ssl_conf_name)
   to ssl_conf
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 # Common config for all HTTPS hosts
@@ -95,7 +95,7 @@ template 'Common Logic for HTTPS Hosts' do
   source 'ssl-host.conf.erb'
   variables var_map
   mode '0640'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 conf_to_delete = [
@@ -107,11 +107,11 @@ conf_to_delete = [
 conf_to_delete.each do |conf|
   file File.join(site_available_directory, conf) do
     action :delete
-    notifies :restart, "service[#{apache_service}]", :delayed
+    notifies :restart, 'service[apache2]', :delayed
   end
   link File.join(site_enabled_directory, conf) do
     action :delete
-    notifies :restart, "service[#{apache_service}]", :delayed
+    notifies :restart, 'service[apache2]', :delayed
   end
 end
 
@@ -127,12 +127,12 @@ template 'Default Host' do
   source 'site-000.conf.erb'
   variables var_map
   mode '0640'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 link File.join(site_enabled_directory, http_conf) do
   to File.join(site_available_directory, http_conf)
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 # HTTPS host
@@ -143,10 +143,10 @@ template 'SSL Host' do
   source 'site-ssl.conf.erb'
   variables var_map
   mode '0640'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 link File.join(site_enabled_directory, https_conf) do
   to File.join(site_available_directory, https_conf)
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
