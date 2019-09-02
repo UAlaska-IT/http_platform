@@ -72,38 +72,49 @@ end
   end
 end
 
-['', '/', '/not_a_page'].each do |page|
-  describe http('https://localhost' + page, ssl_verify: false) do
-    its(:status) { should cmp 403 }
-    its(:body) { should match('403_puppy.php') }
-  end
 index_content = 'Now make yourself a website:\)'
 
-end
-
-describe http('https://localhost/index.html', ssl_verify: false) do
-  its(:status) { should cmp 200 }
-  its(:body) { should match(index_content) }
-end
-
-describe http('https://localhost/old_site', ssl_verify: false) do
-  its(:status) { should cmp 302 }
-  its(:body) { should match('/new_site') }
+pages = [
+  {
+    page: '',
+    status: 200,
+    content: index_content
+  },
+  {
+    page: '/',
+    status: 200,
+    content: index_content
+  },
+  {
+    page: '/index.html',
+    status: 200,
+    content: index_content
+  },
+  {
+    page: '/old_site',
+    status: 302,
+    content: '/new_site'
+  },
+  {
+    page: '/not_a_page',
+    status: 403,
+    content: '403_puppy.php'
+  }
+]
+pages.each do |page|
+  describe http("https://localhost#{page[:page]}", ssl_verify: false) do
+    its(:status) { should cmp page[:status] }
+    its(:body) { should match(page[:content]) }
+  end
 end
 
 if node['platform_family'] == 'debian' # CentOS ignores conf directive to not validate certificate
-  ['', '/', '/not_a_page'].each do |page|
-    describe bash("elinks -dump https://localhost#{page}") do
+  pages.each do |page|
+    describe bash("elinks -dump https://localhost#{page[:page]}") do
       its(:exit_status) { should eq 0 }
       its(:stderr) { should eq '' }
-      its(:stdout) { should match '403_puppy.php' }
+      its(:stdout) { should match page[:content] }
     end
-  end
-
-  describe bash('elinks -dump https://localhost/index.html') do
-    its(:exit_status) { should eq 0 }
-    its(:stderr) { should eq '' }
-    its(:stdout) { should match index_content }
   end
 end
 
