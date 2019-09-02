@@ -183,7 +183,7 @@ end
 describe file(File.join(sites_available_dir, '000-site.conf')) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
@@ -198,7 +198,7 @@ end
 describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
@@ -226,7 +226,7 @@ end
 describe file(File.join(sites_enabled_dir, '000-site.conf')) do
   it { should exist }
   it { should be_symlink }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq File.join(sites_available_dir, '000-site.conf') }
@@ -235,7 +235,7 @@ end
 describe file(File.join(sites_enabled_dir, 'ssl-site.conf')) do
   it { should exist }
   it { should be_symlink }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq File.join(sites_available_dir, 'ssl-site.conf') }
