@@ -52,14 +52,14 @@ describe file(path_to_self_signed_key(node)) do
   it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into key_group(node) }
-  its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
+  its(:content) { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIJJwIBAAK' }
 end
 
 describe key_rsa(path_to_self_signed_key(node)) do
   it { should be_public }
   it { should be_private }
-  its('public_key') { should match "-----BEGIN PUBLIC KEY-----\n" }
-  its('private_key') { should match "-----BEGIN RSA PRIVATE KEY-----\n" }
+  its('public_key') { should match '-----BEGIN PUBLIC KEY-----\n3597459df9f3982' }
+  its('private_key') { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIJJwIBAAK' }
   its('key_length') { should eq 2048 }
 end
 

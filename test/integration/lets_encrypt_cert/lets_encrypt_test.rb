@@ -4,6 +4,23 @@ require_relative '../helpers'
 
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
+describe file(path_to_lets_encrypt_key) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o640 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into key_group(node) }
+  its(:content) { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIJJwIBAAK' }
+end
+
+describe key_rsa(path_to_lets_encrypt_key) do
+  it { should be_public }
+  it { should be_private }
+  its('public_key') { should match '-----BEGIN PUBLIC KEY-----\n3597459df9f3982' }
+  its('private_key') { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIJJwIBAAK' }
+  its('key_length') { should eq 2048 }
+end
+
 describe file(path_to_lets_encrypt_cert) do
   it { should exist }
   it { should be_file }
@@ -11,15 +28,6 @@ describe file(path_to_lets_encrypt_cert) do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:content) { should match 'BEGIN CERTIFICATE' }
-end
-
-describe file(path_to_lets_encrypt_key) do
-  it { should exist }
-  it { should be_file }
-  it { should be_mode 0o640 }
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into key_group(node) }
-  its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
 end
 
 describe apache_conf(File.join(path_to_conf_available_dir(node), 'ssl-params.conf')) do
