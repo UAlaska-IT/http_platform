@@ -142,7 +142,6 @@ Platforms validated via Test Kitchen:
 * Debian
 * CentOS
 * Oracle
-* Fedora
 
 ### Dependencies
 

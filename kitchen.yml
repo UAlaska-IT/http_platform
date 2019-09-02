@@ -107,8 +107,6 @@ suites:
       - centos-7
       - oracle-7.6
       - oracle-6.10
-      - fedora-29
-      - fedora-28
   - name: vault
     run_list:
       - recipe[se-nix-baseline::default]
@@ -130,8 +128,6 @@ suites:
       - centos-7
       - oracle-7.6
       - oracle-6.10
-      - fedora-29
-      - fedora-28
   - name: certbot # This is impossible to do in kitchen, so this is a list of platforms that have been tested elsewhere
     run_list:
       - recipe[se-nix-baseline::default]
