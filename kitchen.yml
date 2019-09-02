@@ -29,7 +29,7 @@ provisioner:
           - name: 'Allow all SSH'
             port: 22
       hostname: 'funny.business'
-      initial_reboot: false
+      initial_reboot: true
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
