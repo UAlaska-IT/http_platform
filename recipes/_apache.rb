@@ -108,15 +108,16 @@ template 'Common Logic for HTTPS Hosts' do
 end
 
 conf_to_delete = [
-  'default-ssl.conf' # Default on Ubuntu
+  '000-default.conf', # Default on Ubuntu
+  'default-ssl.conf', # Default on Ubuntu
 ]
 
 conf_to_delete.each do |conf|
-  file File.join(conf_available_directory, conf) do
+  file File.join(site_available_directory, conf) do
     action :delete
     notifies :restart, "service[#{apache_service}]", :delayed
   end
-  link File.join(conf_enabled_directory, conf) do
+  link File.join(site_enabled_directory, conf) do
     action :delete
     notifies :restart, "service[#{apache_service}]", :delayed
   end

@@ -170,6 +170,10 @@ module HttpPlatform
       return File.join(conf_root_directory, 'sites-available')
     end
 
+    def site_enabled_directory
+      return File.join(conf_root_directory, 'sites-enabled')
+    end
+
     def ssl_conf_name
       return 'ssl-params.conf'
     end
