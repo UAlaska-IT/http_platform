@@ -7,7 +7,53 @@ provisioner:
   always_update_cookbooks: true
   product_name: chef
   product_version: 15.2.20
-  install_strategy: always
+  install_strategy: once
+  attributes:
+    se_baseline:
+      chef_client_version: '15.2.20'
+      configure_monitoring: false
+    nix_baseline:
+      chef_client_version: '15.2.20'
+      firewall:
+        additional_rules:
+          - name: 'Allow all SSH'
+            port: 22
+      hostname: 'funny.business'
+      initial_reboot: false
+    http_platform:
+      admin_email: 'fake-it@make-it'
+      apache:
+        extra_mods_to_install:
+          - 'lua'
+        install_test_suite: true
+      cert:
+        organization: 'fake_org'
+        org_unit: 'fake_unit'
+      www:
+        access_directories:
+          /:
+            - '/'
+            - 'index.html'
+          /stuff: ''
+        additional_aliases:
+          me.also:
+            log_level: 'info'
+        error_documents:
+          '403': '403_puppy.php'
+          '404': '404_kitten.php'
+        redirect_rules:
+          - comment: 'Site owners are a pain'
+            from_regex: '/old_site'
+            to_regex: '/new_site'
+        rewrite_rules:
+          - url_regex: '/url_of_page(.*)'
+            path_regex: '/path_to_file$1'
+            flags: '[L,NC]'
+        remove_default_index: false
+        create_default_index: true
+  environments_path: test/environments
+  client_rb:
+    environment: aws_test
 
 verifier:
   name: inspec
