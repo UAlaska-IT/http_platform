@@ -55,6 +55,14 @@ describe file(path_to_self_signed_key(node)) do
   its(:content) { should match 'BEGIN RSA PRIVATE KEY' }
 end
 
+describe key_rsa(path_to_self_signed_key(node)) do
+  it { should be_public }
+  it { should be_private }
+  its('public_key') { should match "-----BEGIN PUBLIC KEY-----\n" }
+  its('private_key') { should match "-----BEGIN RSA PRIVATE KEY-----\n" }
+  its('key_length') { should eq 2048 }
+end
+
 describe file(path_to_self_signed_cert(node)) do
   it { should exist }
   it { should be_file }
