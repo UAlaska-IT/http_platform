@@ -138,7 +138,7 @@ template 'Default Host' do
 end
 
 link File.join(site_enabled_directory, 'site-000.conf') do
-  action :delete
+  to File.join(site_available_directory, 'site-000.conf')
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
@@ -152,6 +152,6 @@ template 'SSL Host' do
 end
 
 link File.join(site_enabled_directory, 'site-ssl.conf') do
-  action :delete
+  to File.join(site_available_directory, 'site-ssl.conf')
   notifies :restart, "service[#{apache_service}]", :delayed
 end
