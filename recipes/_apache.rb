@@ -128,7 +128,7 @@ var_map = {
 
 # HTTP host, permanent redirect
 template 'Default Host' do
-  path File.join(conf_available_directory, 'site-000.conf')
+  path File.join(site_available_directory, 'site-000.conf')
   source 'site-000.conf.erb'
   variables var_map
   mode '0640'
@@ -139,7 +139,7 @@ apache2_site 'site-000.conf'
 
 # HTTPS host
 template 'SSL Host' do
-  path File.join(conf_available_directory, 'site-ssl.conf')
+  path File.join(site_available_directory, 'site-ssl.conf')
   source 'site-ssl.conf.erb'
   variables var_map
   mode '0640'
