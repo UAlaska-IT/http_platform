@@ -66,13 +66,6 @@ describe file('/var/www/html/index.html') do
   its(:content) { should match 'Welcome to Apache' }
 end
 
-['', '/', '/index.html', '/not_a_page'].each do |page|
-  describe http('http://localhost' + page) do
-    its(:status) { should cmp 301 }
-    its(:body) { should match('https://') }
-  end
-end
-
 index_content = 'Now make yourself a website:\)'
 
 pages = [
@@ -102,6 +95,14 @@ pages = [
     content: '404_kitten.php'
   }
 ]
+
+pages.each do |page|
+  describe http("http://localhost#{page[:page]}") do
+    its(:status) { should cmp 301 }
+    its(:body) { should match('https://') }
+  end
+end
+
 pages.each do |page|
   describe http("https://localhost#{page[:page]}", ssl_verify: false) do
     its(:status) { should cmp page[:status] }
