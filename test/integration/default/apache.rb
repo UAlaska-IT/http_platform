@@ -98,8 +98,8 @@ pages = [
   },
   {
     page: '/not_a_page',
-    status: 403,
-    content: '403_puppy.php'
+    status: 404,
+    content: '404_kitten.php'
   }
 ]
 pages.each do |page|
