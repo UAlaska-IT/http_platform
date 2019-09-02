@@ -52,14 +52,14 @@ describe file(path_to_self_signed_key(node)) do
   it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into key_group(node) }
-  its(:content) { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIJJwIBAAK' }
+  its(:content) { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIE' }
 end
 
 describe key_rsa(path_to_self_signed_key(node)) do
   it { should be_public }
   it { should be_private }
-  its('public_key') { should match '-----BEGIN PUBLIC KEY-----\n3597459df9f3982' }
-  its('private_key') { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIJJwIBAAK' }
+  its('public_key') { should match '-----BEGIN PUBLIC KEY-----\nMIIB' }
+  its('private_key') { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIE' }
   its('key_length') { should eq 2048 }
 end
 
@@ -70,24 +70,6 @@ describe file(path_to_self_signed_cert(node)) do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:content) { should match 'BEGIN CERTIFICATE' }
-end
-
-describe file(path_to_dh_config(node)) do
-  it { should exist }
-  it { should be_file }
-  it { should be_mode 0o644 }
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
-  its(:content) { should match '2048' }
-end
-
-describe file(path_to_dh_params(node)) do
-  it { should exist }
-  it { should be_file }
-  it { should be_mode 0o644 }
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
-  its(:content) { should match 'BEGIN DH PARAMETERS' }
 end
 
 describe x509_certificate(path_to_self_signed_cert(node)) do
@@ -120,6 +102,24 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('issuer.L') { should eq 'Fairbanks' }
   its('issuer.O') { should eq 'fake_org' }
   its('issuer.OU') { should eq 'fake_unit' }
+end
+
+describe file(path_to_dh_config(node)) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match '2048' }
+end
+
+describe file(path_to_dh_params(node)) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 0o644 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its(:content) { should match 'BEGIN DH PARAMETERS' }
 end
 
 describe file(File.join(cert_public_dir(node), 'http_platform_csr.pem')) do
