@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 # On debian certs are grouped into ssl-cert but the group does not exist
-package Apache2::Cookbook::Helpers::apache_pkg
+package apache_service
 
 # This block creates an explicit declaration for the service created by installing the apache2 package
 # Therefore client cookbooks can notify this service
