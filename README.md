@@ -143,7 +143,6 @@ Platforms validated via Test Kitchen:
 * CentOS
 * Oracle
 * Fedora
-* Amazon
 
 ### Dependencies
 

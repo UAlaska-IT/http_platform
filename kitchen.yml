@@ -109,8 +109,6 @@ suites:
       - oracle-6.10
       - fedora-29
       - fedora-28
-      - amazon2
-      - amazon2-2018
   - name: vault
     run_list:
       - recipe[se-nix-baseline::default]
@@ -134,8 +132,6 @@ suites:
       - oracle-6.10
       - fedora-29
       - fedora-28
-      - amazon2
-      - amazon2-2018
   - name: certbot # This is impossible to do in kitchen, so this is a list of platforms that have been tested elsewhere
     run_list:
       - recipe[se-nix-baseline::default]
@@ -153,4 +149,3 @@ suites:
     includes:
       - ubuntu-18.04
       - centos-7
-      - amazon2

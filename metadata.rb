@@ -19,7 +19,7 @@ supports 'redhat', '>= 6.0'
 supports 'centos', '>= 6.0'
 supports 'oracle', '>= 6.0'
 supports 'fedora'
-supports 'amazon'
+# supports 'amazon'
 # supports 'suse'
 # supports 'opensuse'
 
