@@ -68,6 +68,9 @@ The certificate handling logic can be used standalone.
 The workflow for doing so is below.
 
 ```ruby
+# Defines group and service for ownership and signalling
+include_recipe 'http_platform::definitions'
+
 include_recipe 'http_platform::local_cert'
 
 # Optional; use if the firewall is not configured by server recipes

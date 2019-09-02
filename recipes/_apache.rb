@@ -66,15 +66,6 @@ var_map = {
   use_stapling: use_stapling
 }
 
-# This block creates an explicit declaration for the service created by installing the apache2 package
-# Therefore client cookbooks can notify this service
-service apache_service do
-  extend Apache2::Cookbook::Helpers
-  service_name(lazy { apache_platform_service_name })
-  supports restart: true, status: true, reload: true
-  action :nothing
-end
-
 directory config_absolute_directory do
   mode '0755'
 end
