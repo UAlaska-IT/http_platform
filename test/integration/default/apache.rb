@@ -107,7 +107,7 @@ end
 
 describe apache_conf do
   its('AllowOverride') { should eq ['None'] }
-  its('Listen') { should match ['*:80', '*:443'] }
+  its('Listen') { should match ['80', '443'] }
 end
 
 describe file(File.join(path_to_conf_available_dir(node), 'ssl-params.conf')) do
