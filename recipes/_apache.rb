@@ -129,29 +129,33 @@ var_map = {
 }
 
 # HTTP host, permanent redirect
+http_conf = '000-site.conf'
+
 template 'Default Host' do
-  path File.join(site_available_directory, 'site-000.conf')
+  path File.join(site_available_directory, http_conf)
   source 'site-000.conf.erb'
   variables var_map
   mode '0640'
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
-link File.join(site_enabled_directory, 'site-000.conf') do
-  to File.join(site_available_directory, 'site-000.conf')
+link File.join(site_enabled_directory, http_conf) do
+  to File.join(site_available_directory, http_conf)
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
 # HTTPS host
+https_conf = 'ssl-site.conf'
+
 template 'SSL Host' do
-  path File.join(site_available_directory, 'site-ssl.conf')
+  path File.join(site_available_directory, https_conf)
   source 'site-ssl.conf.erb'
   variables var_map
   mode '0640'
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
-link File.join(site_enabled_directory, 'site-ssl.conf') do
-  to File.join(site_available_directory, 'site-ssl.conf')
+link File.join(site_enabled_directory, https_conf) do
+  to File.join(site_available_directory, https_conf)
   notifies :restart, "service[#{apache_service}]", :delayed
 end
