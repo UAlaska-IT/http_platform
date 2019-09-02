@@ -77,11 +77,13 @@ end
     its(:status) { should cmp 403 }
     its(:body) { should match('403_puppy.php') }
   end
+index_content = 'Now make yourself a website:\)'
+
 end
 
 describe http('https://localhost/index.html', ssl_verify: false) do
   its(:status) { should cmp 200 }
-  its(:body) { should match('Now make yourself a website:\)') }
+  its(:body) { should match(index_content) }
 end
 
 describe http('https://localhost/old_site', ssl_verify: false) do
@@ -101,7 +103,7 @@ if node['platform_family'] == 'debian' # CentOS ignores conf directive to not va
   describe bash('elinks -dump https://localhost/index.html') do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq '' }
-    its(:stdout) { should match 'Now make yourself a website:\)' }
+    its(:stdout) { should match index_content }
   end
 end
 
