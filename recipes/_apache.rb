@@ -108,8 +108,9 @@ template 'Common Logic for HTTPS Hosts' do
 end
 
 conf_to_delete = [
-  '000-default.conf', # Default on Ubuntu
-  'default-ssl.conf', # Default on Ubuntu
+  # Defaults on Ubuntu
+  '000-default.conf',
+  'default-ssl.conf'
 ]
 
 conf_to_delete.each do |conf|
@@ -136,7 +137,10 @@ template 'Default Host' do
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
-apache2_site 'site-000.conf'
+link File.join(site_enabled_directory, 'site-000.conf') do
+  action :delete
+  notifies :restart, "service[#{apache_service}]", :delayed
+end
 
 # HTTPS host
 template 'SSL Host' do
@@ -147,4 +151,7 @@ template 'SSL Host' do
   notifies :restart, "service[#{apache_service}]", :delayed
 end
 
-apache2_site 'site-ssl.conf'
+link File.join(site_enabled_directory, 'site-ssl.conf') do
+  action :delete
+  notifies :restart, "service[#{apache_service}]", :delayed
+end
