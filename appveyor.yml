@@ -21,4 +21,4 @@ test_script:
   - foodcritic .
   - berks install
   - chef exec rspec --fail-fast -fd
-  - KITCHEN_YAML="kitchen.appveyor.yml" kitchen test --no-color --destroy=always
+#  - KITCHEN_YAML="kitchen.appveyor.yml" kitchen test --no-color --destroy=always
