@@ -151,7 +151,7 @@ module HttpPlatform
     end
 
     def config_relative_directory
-      return 'conf.d' # Must match default conf from attributes
+      return 'conf-available' # Must match default conf from attributes
     end
 
     def config_absolute_directory

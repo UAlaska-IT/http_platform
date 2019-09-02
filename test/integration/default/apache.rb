@@ -12,7 +12,7 @@ else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
 
-conf_d_dir = File.join(path_to_conf_root_dir(node), 'conf.d')
+conf_available_dir = File.join(path_to_conf_root_dir(node), 'conf-available')
 conf_enabled_dir = File.join(path_to_conf_root_dir(node), 'conf-enabled')
 sites_available_dir = File.join(path_to_conf_root_dir(node), 'sites-available')
 sites_enabled_dir = File.join(path_to_conf_root_dir(node), 'sites-enabled')
@@ -138,7 +138,7 @@ describe file(File.join(conf_enabled_dir, 'ssl-params.conf')) do
   its(:link_path) { should eq File.join(path_to_conf_available_dir(node), 'ssl-params.conf') }
 end
 
-describe file(conf_d_dir) do
+describe file(conf_available_dir) do
   it { should exist }
   it { should be_directory }
   it { should be_mode 0o755 }
@@ -146,7 +146,7 @@ describe file(conf_d_dir) do
   it { should be_grouped_into 'root' }
 end
 
-describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
+describe file(File.join(conf_available_dir, 'ssl-host.conf')) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o640 }
@@ -220,7 +220,7 @@ describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   its(:content) { should_not match(/www\.me\.also\.access\.log/) }
   its(:content) { should match 'me\.also\.access\.log combined\s+LogLevel info' }
 
-  its(:content) { should match 'Include conf.d/ssl-host.conf' }
+  its(:content) { should match 'Include conf-available/ssl-host.conf' }
 end
 
 describe file(File.join(sites_enabled_dir, '000-site.conf')) do

@@ -28,16 +28,12 @@ def path_to_conf_root_dir(node)
   return '/etc/httpd'
 end
 
-def path_to_conf_d_dir(node)
-  return File.join(path_to_conf_root_dir(node), 'conf.d')
-end
-
 def path_to_conf_available_dir(node)
   return File.join(path_to_conf_root_dir(node), 'conf-available')
 end
 
 def path_to_ssl_host_conf(node)
-  File.join(path_to_conf_d_dir(node), 'ssl-host.conf')
+  File.join(path_to_conf_available_dir(node), 'ssl-host.conf')
 end
 
 def path_to_self_signed_cert(node)

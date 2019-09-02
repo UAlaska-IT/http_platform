@@ -55,7 +55,7 @@ For example:
   CustomLog ${APACHE_LOG_DIR}/funny.business.access.log combined
   LogLevel warn
 
-  Include conf.d/ssl-host.conf
+  Include conf-available/ssl-host.conf
 </VirtualHost>
 ```
 
@@ -257,7 +257,7 @@ Defaults to `true`.
 Enable stapling of the certificate.
 Stapling will not be configured if a self-signed certificate is used.
 * `node['http_platform']['apache']['paths_to_additional_configs']`.
-Defaults to `{ 'conf.d/ssl-host.conf' => '' }`.
+Defaults to `{ 'conf-available/ssl-host.conf' => '' }`.
 A hash of relative paths to additional config files to be included by all HTTPS hosts.
 The default is the config file generated based on the attributes of this cookbook.
 Most clients will merge this hash to add additional configs as desired, but an entirely custom host configuration is hereby supported.
