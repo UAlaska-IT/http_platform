@@ -16,4 +16,4 @@ default['apache']['mod_ssl']['ssl_protocol'] = node[tcb]['ssl_protocol']
 
 default[tcb]['apache']['use_stapling'] = true
 
-default[tcb]['apache']['paths_to_additional_configs'] = { 'conf.d/ssl-host.conf' => '' }
+default[tcb]['apache']['paths_to_additional_configs'] = { 'conf-available/ssl-host.conf' => '' }

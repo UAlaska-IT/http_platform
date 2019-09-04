@@ -1,29 +1,19 @@
 ---
 driver:
-  name: ec2
-  region: us-west-1
-  instance_type: t2.micro
-  security_group_ids: ['kitchen_test_sg']
-  tags:
-    Name: HTTP Platform
-    Service: Infrastructure
-    Environment: Test
-    Fund: 103010
-    Org: 60412
-    Department: Systems Engineering
+  name: vagrant
 
 provisioner:
   name: chef_zero
   always_update_cookbooks: true
   product_name: chef
-  product_version: 15.0.300
+  product_version: 15.2.20
   install_strategy: once
   attributes:
     se_baseline:
-      chef_client_version: '15.0.300'
+      chef_client_version: '15.2.20'
       configure_monitoring: false
     nix_baseline:
-      chef_client_version: '15.0.300'
+      chef_client_version: '15.2.20'
       firewall:
         additional_rules:
           - name: 'Allow all SSH'
@@ -73,7 +63,6 @@ platforms:
   - name: ubuntu-16.04
   - name: ubuntu-14.04
   - name: debian-9
-  - name: debian-8
   - name: centos-7
   - name: centos-6
   - name: oracle-7.6
@@ -111,8 +100,6 @@ suites:
     attributes:
     includes:
       - ubuntu-18.04
-      - ubuntu-16.04
-      - centos-7
   - name: vault
     run_list:
       - recipe[se-nix-baseline::default]
@@ -128,24 +115,4 @@ suites:
         key:
           vault_item_key: 'key'
     includes:
-      - ubuntu-18.04
-      - ubuntu-16.04
-      - centos-7
-  - name: certbot
-    run_list:
-      - recipe[se-nix-baseline::default]
-      - recipe[http_platform::default]
-    data_bags_path: 'test/integration/data_bags'
-    verifier:
-      inspec_tests:
-        - test/integration/default
-        - test/integration/lets_encrypt_cert
-    attributes:
-      http_platform:
-        configure_lets_encrypt_cert: true
-        cert:
-          kitchen_test: true
-    includes:
-      - ubuntu-18.04
-      - ubuntu-16.04
       - centos-7

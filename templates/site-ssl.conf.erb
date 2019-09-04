@@ -1,5 +1,5 @@
 # This file is managed with Chef. For changes to persist, edit http_platform/templates/site-ssl.conf.erb
-<% @params[:host_names].each do |host, options| -%>
+<% @host_names.each do |host, options| -%>
 
 <VirtualHost *:443>
   ServerName <%= host %>

@@ -24,16 +24,16 @@ file path_to_elinks_config do
 end
 
 # We always include the basics
-include_recipe 'apache2::default'
-include_recipe 'apache2::mod_headers'
-include_recipe 'apache2::mod_rewrite'
-include_recipe 'apache2::mod_ssl'
+apache2_install 'default_install'
+apache2_module 'headers'
+apache2_module 'rewrite'
+apache2_module 'ssl'
 
-include_recipe 'apache2::mod_status' if node[tcb]['apache']['install_test_suite']
+apache2_module 'status' if node[tcb]['apache']['install_test_suite']
 
 # Now include any extras
 node[tcb]['apache']['extra_mods_to_install'].each do |name, _|
-  include_recipe "apache2::mod_#{name}"
+  apache2_module name
 end
 
 # Remove Apache default file
@@ -66,12 +66,6 @@ var_map = {
   use_stapling: use_stapling
 }
 
-# This block creates an explicit declaration for the service created by installing the apache2 package
-# Therefore client cookbooks can notify this service
-service apache_service do
-  action :nothing
-end
-
 directory config_absolute_directory do
   mode '0755'
 end
@@ -85,13 +79,13 @@ template 'SSL Logic for HTTPS' do
   source 'ssl-params.conf.erb'
   variables var_map
   mode '0640'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 link 'Link for SSL Conf' do
   target_file File.join(conf_enabled_directory, ssl_conf_name)
   to ssl_conf
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 # Common config for all HTTPS hosts
@@ -101,36 +95,58 @@ template 'Common Logic for HTTPS Hosts' do
   source 'ssl-host.conf.erb'
   variables var_map
   mode '0640'
-  notifies :restart, "service[#{apache_service}]", :delayed
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 conf_to_delete = [
-  'default-ssl.conf' # Default on Ubuntu
+  # Defaults on Ubuntu
+  '000-default.conf',
+  'default-ssl.conf'
 ]
 
 conf_to_delete.each do |conf|
-  file File.join(conf_available_directory, conf) do
+  file File.join(site_available_directory, conf) do
     action :delete
-    notifies :restart, "service[#{apache_service}]", :delayed
+    notifies :restart, 'service[apache2]', :delayed
   end
-  link File.join(conf_enabled_directory, conf) do
+  link File.join(site_enabled_directory, conf) do
     action :delete
-    notifies :restart, "service[#{apache_service}]", :delayed
+    notifies :restart, 'service[apache2]', :delayed
   end
 end
 
+var_map = {
+  host_names: host_names
+}
+
 # HTTP host, permanent redirect
-web_app '000-site' do
-  template 'site-000.conf.erb'
-  host_names host_names
-  # mode '0640' # Not supported
-  enable true
+http_conf = '000-site.conf'
+
+template 'Default Host' do
+  path File.join(site_available_directory, http_conf)
+  source 'site-000.conf.erb'
+  variables var_map
+  mode '0640'
+  notifies :restart, 'service[apache2]', :delayed
+end
+
+link File.join(site_enabled_directory, http_conf) do
+  to File.join(site_available_directory, http_conf)
+  notifies :restart, 'service[apache2]', :delayed
 end
 
 # HTTPS host
-web_app 'ssl-site' do
-  template 'site-ssl.conf.erb'
-  host_names host_names
-  # mode '0640' # Not supported
-  enable true
+https_conf = 'ssl-site.conf'
+
+template 'SSL Host' do
+  path File.join(site_available_directory, https_conf)
+  source 'site-ssl.conf.erb'
+  variables var_map
+  mode '0640'
+  notifies :restart, 'service[apache2]', :delayed
+end
+
+link File.join(site_enabled_directory, https_conf) do
+  to File.join(site_available_directory, https_conf)
+  notifies :restart, 'service[apache2]', :delayed
 end

@@ -1,0 +1,150 @@
+---
+driver:
+  name: ec2
+  region: us-west-1
+  instance_type: t2.micro
+  security_group_ids: ['kitchen_test_sg']
+  tags:
+    Name: HTTP Platform
+    Service: Infrastructure
+    Environment: Test
+    Fund: 103010
+    Org: 60412
+    Department: Systems Engineering
+
+provisioner:
+  name: chef_zero
+  always_update_cookbooks: true
+  product_name: chef
+  product_version: 15.2.20
+  install_strategy: once
+  attributes:
+    se_baseline:
+      chef_client_version: '15.2.20'
+      configure_monitoring: false
+    nix_baseline:
+      chef_client_version: '15.2.20'
+      firewall:
+        additional_rules:
+          - name: 'Allow all SSH'
+            port: 22
+      hostname: 'funny.business'
+      initial_reboot: true
+    http_platform:
+      admin_email: 'fake-it@make-it'
+      apache:
+        extra_mods_to_install:
+          - 'lua'
+        install_test_suite: true
+      cert:
+        organization: 'fake_org'
+        org_unit: 'fake_unit'
+      www:
+        access_directories:
+          /:
+            - '/'
+            - 'index.html'
+          /stuff: ''
+        additional_aliases:
+          me.also:
+            log_level: 'info'
+        error_documents:
+          '403': '403_puppy.php'
+          '404': '404_kitten.php'
+        redirect_rules:
+          - comment: 'Site owners are a pain'
+            from_regex: '/old_site'
+            to_regex: '/new_site'
+        rewrite_rules:
+          - url_regex: '/url_of_page(.*)'
+            path_regex: '/path_to_file$1'
+            flags: '[L,NC]'
+        remove_default_index: false
+        create_default_index: true
+  environments_path: test/environments
+  client_rb:
+    environment: aws_test
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-18.04
+  - name: ubuntu-16.04
+  - name: ubuntu-14.04
+  - name: debian-9
+  - name: centos-7
+  - name: centos-6
+  - name: oracle-7.6
+  - name: oracle-6.10
+  - name: fedora-29
+  - name: fedora-28
+  - name: amazon2
+  - name: amazon2-2018
+  - name: sles-15
+  - name: windows-2019
+    driver:
+      image_id: ami-004a782f694e8dde2
+  - name: windows-2016
+  - name: windows-2012r2
+  - name: windows-2008r2sp1
+
+suites:
+  - name: self
+    run_list:
+      - recipe[se-nix-baseline::default]
+      - recipe[http_platform::default]
+    data_bags_path: 'test/integration/data_bags'
+    verifier:
+      inspec_tests:
+        - test/integration/default
+        - test/integration/self_signed_cert
+    attributes:
+    includes:
+      - ubuntu-18.04
+      - ubuntu-16.04
+      - debian-9
+      - centos-7
+      - oracle-7.6
+      - oracle-6.10
+  - name: vault
+    run_list:
+      - recipe[se-nix-baseline::default]
+      - recipe[http_platform::default]
+    data_bags_path: 'test/integration/data_bags'
+    verifier:
+      inspec_tests:
+        - test/integration/default
+        - test/integration/vault_cert
+    attributes:
+      http_platform:
+        configure_vault_cert: true
+        key:
+          vault_item_key: 'key'
+    includes:
+      - ubuntu-18.04
+      - ubuntu-16.04
+      - debian-9
+      - centos-7
+      - oracle-7.6
+      - oracle-6.10
+  # This is impossible to do in kitchen unless DNS is configured for a kitchen instance
+  # https://community.letsencrypt.org/t/certificate-for-public-ip-without-domain-name/6082
+  # This is a list of platforms that have been tested elsewhere
+  - name: certbot
+    run_list:
+      - recipe[se-nix-baseline::default]
+      - recipe[http_platform::default]
+    data_bags_path: 'test/integration/data_bags'
+    verifier:
+      inspec_tests:
+        - test/integration/default
+        - test/integration/lets_encrypt_cert
+    attributes:
+      http_platform:
+        configure_lets_encrypt_cert: true
+        cert:
+          kitchen_test: true
+    includes:
+      - ubuntu-18.04
+      - centos-7

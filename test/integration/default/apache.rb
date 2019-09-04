@@ -12,7 +12,7 @@ else
   raise "Platform family not recognized: #{node['platform_family']}"
 end
 
-conf_d_dir = File.join(path_to_conf_root_dir(node), 'conf.d')
+conf_available_dir = File.join(path_to_conf_root_dir(node), 'conf-available')
 conf_enabled_dir = File.join(path_to_conf_root_dir(node), 'conf-enabled')
 sites_available_dir = File.join(path_to_conf_root_dir(node), 'sites-available')
 sites_enabled_dir = File.join(path_to_conf_root_dir(node), 'sites-enabled')
@@ -66,48 +66,64 @@ describe file('/var/www/html/index.html') do
   its(:content) { should match 'Welcome to Apache' }
 end
 
-['', '/', '/index.html', '/not_a_page'].each do |page|
-  describe http('http://localhost' + page) do
+index_content = 'Now make yourself a website:\)'
+
+pages = [
+  {
+    page: '',
+    status: 200,
+    content: index_content
+  },
+  {
+    page: '/',
+    status: 200,
+    content: index_content
+  },
+  {
+    page: '/index.html',
+    status: 200,
+    content: index_content
+  },
+  {
+    page: '/old_site',
+    status: 302,
+    content: '/new_site'
+  },
+  {
+    page: '/not_a_page',
+    status: 404,
+    content: '404_kitten.php'
+  }
+]
+
+pages.each do |page|
+  describe http("http://localhost#{page[:page]}") do
     its(:status) { should cmp 301 }
+    its(:body) { should match('https://') }
   end
 end
 
-['', '/', '/not_a_page'].each do |page|
-  describe http('https://localhost' + page, ssl_verify: false) do
-    its(:status) { should cmp 403 }
-    its(:body) { should match('403_puppy.php') }
+pages.each do |page|
+  describe http("https://localhost#{page[:page]}", ssl_verify: false) do
+    its(:status) { should cmp page[:status] }
+    its(:body) { should match(page[:content]) }
   end
-end
-
-describe http('https://localhost/index.html', ssl_verify: false) do
-  its(:status) { should cmp 200 }
-  its(:body) { should match('Now make yourself a website:\)') }
-end
-
-describe http('https://localhost/old_site', ssl_verify: false) do
-  its(:status) { should cmp 302 }
-  its(:body) { should match('/new_site') }
 end
 
 if node['platform_family'] == 'debian' # CentOS ignores conf directive to not validate certificate
-  ['', '/', '/not_a_page'].each do |page|
-    describe bash("elinks -dump https://localhost#{page}") do
+  pages.each do |page|
+    describe bash("elinks -dump https://localhost#{page[:page]}") do
       its(:exit_status) { should eq 0 }
       its(:stderr) { should eq '' }
-      its(:stdout) { should match '403_puppy.php' }
+      # elinks is not following redirect?
+      its(:stdout) { should match page[:content] } unless page[:status] == 302
     end
-  end
-
-  describe bash('elinks -dump https://localhost/index.html') do
-    its(:exit_status) { should eq 0 }
-    its(:stderr) { should eq '' }
-    its(:stdout) { should match 'Now make yourself a website:\)' }
   end
 end
 
 describe apache_conf do
   its('AllowOverride') { should eq ['None'] }
-  its('Listen') { should match ['*:80', '*:443'] }
+  its('Listen') { should match ['80', '443'] }
 end
 
 describe file(File.join(path_to_conf_available_dir(node), 'ssl-params.conf')) do
@@ -138,7 +154,7 @@ describe file(File.join(conf_enabled_dir, 'ssl-params.conf')) do
   its(:link_path) { should eq File.join(path_to_conf_available_dir(node), 'ssl-params.conf') }
 end
 
-describe file(conf_d_dir) do
+describe file(conf_available_dir) do
   it { should exist }
   it { should be_directory }
   it { should be_mode 0o755 }
@@ -146,7 +162,7 @@ describe file(conf_d_dir) do
   it { should be_grouped_into 'root' }
 end
 
-describe file(File.join(conf_d_dir, 'ssl-host.conf')) do
+describe file(File.join(conf_available_dir, 'ssl-host.conf')) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o640 }
@@ -183,7 +199,7 @@ end
 describe file(File.join(sites_available_dir, '000-site.conf')) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
@@ -198,7 +214,7 @@ end
 describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   it { should exist }
   it { should be_file }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 
@@ -220,13 +236,13 @@ describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   its(:content) { should_not match(/www\.me\.also\.access\.log/) }
   its(:content) { should match 'me\.also\.access\.log combined\s+LogLevel info' }
 
-  its(:content) { should match 'Include conf.d/ssl-host.conf' }
+  its(:content) { should match 'Include conf-available/ssl-host.conf' }
 end
 
 describe file(File.join(sites_enabled_dir, '000-site.conf')) do
   it { should exist }
   it { should be_symlink }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq File.join(sites_available_dir, '000-site.conf') }
@@ -235,7 +251,7 @@ end
 describe file(File.join(sites_enabled_dir, 'ssl-site.conf')) do
   it { should exist }
   it { should be_symlink }
-  it { should be_mode 0o644 }
+  it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:link_path) { should eq File.join(sites_available_dir, 'ssl-site.conf') }

@@ -37,7 +37,7 @@ module HttpPlatform
       return '/etc/pki/tls/private'
     end
 
-    def apache_service
+    def apache_package
       return 'apache2' if node['platform_family'] == 'debian'
 
       return 'httpd'
@@ -151,7 +151,7 @@ module HttpPlatform
     end
 
     def config_relative_directory
-      return 'conf.d' # Must match default conf from attributes
+      return 'conf-available' # Must match default conf from attributes
     end
 
     def config_absolute_directory
@@ -164,6 +164,14 @@ module HttpPlatform
 
     def conf_enabled_directory
       return File.join(conf_root_directory, 'conf-enabled')
+    end
+
+    def site_available_directory
+      return File.join(conf_root_directory, 'sites-available')
+    end
+
+    def site_enabled_directory
+      return File.join(conf_root_directory, 'sites-enabled')
     end
 
     def ssl_conf_name

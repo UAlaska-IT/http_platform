@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/github/license/ualaska-it/http_platform.svg)](https://github.com/ualaska-it/http_platform)
 [![GitHub Tag](https://img.shields.io/github/tag/ualaska-it/http_platform.svg)](https://github.com/ualaska-it/http_platform)
+[![Build status](https://ci.appveyor.com/api/projects/status/u6bbg97hw0ep5wmj/branch/master?svg=true)](https://ci.appveyor.com/project/UAlaska/http-platform/branch/master)
 
 __Maintainer: OIT Systems Engineering__ (<ua-oit-se@alaska.edu>)
 
@@ -54,7 +55,7 @@ For example:
   CustomLog ${APACHE_LOG_DIR}/funny.business.access.log combined
   LogLevel warn
 
-  Include conf.d/ssl-host.conf
+  Include conf-available/ssl-host.conf
 </VirtualHost>
 ```
 
@@ -67,6 +68,9 @@ The certificate handling logic can be used standalone.
 The workflow for doing so is below.
 
 ```ruby
+# Defines group and service for ownership and signalling
+include_recipe 'http_platform::definitions'
+
 include_recipe 'http_platform::local_cert'
 
 # Optional; use if the firewall is not configured by server recipes
@@ -138,12 +142,19 @@ Supported Platform Families:
 Platforms validated via Test Kitchen:
 
 * Ubuntu
+* Debian
 * CentOS
+* Oracle
 
 ### Dependencies
 
 This cookbook does not constrain its dependencies because it is intended as a utility library.
 It should ultimately be used within a wrapper cookbook.
+
+Note:
+
+Version 2 of this cookbook requires [apache2 cookbook](https://github.com/sous-chefs/apache2) >= 6.0.
+To support older apache2 versions, use version 1 of this cookbook.
 
 ## Resources
 
@@ -247,9 +258,11 @@ Defaults to `true`.
 Enable stapling of the certificate.
 Stapling will not be configured if a self-signed certificate is used.
 * `node['http_platform']['apache']['paths_to_additional_configs']`.
-Defaults to `{ 'conf.d/ssl-host.conf' => '' }`.
+Defaults to `{ 'conf-available/ssl-host.conf' => '' }`.
 A hash of relative paths to additional config files to be included by all HTTPS hosts.
 The default is the config file generated based on the attributes of this cookbook.
+Paths are relative to `apache_dir`, which is [platform dependent](https://github.com/sous-chefs/apache2/blob/master/libraries/helpers.rb).
+The paradigm enforced by the [apache2 cookbook](https://github.com/sous-chefs/apache2) is to delete the config.d directory, so all conf files should typically be placed in conf-available.
 Most clients will merge this hash to add additional configs as desired, but an entirely custom host configuration is hereby supported.
 
 The default security settings are sufficient to earn an 'A+' grade on [Qualys SSL Server Test](https://www.ssllabs.com/ssltest/).

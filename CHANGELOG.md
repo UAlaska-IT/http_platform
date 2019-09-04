@@ -1,5 +1,10 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.0.0
+
+* Updated to apache2 7 cookbook
+* Added Appveyor pipeline
+
 ## 1.4.4
 
 * Cleanup for Supermarket
