@@ -261,6 +261,8 @@ Stapling will not be configured if a self-signed certificate is used.
 Defaults to `{ 'conf-available/ssl-host.conf' => '' }`.
 A hash of relative paths to additional config files to be included by all HTTPS hosts.
 The default is the config file generated based on the attributes of this cookbook.
+Paths are relative to `apache_dir`, which is [platform dependent](https://github.com/sous-chefs/apache2/blob/master/libraries/helpers.rb).
+The paradigm enforced by the [apache2 cookbook](https://github.com/sous-chefs/apache2) is to delete the config.d directory, so all conf files should typically be placed in conf-available.
 Most clients will merge this hash to add additional configs as desired, but an entirely custom host configuration is hereby supported.
 
 The default security settings are sufficient to earn an 'A+' grade on [Qualys SSL Server Test](https://www.ssllabs.com/ssltest/).

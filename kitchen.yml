@@ -128,7 +128,10 @@ suites:
       - centos-7
       - oracle-7.6
       - oracle-6.10
-  - name: certbot # This is impossible to do in kitchen, so this is a list of platforms that have been tested elsewhere
+  # This is impossible to do in kitchen unless DNS is configured for a kitchen instance
+  # https://community.letsencrypt.org/t/certificate-for-public-ip-without-domain-name/6082
+  # This is a list of platforms that have been tested elsewhere
+  - name: certbot
     run_list:
       - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
