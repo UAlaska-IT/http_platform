@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.0.1
+
+* Fixed trying to copy certs when running Certbot delayed
+
 ## 2.0.0
 
 * Updated to apache2 7 cookbook
