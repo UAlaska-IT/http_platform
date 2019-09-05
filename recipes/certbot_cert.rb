@@ -73,6 +73,7 @@ remote_file path_to_lets_encrypt_cert do
   source "file://#{path_to_lets_encrypt_cert_link}"
   # force_unlink
   # manage_symlink_source
+  only_if { File.exist?(path_to_lets_encrypt_cert_link) }
 end
 remote_file path_to_lets_encrypt_key do
   owner 'root'
@@ -82,4 +83,5 @@ remote_file path_to_lets_encrypt_key do
   # force_unlink
   # manage_symlink_source
   sensitive true
+  only_if { File.exist?(path_to_lets_encrypt_key_link) }
 end
