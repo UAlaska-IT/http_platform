@@ -53,6 +53,7 @@ remote_file path_to_lets_encrypt_cert do
   # force_unlink
   # manage_symlink_source
   only_if { File.exist?(path_to_lets_encrypt_cert_link) }
+  subscribes :create, 'bash[Get Lets Encrypt Certificate]', :immediate
 end
 remote_file path_to_lets_encrypt_key do
   owner 'root'
@@ -63,4 +64,5 @@ remote_file path_to_lets_encrypt_key do
   # manage_symlink_source
   sensitive true
   only_if { File.exist?(path_to_lets_encrypt_key_link) }
+  subscribes :create, 'bash[Get Lets Encrypt Certificate]', :immediate
 end
