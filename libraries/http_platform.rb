@@ -351,7 +351,7 @@ module HttpPlatform
     end
 
     def stop_command
-      return "#{node[tcb]['cert']['standalone_stop_command']}\n" if configure_standalone?
+      return "#{node[TCB]['cert']['standalone_stop_command']}\n" if configure_standalone?
 
       return ''
     end
@@ -382,7 +382,7 @@ module HttpPlatform
     end
 
     def start_command
-      return "\n#{node[tcb]['cert']['standalone_start_command']}" if configure_standalone?
+      return "\n#{node[TCB]['cert']['standalone_start_command']}" if configure_standalone?
 
       return ''
     end
