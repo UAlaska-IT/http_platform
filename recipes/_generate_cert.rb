@@ -11,23 +11,27 @@ cert_record = '/opt/chef/run_record/http_cert_record.txt'
 key_record = '/opt/chef/run_record/http_key_record.txt'
 
 file cert_record do
-  content <<~CONTENT
-    common_name: #{cert_common_name}
-    subject_alt_name: #{generate_alt_names}
-    country: #{node[tcb]['cert']['country']}
-    state: #{node[tcb]['cert']['state']}
-    city: #{node[tcb]['cert']['locale']}
-    org: #{node[tcb]['cert']['organization']}
-    org_unit: #{node[tcb]['cert']['org_unit']}
-    email: #{cert_email}
-    expire: #{node[tcb]['cert']['expiration_days']}
-    # extensions
+  content(
+    lazy do
+      <<~CONTENT
+        common_name: #{cert_common_name}
+        subject_alt_name: #{generate_alt_names}
+        country: #{node[tcb]['cert']['country']}
+        state: #{node[tcb]['cert']['state']}
+        city: #{node[tcb]['cert']['locale']}
+        org: #{node[tcb]['cert']['organization']}
+        org_unit: #{node[tcb]['cert']['org_unit']}
+        email: #{cert_email}
+        expire: #{node[tcb]['cert']['expiration_days']}
+        # extensions
 
-    group: #{node[tcb]['cert']['owner_group']}
-    key_type: 'rsa'
-    # key_curve # default 'prime256v1'
-    key_length: #{node[tcb]['cert']['rsa_bits']}
-  CONTENT
+        group: #{node[tcb]['cert']['owner_group']}
+        key_type: 'rsa'
+        # key_curve # default 'prime256v1'
+        key_length: #{node[tcb]['cert']['rsa_bits']}
+      CONTENT
+    end
+  )
 end
 
 # Only delete private key if relevant parameter changes
@@ -70,7 +74,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   # ca_key_pass
   # csr_file
   common_name cert_common_name
-  subject_alt_name generate_alt_names
+  subject_alt_name(lazy { generate_alt_names })
   country node[tcb]['cert']['country']
   state node[tcb]['cert']['state']
   city node[tcb]['cert']['locale']
