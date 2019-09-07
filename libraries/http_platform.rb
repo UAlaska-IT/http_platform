@@ -394,6 +394,7 @@ module HttpPlatform
       command += domains_command
       command += start_command
       puts("CERTBOT COMMAND: #{command}")
+      return command
     end
   end
 end
