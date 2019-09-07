@@ -349,6 +349,52 @@ module HttpPlatform
 
       return secret
     end
+
+    def stop_command
+      return "#{node[tcb]['cert']['standalone_stop_command']}\n" if configure_standalone?
+
+      return ''
+    end
+
+    def bot_flag
+      return 'apache' if configure_apache?
+
+      return 'nginx' if configure_nginx?
+
+      return 'webroot' if configure_webroot?
+
+      return 'standalone' if configure_standalone?
+    end
+
+    def webroot_command
+      return " -w #{node['http_platform']['www']['document_root']}" if configure_webroot?
+
+      return ''
+    end
+
+    def domains_command
+      command = ''
+      names = generate_domain_names
+      names.each do |name|
+        command += " -d #{name}"
+      end
+      return command
+    end
+
+    def start_command
+      return "\n#{node[tcb]['cert']['standalone_start_command']}" if configure_standalone?
+
+      return ''
+    end
+
+    def certbot_command
+      command = stop_command
+      command += "certbot --#{bot_flag} certonly -n --email #{cert_email} --agree-tos"
+      command += webroot_command
+      command += domains_command
+      command += start_command
+      puts("CERTBOT COMMAND: #{command}")
+    end
   end
 end
 
