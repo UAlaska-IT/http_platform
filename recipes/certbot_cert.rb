@@ -19,9 +19,7 @@ if configure_apache?
   package 'python-certbot-apache'
 elsif configure_nginx?
   package 'python-certbot-nginx'
-elsif configure_webroot?
-  package 'certbot'
-elsif configure_standalone?
+elsif configure_webroot? || configure_standalone?
   package 'certbot'
 end
 
