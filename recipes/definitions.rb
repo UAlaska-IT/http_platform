@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-# On debian certs are grouped into ssl-cert but the group does not exist
+include_recipe 'apt::default'
+
 package apache_package
+
+# On debian certs are grouped into ssl-cert but the group does not exist
+if platform_family?('debian')
+  package 'ssl-cert'
+end
 
 # This block creates an explicit declaration for the service created by installing the apache2 package
 # Therefore client cookbooks can notify this service

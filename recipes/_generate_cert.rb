@@ -5,6 +5,14 @@ tcb = 'http_platform'
 raise 'node[\'http_platform\'][\'cert\'][\'organization\'] must be set' unless node[tcb]['cert']['organization']
 raise 'node[\'http_platform\'][\'cert\'][\'org_unit\'] must be set' unless node[tcb]['cert']['org_unit']
 
+%w[ /opt/chef /opt/chef/run_record ].each do |path|
+  directory path do
+    owner 'root'
+    group 'root'
+    mode '0755'
+  end
+end
+
 # openssl_x509_certificate is not mutable, so becomes obsolete if anything changes
 # This file must record all fields in the cert, super manual, boo!
 cert_record = '/opt/chef/run_record/http_cert_record.txt'
