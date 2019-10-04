@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+def apache_package(node)
+  return 'apache2' if node['platform_family'] == 'debian'
+
+  return 'httpd'
+end
+
 def cert_public_dir(node)
   if node['platform_family'] == 'debian'
     dir = '/etc/ssl/certs'

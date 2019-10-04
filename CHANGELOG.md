@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.1.0
+
+* Fixed missing group ssl-cert on debian
+
 ## 2.0.2
 
 * Fixed eager evaluations of fqdn

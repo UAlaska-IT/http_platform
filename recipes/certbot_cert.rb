@@ -23,6 +23,14 @@ elsif configure_webroot? || configure_standalone?
   package 'certbot'
 end
 
+['/opt/chef', '/opt/chef/run_record'].each do |path|
+  directory path do
+    owner 'root'
+    group 'root'
+    mode '0755'
+  end
+end
+
 file 'Certbot Record' do
   path '/opt/chef/run_record/certbot_command.txt'
   content(lazy { certbot_command })

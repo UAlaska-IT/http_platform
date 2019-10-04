@@ -30,6 +30,8 @@ provisioner:
             port: 22
       hostname: 'funny.business'
       initial_reboot: true
+    firewall:
+      allow_ssh: true
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
