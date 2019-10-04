@@ -16,6 +16,22 @@ alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business",
 # alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.localhost", "DNS:localhost", "DNS:www.me.also", "DNS:me.also"\]'
 # rubocop:enable Metrics/LineLength
 
+describe file('/opt/chef') do
+  it { should exist }
+  it { should be_directory }
+  it { should be_mode 0o755 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
+describe file('/opt/chef/run_record') do
+  it { should exist }
+  it { should be_directory }
+  it { should be_mode 0o755 }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
 describe file('/opt/chef/run_record/http_cert_record.txt') do
   it { should exist }
   it { should be_file }
