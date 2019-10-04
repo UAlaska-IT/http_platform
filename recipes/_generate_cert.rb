@@ -5,7 +5,7 @@ tcb = 'http_platform'
 raise 'node[\'http_platform\'][\'cert\'][\'organization\'] must be set' unless node[tcb]['cert']['organization']
 raise 'node[\'http_platform\'][\'cert\'][\'org_unit\'] must be set' unless node[tcb]['cert']['org_unit']
 
-%w[ /opt/chef /opt/chef/run_record ].each do |path|
+['/opt/chef', '/opt/chef/run_record'].each do |path|
   directory path do
     owner 'root'
     group 'root'

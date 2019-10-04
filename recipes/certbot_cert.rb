@@ -23,7 +23,7 @@ elsif configure_webroot? || configure_standalone?
   package 'certbot'
 end
 
-%w[ /opt/chef /opt/chef/run_record ].each do |path|
+['/opt/chef', '/opt/chef/run_record'].each do |path|
   directory path do
     owner 'root'
     group 'root'
