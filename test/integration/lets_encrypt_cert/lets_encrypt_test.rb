@@ -39,16 +39,9 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
 
   its('extensions') { should include 'subjectAltName' }
 
-  # Need to update these
   its('issuer.CN') { should eq 'Let\'s Encrypt Authority X3' }
-  its('issuer.emailAddress') { should eq '???t' }
-  its('issuer.C') { should eq '??' }
-  its('issuer.ST') { should eq '??' }
-  its('issuer.L') { should eq '??' }
+  its('issuer.C') { should eq 'US' }
   its('issuer.O') { should eq 'Let\'s Encrypt' }
-  its('issuer.OU') { should eq '??' }
-
-  its('issuer_dn') { should match 'CN=??' }
 end
 
 describe apache_conf(File.join(path_to_conf_available_dir(node), 'ssl-params.conf')) do
