@@ -9,17 +9,6 @@ provisioner:
   product_version: 15.2.20
   install_strategy: once
   attributes:
-    se_baseline:
-      chef_client_version: '15.2.20'
-      configure_monitoring: false
-    nix_baseline:
-      chef_client_version: '15.2.20'
-      firewall:
-        additional_rules:
-          - name: 'Allow all SSH'
-            port: 22
-      hostname: 'funny.business'
-      initial_reboot: true
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
@@ -51,9 +40,6 @@ provisioner:
             flags: '[L,NC]'
         remove_default_index: false
         create_default_index: true
-  environments_path: test/environments
-  client_rb:
-    environment: aws_test
 
 verifier:
   name: inspec
