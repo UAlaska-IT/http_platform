@@ -76,7 +76,8 @@ platforms:
 suites:
   - name: self
     run_list:
-      - recipe[http_platform::default]
+      - recipe[chef_run_recorder::default]
+      - recipe[test_harness:default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
@@ -87,7 +88,8 @@ suites:
       - ubuntu-18.04
   - name: vault
     run_list:
-      - recipe[http_platform::default]
+      - recipe[chef_run_recorder::default]
+      - recipe[test_harness:default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
