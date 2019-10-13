@@ -90,7 +90,6 @@ platforms:
 suites:
   - name: self
     run_list:
-      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
@@ -102,7 +101,6 @@ suites:
       - ubuntu-18.04
   - name: vault
     run_list:
-      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:

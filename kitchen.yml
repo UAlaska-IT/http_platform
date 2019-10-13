@@ -94,7 +94,6 @@ platforms:
 suites:
   - name: self
     run_list:
-      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
@@ -111,7 +110,6 @@ suites:
       - oracle-6.10
   - name: vault
     run_list:
-      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
@@ -135,7 +133,6 @@ suites:
   # This is a list of platforms that have been tested elsewhere
   - name: certbot
     run_list:
-      - recipe[se-nix-baseline::default]
       - recipe[http_platform::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
