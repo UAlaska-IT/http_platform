@@ -71,7 +71,7 @@ suites:
   - name: self
     run_list:
       - recipe[chef_run_recorder::default]
-      - recipe[test_harness:default]
+      - recipe[test_harness::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
@@ -83,7 +83,7 @@ suites:
   - name: vault
     run_list:
       - recipe[chef_run_recorder::default]
-      - recipe[test_harness:default]
+      - recipe[test_harness::default]
     data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
