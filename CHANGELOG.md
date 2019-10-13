@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.1.1
+
+* Add attribute for mpm module
+
 ## 2.1.0
 
 * Fixed missing group ssl-cert on debian
