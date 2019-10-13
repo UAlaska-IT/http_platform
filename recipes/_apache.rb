@@ -24,7 +24,9 @@ file path_to_elinks_config do
 end
 
 # We always include the basics
-apache2_install 'default_install'
+apache2_install 'Apache' do
+  mpm node[tcb]['apache']['mpm_module']
+end
 apache2_module 'headers'
 apache2_module 'rewrite'
 apache2_module 'ssl'
