@@ -49,7 +49,6 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['create_default_index'] }
 end
 
-host_names = generate_alias_pairs
 access_directories, access_files = access_directories_and_files
 use_stapling =
   if node[tcb]['apache']['use_stapling'] && !use_self_signed_cert?
@@ -123,7 +122,7 @@ http_conf = '000-site.conf'
 template 'Default Host' do
   path File.join(site_available_directory, http_conf)
   source 'site-000.conf.erb'
-  variables(lazy { { host_names: host_names } })
+  variables(lazy { { host_names: generate_alias_pairs } })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
@@ -139,7 +138,7 @@ https_conf = 'ssl-site.conf'
 template 'SSL Host' do
   path File.join(site_available_directory, https_conf)
   source 'site-ssl.conf.erb'
-  variables(lazy { { host_names: host_names } })
+  variables(lazy { { host_names: generate_alias_pairs } })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
