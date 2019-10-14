@@ -117,17 +117,13 @@ conf_to_delete.each do |conf|
   end
 end
 
-var_map = {
-  host_names: host_names
-}
-
 # HTTP host, permanent redirect
 http_conf = '000-site.conf'
 
 template 'Default Host' do
   path File.join(site_available_directory, http_conf)
   source 'site-000.conf.erb'
-  variables var_map
+  variables(lazy { { host_names: host_names } })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
@@ -143,7 +139,7 @@ https_conf = 'ssl-site.conf'
 template 'SSL Host' do
   path File.join(site_available_directory, https_conf)
   source 'site-ssl.conf.erb'
-  variables var_map
+  variables(lazy { { host_names: host_names } })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
