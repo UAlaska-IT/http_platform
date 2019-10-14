@@ -25,7 +25,7 @@ end
 
 # We always include the basics
 apache2_install 'Apache' do
-  mpm node[tcb]['apache']['mpm_module']
+  mpm node[tcb]['apache']['mpm_module'] if node[tcb]['apache']['mpm_module']
 end
 apache2_module 'headers'
 apache2_module 'rewrite'
