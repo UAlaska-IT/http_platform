@@ -1,7 +1,8 @@
 # Changelog for HTTP Platform Cookbook
 
-## 2.1.1
+## 2.2.0
 
+* Improve one-run idempotence
 * Add attribute for mpm module
 
 ## 2.1.0
