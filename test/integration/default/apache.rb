@@ -168,7 +168,7 @@ describe file(File.join(conf_available_dir, 'ssl-host.conf')) do
   it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match 'ServerAdmin fake-it@make-it' }
+  its(:content) { should match 'ServerAdmin ua-oit-se@alaska.edu' }
   its(:content) { should match 'DocumentRoot /var/www/html' }
   its(:content) { should match 'SSLEngine on' }
   its(:content) { should match 'Header always set Referrer-Policy "no-referrer"' }

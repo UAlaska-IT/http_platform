@@ -38,7 +38,7 @@ describe file('/opt/chef/run_record/http_cert_record.txt') do
   its(:content) { should match 'city: Fairbanks' }
   its(:content) { should match 'org: fake_org' }
   its(:content) { should match 'org_unit: fake_unit' }
-  its(:content) { should match 'email: fake-it@make-it' }
+  its(:content) { should match 'email: ua-oit-se@alaska.edu' }
   its(:content) { should match 'expire: 365' }
   its(:content) { should match "group: #{owner_group}" }
   its(:content) { should match 'key_type: \'rsa\'' }
@@ -88,7 +88,7 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('validity_in_days') { should be > 364 }
   its('validity_in_days') { should be < 366 }
 
-  its('subject.emailAddress') { should eq 'fake-it@make-it' }
+  its('subject.emailAddress') { should eq 'ua-oit-se@alaska.edu' }
   its('subject.C') { should eq 'US' }
   its('subject.ST') { should eq 'Alaska' }
   its('subject.L') { should eq 'Fairbanks' }
@@ -97,7 +97,7 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
 
   its('extensions') { should include 'subjectAltName' }
 
-  its('issuer.emailAddress') { should eq 'fake-it@make-it' }
+  its('issuer.emailAddress') { should eq 'ua-oit-se@alaska.edu' }
   its('issuer.C') { should eq 'US' }
   its('issuer.ST') { should eq 'Alaska' }
   its('issuer.L') { should eq 'Fairbanks' }

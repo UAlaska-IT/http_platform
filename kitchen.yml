@@ -22,7 +22,7 @@ provisioner:
     firewall:
       allow_ssh: true
     http_platform:
-      admin_email: 'fake-it@make-it'
+      admin_email: 'ua-oit-se@alaska.edu' # Must appear valid for certbot
       apache:
         extra_mods_to_install:
           - 'lua'
