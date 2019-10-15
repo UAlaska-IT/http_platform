@@ -202,13 +202,6 @@ describe file(File.join(sites_available_dir, '000-site.conf')) do
   it { should be_mode 0o640 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-
-  its(:content) { should match 'ServerName www.funny.business\s+Redirect permanent "/" "https://www.funny.business/"' }
-  its(:content) { should match 'ServerName funny.business\s+Redirect permanent "/" "https://funny.business/"' }
-  # its(:content) { should match 'ServerName www.localhost\s+Redirect permanent "/" "https://www.localhost/"' }
-  # its(:content) { should match 'ServerName localhost\s+Redirect permanent "/" "https://localhost/"' }
-  its(:content) { should match 'ServerName www.me.also\s+Redirect permanent "/" "https://www.me.also/"' }
-  its(:content) { should match 'ServerName me.also\s+Redirect permanent "/" "https://me.also/"' }
 end
 
 describe file(File.join(sites_available_dir, 'ssl-site.conf')) do

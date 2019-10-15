@@ -22,3 +22,10 @@ describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   its(:content) { should_not match(/www\.me\.also\.access\.log/) }
   its(:content) { should match 'me\.also\.access\.log combined\s+LogLevel info' }
 end
+
+describe file(File.join(sites_available_dir, '000-site.conf')) do
+  its(:content) { should match 'ServerName www.funny.business\s+Redirect permanent "/" "https://www.funny.business/"' }
+  its(:content) { should match 'ServerName funny.business\s+Redirect permanent "/" "https://funny.business/"' }
+  its(:content) { should match 'ServerName www.me.also\s+Redirect permanent "/" "https://www.me.also/"' }
+  its(:content) { should match 'ServerName me.also\s+Redirect permanent "/" "https://me.also/"' }
+end
