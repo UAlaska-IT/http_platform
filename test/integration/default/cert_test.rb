@@ -11,8 +11,6 @@ owner_group =
     'root'
   end
 
-alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.me.also", "DNS:me.also"\]'
-
 describe file('/opt/chef') do
   it { should exist }
   it { should be_directory }
@@ -35,8 +33,6 @@ describe file('/opt/chef/run_record/http_cert_record.txt') do
   it { should be_mode 0o644 }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match 'common_name: funny.business' }
-  its(:content) { should match alt_regex }
   its(:content) { should match 'country: US' }
   its(:content) { should match 'state: Alaska' }
   its(:content) { should match 'city: Fairbanks' }
