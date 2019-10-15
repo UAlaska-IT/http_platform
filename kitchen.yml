@@ -87,9 +87,10 @@ suites:
         - test/integration/self_signed_cert
     attributes:
       http_platform:
-        additional_aliases:
-          me.also:
-            log_level: 'info'
+        www:
+          additional_aliases:
+            me.also:
+              log_level: 'info'
     includes:
       - ubuntu-18.04
       - ubuntu-16.04
@@ -109,12 +110,13 @@ suites:
         - test/integration/vault_cert
     attributes:
       http_platform:
-        additional_aliases:
-          me.also:
-            log_level: 'info'
         configure_vault_cert: true
         key:
           vault_item_key: 'key'
+        www:
+          additional_aliases:
+            me.also:
+              log_level: 'info'
     includes:
       - ubuntu-18.04
       - ubuntu-16.04
