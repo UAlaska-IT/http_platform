@@ -4,7 +4,7 @@ require_relative '../helpers'
 
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
-describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
+describe file(File.join(sites_available_dir(node), 'ssl-site.conf')) do
   ['www.funny.business', 'funny.business', 'www.me.also', 'me.also'].each do |host|
     its(:content) { should match "ServerName #{host}" }
   end
@@ -23,7 +23,7 @@ describe file(File.join(sites_available_dir, 'ssl-site.conf')) do
   its(:content) { should match 'me\.also\.access\.log combined\s+LogLevel info' }
 end
 
-describe file(File.join(sites_available_dir, '000-site.conf')) do
+describe file(File.join(sites_available_dir(node), '000-site.conf')) do
   its(:content) { should match 'ServerName www.funny.business\s+Redirect permanent "/" "https://www.funny.business/"' }
   its(:content) { should match 'ServerName funny.business\s+Redirect permanent "/" "https://funny.business/"' }
   its(:content) { should match 'ServerName www.me.also\s+Redirect permanent "/" "https://www.me.also/"' }

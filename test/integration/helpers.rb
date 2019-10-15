@@ -74,6 +74,22 @@ def path_to_dh_params(node)
   return File.join(cert_public_dir(node), 'dh_param.pem')
 end
 
+def conf_available_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'conf-available')
+end
+
+def conf_enabled_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'conf-enabled')
+end
+
+def sites_available_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'sites-available')
+end
+
+def sites_enabled_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'sites-enabled')
+end
+
 def apache_service(node)
   if node['platform_family'] == 'debian'
     service = 'apache2'
