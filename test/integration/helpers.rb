@@ -50,7 +50,7 @@ def path_to_ca_signed_cert(node)
   return File.join(cert_public_dir(node), 'http_platform_vault_cert.pem')
 end
 
-def path_to_lets_encrypt_cert
+def path_to_lets_encrypt_cert(node)
   return File.join(cert_public_dir(node), 'http_platform_le_cert.pem')
 end
 
@@ -62,7 +62,7 @@ def path_to_vault_key(node)
   return File.join(cert_private_dir(node), 'http_platform_vault_key.pem')
 end
 
-def path_to_lets_encrypt_key
+def path_to_lets_encrypt_key(node)
   return File.join(cert_private_dir(node), 'http_platform_le_key.pem')
 end
 
