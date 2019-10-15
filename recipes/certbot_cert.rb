@@ -48,7 +48,6 @@ bash 'Get Lets Encrypt Certificate' do
   code(lazy { certbot_command })
   action :nothing if configure_standalone?
   subscribes :run, 'file[Certbot Record]', :delayed if configure_standalone?
-  not_if { node[tcb]['cert']['kitchen_test'] }
 end
 
 # Certbot permissions are unsecure enough that daemons refuse to load them

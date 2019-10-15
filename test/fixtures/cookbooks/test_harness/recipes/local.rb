@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-bash 'Hostname' do
+bash 'Local Hostname' do
   code 'hostnamectl set-hostname funny.business'
 end
 
