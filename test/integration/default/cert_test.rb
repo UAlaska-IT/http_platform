@@ -12,9 +12,6 @@ owner_group =
   end
 
 alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.me.also", "DNS:me.also"\]'
-# rubocop:disable Metrics/LineLength
-# alt_regex = 'subject_alt_name: \["DNS:www.funny.business", "DNS:funny.business", "DNS:www.localhost", "DNS:localhost", "DNS:www.me.also", "DNS:me.also"\]'
-# rubocop:enable Metrics/LineLength
 
 describe file('/opt/chef') do
   it { should exist }
@@ -95,7 +92,6 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('validity_in_days') { should be > 364 }
   its('validity_in_days') { should be < 366 }
 
-  its('subject.CN') { should eq 'funny.business' }
   its('subject.emailAddress') { should eq 'fake-it@make-it' }
   its('subject.C') { should eq 'US' }
   its('subject.ST') { should eq 'Alaska' }
@@ -104,14 +100,7 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('subject.OU') { should eq 'fake_unit' }
 
   its('extensions') { should include 'subjectAltName' }
-  its('extensions.subjectAltName') { should include 'DNS:funny.business' }
-  its('extensions.subjectAltName') { should include 'DNS:www.funny.business' }
-  # its('extensions.subjectAltName') { should include 'DNS:localhost' }
-  # its('extensions.subjectAltName') { should include 'DNS:www.localhost' }
-  its('extensions.subjectAltName') { should include 'DNS:me.also' }
-  its('extensions.subjectAltName') { should include 'DNS:www.me.also' }
 
-  its('issuer.CN') { should eq 'funny.business' }
   its('issuer.emailAddress') { should eq 'fake-it@make-it' }
   its('issuer.C') { should eq 'US' }
   its('issuer.ST') { should eq 'Alaska' }
