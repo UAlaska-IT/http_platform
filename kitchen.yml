@@ -83,6 +83,7 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/local_cert
         - test/integration/self_signed_cert
     attributes:
       http_platform:
@@ -104,6 +105,7 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/local_cert
         - test/integration/vault_cert
     attributes:
       http_platform:
