@@ -138,7 +138,7 @@ module HttpPlatform
     end
 
     def effective_vault_item
-      return node[tcb]['cert']['vault_bag_item'] || node['fqdn']
+      return node[TCB]['cert']['vault_bag_item'] || node['fqdn']
     end
 
     def cert_common_name
