@@ -36,9 +36,6 @@ provisioner:
             - '/'
             - 'index.html'
           /stuff: ''
-        additional_aliases:
-          me.also:
-            log_level: 'info'
         error_documents:
           '403': '403_puppy.php'
           '404': '404_kitten.php'
@@ -88,6 +85,10 @@ suites:
         - test/integration/default
         - test/integration/self_signed_cert
     attributes:
+      http_platform:
+        additional_aliases:
+          me.also:
+            log_level: 'info'
     includes:
       - ubuntu-18.04
       - ubuntu-16.04
@@ -106,6 +107,9 @@ suites:
         - test/integration/vault_cert
     attributes:
       http_platform:
+        additional_aliases:
+          me.also:
+            log_level: 'info'
         configure_vault_cert: true
         key:
           vault_item_key: 'key'
