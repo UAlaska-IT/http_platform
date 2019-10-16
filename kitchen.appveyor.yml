@@ -12,7 +12,7 @@ provisioner:
     firewall:
       allow_ssh: true
     http_platform:
-      admin_email: 'fake-it@make-it'
+      admin_email: 'ua-oit-se@alaska.edu' # Must appear valid for certbot
       apache:
         extra_mods_to_install:
           - 'lua'
@@ -26,9 +26,6 @@ provisioner:
             - '/'
             - 'index.html'
           /stuff: ''
-        additional_aliases:
-          me.also:
-            log_level: 'info'
         error_documents:
           '403': '403_puppy.php'
           '404': '404_kitten.php'
@@ -76,8 +73,14 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/local_cert
         - test/integration/self_signed_cert
     attributes:
+      http_platform:
+        www:
+          additional_aliases:
+            me.also:
+              log_level: 'info'
     includes:
       - ubuntu-18.04
   - name: vault
@@ -88,11 +91,16 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/local_cert
         - test/integration/vault_cert
     attributes:
       http_platform:
         configure_vault_cert: true
         key:
           vault_item_key: 'key'
+        www:
+          additional_aliases:
+            me.also:
+              log_level: 'info'
     includes:
       - centos-7

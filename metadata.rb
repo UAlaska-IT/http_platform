@@ -11,7 +11,7 @@ git_url = 'https://github.com/ualaska-it/http_platform'
 source_url git_url if respond_to?(:source_url)
 issues_url "#{git_url}/issues" if respond_to?(:issues_url)
 
-version '2.2.0'
+version '2.2.1'
 
 supports 'ubuntu', '>= 16.0'
 supports 'debian', '>= 9.0'

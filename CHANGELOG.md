@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.2.1
+
+* Sync kitchen attributes
+
 ## 2.2.0
 
 * Improve one-run idempotence
