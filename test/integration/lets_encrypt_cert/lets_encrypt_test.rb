@@ -4,7 +4,7 @@ require_relative '../helpers'
 
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
-describe file(path_to_lets_encrypt_key) do
+describe file(path_to_lets_encrypt_key(node)) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o640 }
@@ -13,7 +13,7 @@ describe file(path_to_lets_encrypt_key) do
   its(:content) { should match '-----BEGIN RSA PRIVATE KEY-----\nMIIE' }
 end
 
-describe key_rsa(path_to_lets_encrypt_key) do
+describe key_rsa(path_to_lets_encrypt_key(node)) do
   it { should be_public }
   it { should be_private }
   its('public_key') { should match '-----BEGIN PUBLIC KEY-----\nMIIB' }
@@ -21,7 +21,7 @@ describe key_rsa(path_to_lets_encrypt_key) do
   its('key_length') { should eq 2048 }
 end
 
-describe file(path_to_lets_encrypt_cert) do
+describe file(path_to_lets_encrypt_cert(node)) do
   it { should exist }
   it { should be_file }
   it { should be_mode 0o644 }

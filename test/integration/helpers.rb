@@ -50,7 +50,7 @@ def path_to_ca_signed_cert(node)
   return File.join(cert_public_dir(node), 'http_platform_vault_cert.pem')
 end
 
-def path_to_lets_encrypt_cert
+def path_to_lets_encrypt_cert(node)
   return File.join(cert_public_dir(node), 'http_platform_le_cert.pem')
 end
 
@@ -62,7 +62,7 @@ def path_to_vault_key(node)
   return File.join(cert_private_dir(node), 'http_platform_vault_key.pem')
 end
 
-def path_to_lets_encrypt_key
+def path_to_lets_encrypt_key(node)
   return File.join(cert_private_dir(node), 'http_platform_le_key.pem')
 end
 
@@ -72,6 +72,22 @@ end
 
 def path_to_dh_params(node)
   return File.join(cert_public_dir(node), 'dh_param.pem')
+end
+
+def conf_available_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'conf-available')
+end
+
+def conf_enabled_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'conf-enabled')
+end
+
+def sites_available_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'sites-available')
+end
+
+def sites_enabled_dir(node)
+  return File.join(path_to_conf_root_dir(node), 'sites-enabled')
 end
 
 def apache_service(node)

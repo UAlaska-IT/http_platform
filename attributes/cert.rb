@@ -31,6 +31,3 @@ default[tcb]['key']['vault_item_key'] = nil
 
 default[tcb]['cert']['standalone_stop_command'] = ''
 default[tcb]['cert']['standalone_start_command'] = ''
-
-# Hidden attribute to disable actually fetching the cert in kitchen
-default[tcb]['cert']['kitchen_test'] = false

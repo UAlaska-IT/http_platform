@@ -4,6 +4,8 @@ tcb = 'http_platform'
 
 default[tcb]['apache']['install_test_suite'] = false
 
+default[tcb]['apache']['mpm_module'] = nil
+
 default[tcb]['apache']['extra_mods_to_install'] = {}
 
 default[tcb]['admin_email'] = nil

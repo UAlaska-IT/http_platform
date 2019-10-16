@@ -24,7 +24,9 @@ file path_to_elinks_config do
 end
 
 # We always include the basics
-apache2_install 'default_install'
+apache2_install 'Apache' do
+  mpm node[tcb]['apache']['mpm_module'] if node[tcb]['apache']['mpm_module']
+end
 apache2_module 'headers'
 apache2_module 'rewrite'
 apache2_module 'ssl'
@@ -47,7 +49,6 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['create_default_index'] }
 end
 
-host_names = generate_alias_pairs
 access_directories, access_files = access_directories_and_files
 use_stapling =
   if node[tcb]['apache']['use_stapling'] && !use_self_signed_cert?
@@ -115,17 +116,13 @@ conf_to_delete.each do |conf|
   end
 end
 
-var_map = {
-  host_names: host_names
-}
-
 # HTTP host, permanent redirect
 http_conf = '000-site.conf'
 
 template 'Default Host' do
   path File.join(site_available_directory, http_conf)
   source 'site-000.conf.erb'
-  variables var_map
+  variables(lazy { { host_names: generate_alias_pairs } })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
@@ -141,7 +138,7 @@ https_conf = 'ssl-site.conf'
 template 'SSL Host' do
   path File.join(site_available_directory, https_conf)
   source 'site-ssl.conf.erb'
-  variables var_map
+  variables(lazy { { host_names: generate_alias_pairs } })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end

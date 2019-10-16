@@ -81,7 +81,7 @@ openssl_x509_certificate path_to_self_signed_cert do
   # ca_key_file
   # ca_key_pass
   # csr_file
-  common_name cert_common_name
+  common_name(lazy { cert_common_name })
   subject_alt_name(lazy { generate_alt_names })
   country node[tcb]['cert']['country']
   state node[tcb]['cert']['state']
@@ -119,7 +119,7 @@ openssl_x509_request path_to_csr do
   mode '0644'
 
   # Below must match the certificate
-  common_name cert_common_name
+  common_name(lazy { cert_common_name })
   country node[tcb]['cert']['country']
   state node[tcb]['cert']['state']
   city node[tcb]['cert']['locale']

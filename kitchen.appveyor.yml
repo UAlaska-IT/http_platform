@@ -6,20 +6,11 @@ provisioner:
   name: chef_zero
   always_update_cookbooks: true
   product_name: chef
-  product_version: 15.2.20
+  product_version: 15.3.14
   install_strategy: once
   attributes:
-    se_baseline:
-      chef_client_version: '15.2.20'
-      configure_monitoring: false
-    nix_baseline:
-      chef_client_version: '15.2.20'
-      firewall:
-        additional_rules:
-          - name: 'Allow all SSH'
-            port: 22
-      hostname: 'funny.business'
-      initial_reboot: true
+    firewall:
+      allow_ssh: true
     http_platform:
       admin_email: 'fake-it@make-it'
       apache:
@@ -51,9 +42,6 @@ provisioner:
             flags: '[L,NC]'
         remove_default_index: false
         create_default_index: true
-  environments_path: test/environments
-  client_rb:
-    environment: aws_test
 
 verifier:
   name: inspec
@@ -75,23 +63,15 @@ platforms:
   - name: windows-2019
     driver:
       image_id: ami-004a782f694e8dde2
-    transport:
-      name: winrm
   - name: windows-2016
-    transport:
-      name: winrm
   - name: windows-2012r2
-    transport:
-      name: winrm
   - name: windows-2008r2sp1
-    transport:
-      name: winrm
 
 suites:
   - name: self
     run_list:
-      - recipe[se-nix-baseline::default]
-      - recipe[http_platform::default]
+      - recipe[chef_run_recorder::default]
+      - recipe[test_harness::local]
     data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:
@@ -102,8 +82,8 @@ suites:
       - ubuntu-18.04
   - name: vault
     run_list:
-      - recipe[se-nix-baseline::default]
-      - recipe[http_platform::default]
+      - recipe[chef_run_recorder::default]
+      - recipe[test_harness::local]
     data_bags_path: 'test/integration/data_bags'
     verifier:
       inspec_tests:

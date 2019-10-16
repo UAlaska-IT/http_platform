@@ -279,11 +279,17 @@ If true, installs support for running `apachectl fullstatus` for troubleshooting
 This includes a command-line browser (elinks) and the Apache status module.
 Because 'localhost' will redirect to the default HTTPS host, to perform local testing it is advisable to either poison the hosts file on the host machine or to explicitly specify HTTPS protocol (and port if forwarded), e.g. 'https://localhost:8043'.
 
+* `node['http_platform']['apache']['mpm_module']`.
+Defaults to `nil`.
+The multiprocessing module to install.
+If nil will default to platform-specific value from the [Apache cookbook](https://github.com/sous-chefs/apache2#recipes).
+Valid values are 'worker', 'event', and 'prefork'.
+
 * `node['http_platform']['apache']['extra_mods_to_install']`.
 Defaults to `{}`.
 A hash of Apache mods to install; e.g. `{ 'wsgi -> '' }`.
 Modules 'headers', 'rewrite', and 'ssl' are always installed.
-Include the mod name only, e.g. 'php', without prefix 'mod_' or suffix '_mod'
+Include the mod name only, e.g. 'php', without prefix 'mod_' or suffix '_mod'.
 See the [Apache cookbook](https://github.com/sous-chefs/apache2#recipes) for a list of modules
 
 * `node['http_platform']['admin_email']`.

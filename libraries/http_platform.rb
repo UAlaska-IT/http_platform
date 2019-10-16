@@ -137,6 +137,10 @@ module HttpPlatform
       return File.join(cert_public_directory, 'dh_param.pem')
     end
 
+    def effective_vault_item
+      return node[TCB]['cert']['vault_bag_item'] || node['fqdn']
+    end
+
     def cert_common_name
       name_attrib = node[TCB]['cert']['common_name']
       return name_attrib unless name_attrib.nil?

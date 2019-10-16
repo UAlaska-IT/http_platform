@@ -40,7 +40,7 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('validity_in_days') { should be < 366 }
 
   its('subject.CN') { should eq 'funny.business' }
-  its('subject.emailAddress') { should eq 'fake-it@make-it' }
+  its('subject.emailAddress') { should eq 'ua-oit-se@alaska.edu' }
   its('subject.C') { should eq 'US' }
   its('subject.ST') { should eq 'Alaska' }
   its('subject.L') { should eq 'Fairbanks' }
@@ -56,7 +56,7 @@ describe x509_certificate(path_to_self_signed_cert(node)) do
   its('extensions.subjectAltName') { should include 'DNS:www.me.also' }
 
   its('issuer.CN') { should eq 'funny.business' }
-  its('issuer.emailAddress') { should eq 'fake-it@make-it' }
+  its('issuer.emailAddress') { should eq 'ua-oit-se@alaska.edu' }
   its('issuer.C') { should eq 'US' }
   its('issuer.ST') { should eq 'Alaska' }
   its('issuer.L') { should eq 'Fairbanks' }
