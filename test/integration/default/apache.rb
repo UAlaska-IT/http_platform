@@ -172,7 +172,7 @@ describe file(File.join(conf_available_dir(node), 'ssl-host.conf')) do
   its(:content) { should match 'Header always set X-XSS-Protection "1; mode=block"' }
   its(:content) { should match 'Header always set Content-Security-Policy "base-uri \'none\'"' }
   its(:content) { should match '# Site owners are a pain' }
-  its(:content) { should match 'Redirect /old_site /new_site' }
+  its(:content) { should match 'RedirectMatch /old_site /new_site' }
   its(:content) { should match 'RewriteEngine on' }
   its(:content) { should match 'RewriteRule /url_of_page\(\.\*\) /path_to_file\$1 \[L,NC\]' }
   its(:content) { should match '<Directory />\s+<Files />\s+Require all granted' }
