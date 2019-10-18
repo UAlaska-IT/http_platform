@@ -33,7 +33,7 @@ Header always set Strict-Transport-Security "max-age=15768000"
 <% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
 
 <% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
-Redirect <%= rule['from_regex'] %> <%= rule['to_regex'] %>
+RedirectMatch <%= rule['from_regex'] %> <%= rule['to_regex'] %>
 <% end -%>
 <% unless node['http_platform']['www']['rewrite_rules'].empty? -%>
 

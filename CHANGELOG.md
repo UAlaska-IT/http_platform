@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.2.2
+
+* Actually support redirect regex
+
 ## 2.2.1
 
 * Sync kitchen attributes
