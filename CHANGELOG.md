@@ -1,5 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.2.3
+
+* Always force update of APT on first run
+
 ## 2.2.2
 
 * Actually support redirect regex
