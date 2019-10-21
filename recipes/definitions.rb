@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+id_tag = 'Pre-Install Update'
+
+apt_update id_tag do
+  action :update
+  not_if { idempotence_file?(id_tag) }
+end
+
+idempotence_file id_tag
+
 include_recipe 'apt::default'
 
 package apache_package
