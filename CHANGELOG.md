@@ -1,8 +1,9 @@
 # Changelog for HTTP Platform Cookbook
 
-## 2.2.3
+## 2.3.0
 
 * Always force update of APT on first run
+* Eliminate redundant php directive
 
 ## 2.2.2
 
