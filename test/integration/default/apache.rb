@@ -180,7 +180,6 @@ describe file(File.join(conf_available_dir(node), 'ssl-host.conf')) do
   its(:content) { should match '<Directory /stuff>\s+Require all granted' }
   its(:content) { should match 'ErrorDocument 404 404_kitten.php' }
   its(:content) { should match 'SSLOptions \+StdEnvVars' }
-  its(:content) { should match 'SetHandler application/x-httpd-php' }
 end
 
 describe file(File.join(path_to_conf_available_dir(node), 'default-ssl.conf')) do

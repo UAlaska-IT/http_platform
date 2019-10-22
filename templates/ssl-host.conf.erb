@@ -70,9 +70,3 @@ ErrorDocument <%= status %> <%= path %>
 <Directory /usr/lib/cgi-bin>
   SSLOptions +StdEnvVars
 </Directory>
-
-<IfModule mod_php.c>
-  <FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
-  </FilesMatch>
-</IfModule>
