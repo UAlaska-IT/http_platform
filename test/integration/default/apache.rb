@@ -67,28 +67,28 @@ pages = [
   {
     page: '',
     status: 200,
-    content: index_content
+    content: index_content,
   },
   {
     page: '/',
     status: 200,
-    content: index_content
+    content: index_content,
   },
   {
     page: '/index.html',
     status: 200,
-    content: index_content
+    content: index_content,
   },
   {
     page: '/old_site',
     status: 302,
-    content: '/new_site'
+    content: '/new_site',
   },
   {
     page: '/not_a_page',
     status: 404,
-    content: '404_kitten.php'
-  }
+    content: '404_kitten.php',
+  },
 ]
 
 pages.each do |page|
