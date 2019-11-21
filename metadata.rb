@@ -10,7 +10,7 @@ git_url = 'https://github.com/ualaska-it/http_platform'
 source_url git_url
 issues_url "#{git_url}/issues"
 
-version '2.3.0'
+version '2.3.1'
 
 supports 'ubuntu', '>= 16.0'
 supports 'debian', '>= 9.0'

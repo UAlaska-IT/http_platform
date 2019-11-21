@@ -54,6 +54,7 @@ verifier:
   name: inspec
 
 platforms:
+  - name: ubuntu-19.10
   - name: ubuntu-18.04
   - name: ubuntu-16.04
   - name: debian-9
@@ -92,6 +93,7 @@ suites:
             me.also:
               log_level: 'info'
     includes:
+      - ubuntu-19.10
       - ubuntu-18.04
       - ubuntu-16.04
       - debian-9
@@ -118,6 +120,7 @@ suites:
             me.also:
               log_level: 'info'
     includes:
+      - ubuntu-19.10
       - ubuntu-18.04
       - ubuntu-16.04
       - debian-9
