@@ -26,25 +26,25 @@ module HttpPlatform
     end
 
     def cert_public_directory
-      return '/etc/ssl/certs' if node['platform_family'] == 'debian'
+      return '/etc/ssl/certs' if platform_family?('debian')
 
       return '/etc/pki/tls/certs'
     end
 
     def cert_private_directory
-      return '/etc/ssl/private' if node['platform_family'] == 'debian'
+      return '/etc/ssl/private' if platform_family?('debian')
 
       return '/etc/pki/tls/private'
     end
 
     def apache_package
-      return 'apache2' if node['platform_family'] == 'debian'
+      return 'apache2' if platform_family?('debian') || platform_family?('suse')
 
       return 'httpd'
     end
 
     def path_to_elinks_config
-      return '/etc/elinks/elinks.conf' if node['platform_family'] == 'debian'
+      return '/etc/elinks/elinks.conf' if platform_family?('debian')
 
       return '/etc/elinks.conf'
     end
@@ -149,7 +149,7 @@ module HttpPlatform
     end
 
     def conf_root_directory
-      return '/etc/apache2' if node['platform_family'] == 'debian'
+      return '/etc/apache2' if platform_family?('debian')
 
       return '/etc/httpd'
     end
