@@ -1,15 +1,22 @@
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.6.4
+  TargetRubyVersion: 2.6.5
 LineLength:
+  Enabled: true
   Max: 120 # Default is 80
 Metrics/BlockLength:
   Enabled: false
+Metrics/MethodLength:
+  Enabled: true
 Metrics/ModuleLength:
   Enabled: false
 RedundantReturn:
   Enabled: false
 Style/SymbolArray:
   EnforcedStyle: brackets
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
 Style/WordArray:
   EnforcedStyle: brackets

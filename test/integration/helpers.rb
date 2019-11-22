@@ -7,25 +7,15 @@ def apache_package(node)
 end
 
 def cert_public_dir(node)
-  if node['platform_family'] == 'debian'
-    dir = '/etc/ssl/certs'
-  elsif node['platform_family'] == 'rhel'
-    dir = '/etc/pki/tls/certs'
-  else
-    raise "Platform family not recognized: #{node['platform_family']}"
-  end
-  return dir
+  return '/etc/ssl/certs' if node['platform_family'] == 'debian'
+
+  return '/etc/pki/tls/certs'
 end
 
 def cert_private_dir(node)
-  if node['platform_family'] == 'debian'
-    dir = '/etc/ssl/private'
-  elsif node['platform_family'] == 'rhel'
-    dir = '/etc/pki/tls/private'
-  else
-    raise "Platform family not recognized: #{node['platform_family']}"
-  end
-  return dir
+  return '/etc/ssl/private' if node['platform_family'] == 'debian'
+
+  return '/etc/pki/tls/private'
 end
 
 def path_to_conf_root_dir(node)
@@ -91,14 +81,9 @@ def sites_enabled_dir(node)
 end
 
 def apache_service(node)
-  if node['platform_family'] == 'debian'
-    service = 'apache2'
-  elsif node['platform_family'] == 'rhel'
-    service = 'httpd'
-  else
-    raise "Platform family not recognized: #{node['platform_family']}"
-  end
-  return service
+  return 'apache2' if node['platform_family'] == 'debian'
+
+  return 'httpd'
 end
 
 def key_group(node)

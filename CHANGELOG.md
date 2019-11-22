@@ -1,5 +1,11 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.3.1
+
+* Update pipeline
+* Test new Ubuntu
+* Add support for Fedora
+
 ## 2.3.0
 
 * Always force update of APT on first run

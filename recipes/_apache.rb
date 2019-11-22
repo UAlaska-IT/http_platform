@@ -64,7 +64,7 @@ var_map = {
   path_to_cert: path_to_ssl_cert,
   path_to_key: path_to_ssl_key,
   path_to_dh_params: path_to_dh_params,
-  use_stapling: use_stapling
+  use_stapling: use_stapling,
 }
 
 directory config_absolute_directory do
@@ -102,7 +102,7 @@ end
 conf_to_delete = [
   # Defaults on Ubuntu
   '000-default.conf',
-  'default-ssl.conf'
+  'default-ssl.conf',
 ]
 
 conf_to_delete.each do |conf|

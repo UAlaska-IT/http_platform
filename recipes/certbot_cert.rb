@@ -5,7 +5,7 @@ tcb = 'http_platform'
 acme_error = !configure_server?
 raise 'Cannot fetch Let\'s Encrypt certificate without a server configured' if acme_error
 
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   apt_package 'software-properties-common'
   # apt_repository 'universe'
   apt_repository 'certbot' do

@@ -3,7 +3,7 @@
 tcb = 'http_platform'
 
 default[tcb]['cert']['owner_group'] =
-  if node['platform_family'] == 'debian'
+  if platform_family?('debian')
     'ssl-cert'
   else
     'root'

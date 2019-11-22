@@ -4,13 +4,12 @@ require_relative '../helpers'
 
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
-if node['platform_family'] == 'debian'
-  module_command = 'apache2ctl'
-elsif node['platform_family'] == 'rhel'
-  module_command = 'httpd'
-else
-  raise "Platform family not recognized: #{node['platform_family']}"
-end
+module_command =
+  if node['platform_family'] == 'debian'
+    'apache2ctl'
+  else
+    'httpd'
+  end
 
 describe package('elinks') do
   it { should be_installed }
@@ -67,28 +66,28 @@ pages = [
   {
     page: '',
     status: 200,
-    content: index_content
+    content: index_content,
   },
   {
     page: '/',
     status: 200,
-    content: index_content
+    content: index_content,
   },
   {
     page: '/index.html',
     status: 200,
-    content: index_content
+    content: index_content,
   },
   {
     page: '/old_site',
     status: 302,
-    content: '/new_site'
+    content: '/new_site',
   },
   {
     page: '/not_a_page',
     status: 404,
-    content: '404_kitten.php'
-  }
+    content: '404_kitten.php',
+  },
 ]
 
 pages.each do |page|

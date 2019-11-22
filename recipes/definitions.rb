@@ -9,8 +9,6 @@ end
 
 idempotence_file id_tag
 
-include_recipe 'apt::default'
-
 package apache_package
 
 # On debian certs are grouped into ssl-cert but the group does not exist
