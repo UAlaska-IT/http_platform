@@ -138,6 +138,7 @@ Supported Platform Families:
   * Ubuntu, Mint
 * Red Hat Enterprise Linux
   * Amazon, CentOS, Oracle
+* Fedora
 
 Platforms validated via Test Kitchen:
 
@@ -145,6 +146,7 @@ Platforms validated via Test Kitchen:
 * Debian
 * CentOS
 * Oracle
+* Fedora
 
 ### Dependencies
 

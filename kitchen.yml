@@ -100,6 +100,7 @@ suites:
       - centos-7
       - oracle-7.6
       - oracle-6.10
+      - fedora-30
   - name: vault
     run_list:
       - recipe[chef_run_recorder::default]
@@ -127,6 +128,7 @@ suites:
       - centos-7
       - oracle-7.6
       - oracle-6.10
+      - fedora-30
   # This is impossible to do in kitchen unless a custom DNS domain is configured for a kitchen instance
   # https://community.letsencrypt.org/t/certificate-for-public-ip-without-domain-name/6082
   # https://community.letsencrypt.org/t/policy-forbids-issuing-for-name-on-amazon-ec2-domain/12692

@@ -4,13 +4,12 @@ require_relative '../helpers'
 
 node = json('/opt/chef/run_record/last_chef_run_node.json')['automatic']
 
-if node['platform_family'] == 'debian'
-  module_command = 'apache2ctl'
-elsif node['platform_family'] == 'rhel'
-  module_command = 'httpd'
-else
-  raise "Platform family not recognized: #{node['platform_family']}"
-end
+module_command =
+  if node['platform_family'] == 'debian'
+    'apache2ctl'
+  else
+    'httpd'
+  end
 
 describe package('elinks') do
   it { should be_installed }
