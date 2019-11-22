@@ -44,6 +44,7 @@ verifier:
   name: inspec
 
 platforms:
+  - name: ubuntu-19.10
   - name: ubuntu-18.04
   - name: ubuntu-16.04
   - name: debian-9
@@ -60,6 +61,8 @@ platforms:
       image_search:
         owner-id: '013907871322'
         name: suse-sles-15*
+    transport:
+      username: ec2-user
   - name: windows-2019
   - name: windows-2016
   - name: windows-2012r2
