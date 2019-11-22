@@ -4,6 +4,7 @@
 
 * Update pipeline
 * Test new Ubuntu
+* Add support for Fedora
 
 ## 2.3.0
 
