@@ -49,24 +49,6 @@ file '/var/www/html/index.html' do
   only_if { node[tcb]['www']['create_default_index'] }
 end
 
-access_directories, access_files = access_directories_and_files
-use_stapling =
-  if node[tcb]['apache']['use_stapling'] && !use_self_signed_cert?
-    'on'
-  else
-    'off'
-  end
-
-var_map = {
-  access_directories: access_directories,
-  access_files: access_files,
-  cipher_suite: http_cipher_suite,
-  path_to_cert: path_to_ssl_cert,
-  path_to_key: path_to_ssl_key,
-  path_to_dh_params: path_to_dh_params,
-  use_stapling: use_stapling,
-}
-
 directory config_absolute_directory do
   mode '0755'
 end
@@ -78,7 +60,7 @@ ssl_conf = File.join(conf_available_directory, ssl_conf_name)
 template 'SSL Logic for HTTPS' do
   path ssl_conf
   source 'ssl-params.conf.erb'
-  variables var_map
+  variables(lazy { ssl_template_variables })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
@@ -94,7 +76,7 @@ end
 template 'Common Logic for HTTPS Hosts' do
   path File.join(config_absolute_directory, ssl_host_conf_name)
   source 'ssl-host.conf.erb'
-  variables var_map
+  variables(lazy { host_template_variables })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end

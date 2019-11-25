@@ -340,6 +340,40 @@ module HttpPlatform
       return names
     end
 
+    def stapling_value
+      return 'on' if node[TCB]['apache']['use_stapling'] && !use_self_signed_cert?
+
+      return 'off'
+    end
+
+    def ssl_template_variables
+      return {
+        cipher_suite: http_cipher_suite,
+        path_to_dh_params: path_to_dh_params,
+        use_stapling: stapling_value,
+      }
+    end
+
+    def hashes_to_mashes(hashes)
+      mashes = []
+      hashes.each do |hash|
+        mashes.append(Mash.new(hash))
+      end
+      return mashes
+    end
+
+    def host_template_variables
+      access_directories, access_files = access_directories_and_files
+      return {
+        access_directories: access_directories,
+        access_files: access_files,
+        path_to_cert: path_to_ssl_cert,
+        path_to_key: path_to_ssl_key,
+        redirects: hashes_to_mashes(node['http_platform']['www']['redirect_rules']),
+        rewrites: hashes_to_mashes(node['http_platform']['www']['rewrite_rules']),
+      }
+    end
+
     def vault_secret(bag, item, key)
       # Will raise 404 error if not found
       item = chef_vault_item(
