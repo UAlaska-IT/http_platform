@@ -30,16 +30,16 @@ Header always set Strict-Transport-Security "max-age=15768000"
 <% end -%>
 #Header always set Content-Security-Policy "default-src 'none'"
 #Header always set Content-Security-Policy "script-src 'strict-dynamic' 'nonce-MttToBeCode'"
-<% node['http_platform']['www']['redirect_rules'].each do |rule| -%>
+<% @redirects.each do |rule| -%>
 
 <% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
 RedirectMatch <%= rule['from_regex'] %> <%= rule['to_regex'] %>
 <% end -%>
-<% unless node['http_platform']['www']['rewrite_rules'].empty? -%>
+<% unless @rewrites.empty? -%>
 
 RewriteEngine on
 <% end -%>
-<% node['http_platform']['www']['rewrite_rules'].each do |rule| -%>
+<% @rewrites.each do |rule| -%>
 <% if rule.key?('comment') && rule['comment'] -%># <%= rule['comment'] %><% end -%>
 RewriteRule <%= rule['url_regex'] %> <%= rule['path_regex'] %><% if rule.key?('flags') && rule['flags'] -%> <%= rule['flags'] %><% end -%>
 <% end -%>

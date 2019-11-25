@@ -94,7 +94,7 @@ end
 template 'Common Logic for HTTPS Hosts' do
   path File.join(config_absolute_directory, ssl_host_conf_name)
   source 'ssl-host.conf.erb'
-  variables var_map
+  variables(lazy { host_template_variables })
   mode '0640'
   notifies :restart, 'service[apache2]', :delayed
 end
