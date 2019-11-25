@@ -1,5 +1,10 @@
 # Changelog for HTTP Platform Cookbook
 
+## 2.3.2
+
+* Make Apache templates lazy
+* Ensure redirects and rewrites are mashes
+
 ## 2.3.1
 
 * Update pipeline
