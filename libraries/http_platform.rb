@@ -340,6 +340,20 @@ module HttpPlatform
       return names
     end
 
+    def stapling_value
+      return 'on' if node[TCB]['apache']['use_stapling'] && !use_self_signed_cert?
+
+      return 'off'
+    end
+
+    def ssl_template_variables
+      return {
+        cipher_suite: http_cipher_suite,
+        path_to_dh_params: path_to_dh_params,
+        use_stapling: stapling_value,
+      }
+    end
+
     def hashes_to_mashes(hashes)
       mashes = []
       hashes.each do |hash|
